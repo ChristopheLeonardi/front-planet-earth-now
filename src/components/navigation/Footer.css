@@ -1,0 +1,18 @@
+footer{
+    background-color: var(--white);
+    padding: 1em;
+}
+
+footer *{
+    margin: 0.5em auto 1em;
+    width: fit-content;
+}
+
+footer .logo{
+    height: 50px;
+    display: block;
+}
+
+footer ul{
+    flex-wrap: wrap;
+}
