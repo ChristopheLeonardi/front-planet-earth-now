@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect, useContext, ReactNode } from 'react';
 import pageServices from '../services/pages';
+import { LangProvider } from './LangContex';
 
 interface Page {
     name_fr: string;
@@ -7,7 +8,17 @@ interface Page {
     name_en: string;
     name_es: string;
     template: string;
-  }
+    [key: string]: string; 
+}
+interface Trad {
+    fr: string;
+    en: string;
+    es: string;
+    [key: string]: string; 
+}
+interface Traduction {
+    langSelect: Trad
+}
 
 interface Config {
     logo: string;
@@ -15,18 +26,18 @@ interface Config {
     pictofederation: string; 
     pictoaction: string;
     pages: Page[];
+    langues: Array<string>;
+    traduction: Traduction;
 }
 
 interface ConfigContextType {
     config: Config | null;
 }
-/* TODO : Create contexte and use context for lang init browser */
+
 const ConfigContext = createContext<ConfigContextType | undefined>(undefined);
 
 const ConfigProvider = ({ children }: { children: ReactNode }) => {
 
-    var userLang = navigator.language; 
-    console.log(userLang)
     const [config, setConfig] = useState<Config | null>(null);
 
     useEffect(() => {
@@ -38,7 +49,7 @@ const ConfigProvider = ({ children }: { children: ReactNode }) => {
             .catch((error) => {
                 console.error('Error fetching config:', error);
             });
-    }, []);
+    }, [LangProvider]);
 
     return (
         <ConfigContext.Provider value={{ config }}>

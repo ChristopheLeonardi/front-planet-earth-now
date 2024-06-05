@@ -20,7 +20,9 @@ const getConfig = async () => {
                 "pictoeducation": baseUrl + resData.pictoeducation.data.attributes.url,
                 "pictofederation": baseUrl + resData.pictofederation.data.attributes.url,
                 "pages": resData.pagesNavigation.pages,
-                "template": resData.pagesNavigation.template
+                "template": resData.pagesNavigation.template,
+                "langues": resData.LanguesDisponibles,
+                "traduction": resData.traduction
             }
             return config            
         }

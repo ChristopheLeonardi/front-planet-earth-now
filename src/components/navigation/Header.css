@@ -74,7 +74,7 @@ nav{
     header .nav-links{
         position: fixed;
         right: 0;
-        top: 60px;
+        top: 120px;
         min-height: calc(100vh - 60px);
         background: var(--white);
         display: flex;
@@ -87,6 +87,7 @@ nav{
         transition: All 0.5s ease-in;
         width: 50vw;
         z-index: 99;
+        border-radius: 16px;
     }
     header .nav-links a{
         margin: 1em;

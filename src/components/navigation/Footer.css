@@ -3,9 +3,11 @@ footer{
     padding: 1em;
 }
 
-footer *{
+footer .footer-logo-link,
+footer nav{
     margin: 0.5em auto 1em;
     width: fit-content;
+    display: block;
 }
 
 footer .logo{

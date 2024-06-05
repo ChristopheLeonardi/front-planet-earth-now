@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/navigation/Header';
 import Footer from './components/navigation/Footer';
 import { ConfigProvider, useConfig } from './context/ConfigContext';
+import { LangProvider } from './context/LangContex';
+import SiteSettings from './components/settings/SiteSettings';
 
 import Accueil from './pages/Accueil';
 import About from './pages/About';
@@ -35,6 +37,7 @@ const AppContent = () => {
 
   return (
     <>
+      <SiteSettings/>
       <Header />
       <Routes>
         {
@@ -53,11 +56,13 @@ const AppContent = () => {
 
 const App = () => {
   return (
-    <ConfigProvider>
-      <Router>
-        <AppContent />
-      </Router>
-    </ConfigProvider>
+    <LangProvider>
+      <ConfigProvider>
+        <Router>
+          <AppContent />
+        </Router>
+      </ConfigProvider>
+    </LangProvider>
   );
 };
 
