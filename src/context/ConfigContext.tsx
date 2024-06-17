@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, useContext, ReactNode } from 'react';
 import pageServices from '../services/pages';
-import { LangProvider } from './LangContex';
+import { LangProvider } from './LangContext';
 
 interface Page {
     name_fr: string;

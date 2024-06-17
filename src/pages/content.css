@@ -1,0 +1,111 @@
+.page-content{
+    margin: 0 1em;   
+}
+
+.page-content h1{
+    font-family: var(--primary-font);
+    text-transform: uppercase;
+    color: var(--blue-pen);
+    font-size: 3em;
+    margin: 1em auto 0;
+    text-align: center;
+}
+
+.page-content .title-container p{
+    color: var(--medium-grey);
+    text-align: center;
+    margin-top: 0.5em;
+}
+
+.body-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.header-with-icon h1{
+    margin-top: 0.25em;
+}
+
+.header-with-icon img{
+    width: 100px;
+    margin: 3em auto 0;
+    display: block;
+}
+
+.body-container.col-2 img{
+    object-fit: cover;
+    width: 100%;
+    border-radius: 16px;
+    box-sizing: border-box;
+}
+
+.body-container.col-1 img{
+    object-fit: cover;
+    width: 100%;
+    border-radius: 16px;
+    box-sizing: border-box;
+    height: 450px;
+    max-height: 50vh;
+}
+
+.body-container.col-1 .rich-text-block {
+    max-width: 960px;
+    margin: auto;
+}
+
+.page-content h2{
+    font-family: var(--primary-font);
+    text-transform: uppercase;
+    color: var(--green-pen);
+    font-size: 2em;
+    margin-bottom: 0;
+}
+
+.partenaires-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.partenaires-container a{
+    width: 100%;
+}
+.partenaires-container img{
+    object-fit: cover;
+    width: 100%;
+    border-radius: 16px;
+    margin: 0.5em auto;
+}
+
+@media screen and (min-width:426px) {
+    .partenaires-container a{
+        width: 48%;
+    }
+}
+@media screen and (min-width:768px) {
+    .page-content{
+        margin: 0 5em;
+        max-width: calc(100vw - 10em);   
+    }
+    .body-container.col-2{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    
+    .body-container.col-2 img{
+        width: 48%;
+    }
+    .body-container.col-2 .rich-text-block {
+        width: 48%;
+    }
+    .partenaires-container a{
+        width: 24%;
+    }
+}
+
+@media screen and (min-width:1440px) {
+    .page-content{
+        max-width: 1440px;
+        margin: auto;
+    }
+}

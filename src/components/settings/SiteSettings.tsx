@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { useConfig } from '../../context/ConfigContext';
-import { LangContext } from '../../context/LangContex';
+import { LangContext } from '../../context/LangContext';
 
 import "./SiteSettings.css"
 

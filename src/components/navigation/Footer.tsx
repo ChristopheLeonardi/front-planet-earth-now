@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom"; 
 import { useConfig } from '../../context/ConfigContext';
-import { useLang } from '../../context/LangContex';
+import { useLang } from '../../context/LangContext';
 
 import "./Footer.css"
 const Footer = () => {

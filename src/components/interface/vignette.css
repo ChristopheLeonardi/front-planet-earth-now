@@ -1,0 +1,45 @@
+.vignette-container{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+}
+.vignette a{
+    text-decoration: none;
+    color: var(--dark-grey);
+}
+.vignette{
+    width: 30%;
+    background-color: var(--white);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.25);
+}
+.vignette *{
+    display: flex;
+    flex-direction: column;
+    order: 1;
+}
+.vignette .textes{
+    padding: 1em;
+}
+.vignette img{
+    order: 0;
+    height: 200px;
+    object-fit: cover;
+}
+.vignette h3{
+    font-family: var(--primary-font);
+    font-family: 2.5em;
+    color: var(--green-pen);
+    margin-bottom: 0;
+}
+.vignette .domaine{
+    position: absolute;
+    background-color: var(--blue-pen);
+    color: var(--white);
+    padding: 0.5em 1em;
+    border-radius: 0 16px 16px 0;
+    top: 185px;
+    margin: 0;
+}

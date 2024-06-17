@@ -29,4 +29,25 @@ const getConfig = async () => {
     );
 }
 
-export default { getPagesTitle, getConfig };
+const getPageContent = async (params) => {
+    const request = axios.get(baseUrl + `/api/${params.page}?locale=${params.lang}&populate=deep`)
+    return await request.then(response => {
+        return response.data.data.attributes
+    });
+}
+const getActionByDomaine = async (params) => {
+    const request = axios.get(baseUrl + `/api/single-actions?filters[domaine][$contains]=${params.domaine}&populate=entete&locale=${params.lang}`)
+    return await request.then(response => {
+        return Array.from(response.data.data)
+    })
+}
+const sendForm = async (data) => {
+    try {
+        const response = await axios.post(`${baseUrl}/api/requests`, data);
+        return response.data;
+    } catch (error) {
+        console.error('Error sending form data:', error);
+        throw error; 
+    }
+};
+export default { getPagesTitle, getConfig, getPageContent, sendForm, getActionByDomaine };

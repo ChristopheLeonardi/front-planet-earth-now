@@ -28,7 +28,19 @@ export default {
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
-# planet-earth-now-v2
-# front-planet-earth-now
-# front-planet-earth-now
-# front-planet-earth-now
+
+## Call api
+Toutes les actions
+http://localhost:1337/api/single-actions
+
+config : 
+/api/configurations/1?populate=*
+
+page content : 
+/api/${params.page}?locale=${params.lang}&populate=deep
+
+page with slug : 
+http://localhost:1337/api/single-actions?filters[slug][$eq]=federer-test-fr&locale=fr
+
+filtre par  domaine : 
+http://localhost:1337/api/single-actions?filters[domaine][$contains]=action&locale=en

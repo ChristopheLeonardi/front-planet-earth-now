@@ -30,6 +30,7 @@
   --blue-pen: #2151A3;
   --green-pen: #009C1A;
   --dark-grey: #1a1a1a;
+  --medium-grey: #828282;
   --white: #ffffff;
   --primary-font: "coconpro-bold", arial, sans-serif;
   --secondary-font:"gilroy", arial, sans-serif;
@@ -39,5 +40,24 @@ body{
   background-color: var(--background-grey);
   margin: 0;
   padding: 0;
+  font-family: var(--secondary-font);
+  color: var(--dark-grey);
 }
 
+.primary-button{
+  font-family: var(--secondary-font);
+  background-color: var(--green-pen);
+  color: var(--white);
+  border-radius: 16px;
+  text-transform: uppercase;
+  border: unset;
+  font-weight: bold;
+  padding: 0.5em 1em;
+  margin: 1em 0;
+  transition: background-color 0.3s  ease-in-out ;
+}
+
+.primary-button:hover{
+  background-color: var(--blue-pen);
+  transition: background-color 0.3s  ease-in-out ;
+}
