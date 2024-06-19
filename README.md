@@ -44,3 +44,9 @@ http://localhost:1337/api/single-actions?filters[slug][$eq]=federer-test-fr&loca
 
 filtre par  domaine : 
 http://localhost:1337/api/single-actions?filters[domaine][$contains]=action&locale=en
+
+requete single-action avec langues dans data
+/api/single-actions/{id}?populate=*
+
+lien pour google doc events
+https://docs.google.com/spreadsheets/d/1v4YCZZTr-FEasGT0nLaCcfadfF8EXj8S/edit?gid=1819074687#gid=1819074687

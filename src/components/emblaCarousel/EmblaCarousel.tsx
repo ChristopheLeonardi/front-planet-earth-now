@@ -8,7 +8,7 @@ import {
 } from './EmblaCarouselArrowButtons'
 import useEmblaCarousel from 'embla-carousel-react'
 
-import Image from '../interface/Image'
+import ImageComponent from '../interface/ImageComponent'
 
 import './embla.css'
 
@@ -41,7 +41,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
         <div className="embla__container">
           {slides.map((slide:any, index:number) => (
             <div className="embla__slide" key={index}>
-                <Image imageContent={slide}/>
+                <ImageComponent imageContent={slide}/>
             </div>
           ))}
         </div>

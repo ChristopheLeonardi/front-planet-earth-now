@@ -1,0 +1,15 @@
+.baseImage{
+    display: none;
+}
+
+canvas{
+    width: calc(100vw - 2em);
+    height: calc((100vw - 2em) * 2/3);
+}
+
+@media  screen and (min-width:768px) {
+    canvas{
+        width: calc(100vw - 10em);
+        height: calc((100vw - 10em) * 2/3);
+    }
+}

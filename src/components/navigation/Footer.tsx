@@ -18,7 +18,9 @@ const Footer = () => {
                     </NavLink>
                     <nav>
                         <ul className="nav-links">
-                        {config.pages.map(page => { return (
+                        {config.pages.map(page => { 
+                            if (page.is_displayed === "false") { return null }
+                            return (
                             <li key={page.name_fr}>
                                 <NavLink to={page.path} className={isCurrent}>{page[`name_${lang[0]}`]}</NavLink>
                             </li>

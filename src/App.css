@@ -31,6 +31,7 @@
   --green-pen: #009C1A;
   --dark-grey: #1a1a1a;
   --medium-grey: #828282;
+  --light-grey: #d6d6d6;
   --white: #ffffff;
   --primary-font: "coconpro-bold", arial, sans-serif;
   --secondary-font:"gilroy", arial, sans-serif;
@@ -50,14 +51,35 @@ body{
   color: var(--white);
   border-radius: 16px;
   text-transform: uppercase;
-  border: unset;
+  border: 2px solid var(--green-pen);
   font-weight: bold;
   padding: 0.5em 1em;
   margin: 1em 0;
-  transition: background-color 0.3s  ease-in-out ;
+  transition: all 0.3s  ease-in-out ;
 }
 
 .primary-button:hover{
+  border: 2px solid var(--blue-pen);
   background-color: var(--blue-pen);
-  transition: background-color 0.3s  ease-in-out ;
+  transition: all 0.3s  ease-in-out ;
+}
+
+.secondary-button{
+  font-family: var(--secondary-font);
+  background-color: var(--white);
+  color: var(--dark-grey);
+  border-radius: 16px;
+  text-transform: uppercase;
+  border: 2px solid var(--green-pen);
+  font-weight: bold;
+  padding: 0.5em 1em;
+  margin: 1em 0;
+  transition: all 0.3s  ease-in-out ;
+}
+
+.secondary-button:hover{
+  border: 2px solid var(--blue-pen);
+  background-color: var(--blue-pen);
+  color: var(--white);
+  transition: all 0.3s  ease-in-out ;
 }

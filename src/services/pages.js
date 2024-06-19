@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:1337';
+const baseUrl = 'http://85.31.236.134:2222';
 
 const getPagesTitle = async () => {
     const request = axios.get(baseUrl + "/api/pages");
@@ -41,6 +41,22 @@ const getActionByDomaine = async (params) => {
         return Array.from(response.data.data)
     })
 }
+const getActionById = async (id) => {
+    const response = await axios.get(`${baseUrl}/api/single-actions/${id}?populate=deep`);
+    return response.data.data;
+}
+
+const getLocaleId = async (id, lang) => {
+    const response = await axios.get(`${baseUrl}/api/single-actions/${id}?populate=*`);
+    const data = response.data.data;
+    if (data.attributes.locale === lang) {
+      return data.id;
+    } else {
+      const localization = data.attributes.localizations.data.find((loc) => loc.attributes.locale === lang);
+      return localization ? localization.id : id;
+    }
+  }
+
 const sendForm = async (data) => {
     try {
         const response = await axios.post(`${baseUrl}/api/requests`, data);
@@ -50,4 +66,12 @@ const sendForm = async (data) => {
         throw error; 
     }
 };
-export default { getPagesTitle, getConfig, getPageContent, sendForm, getActionByDomaine };
+export default { 
+    getPagesTitle, 
+    getConfig, 
+    getPageContent, 
+    sendForm, 
+    getActionByDomaine,
+    getActionById,
+    getLocaleId 
+};

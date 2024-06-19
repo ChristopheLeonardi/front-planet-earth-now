@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import pageServices from '../services/pages'
 import { useLang } from '../context/LangContext';
-import Image from '../components/interface/Image';
+import ImageComponent from '../components/interface/ImageComponent';
 import Entete from '../components/interface/Entete';
 import RichText from '../components/interface/RichText';
 import Slideshow from '../components/interface/Slideshow';
@@ -57,21 +57,24 @@ const Vocation = ({type}:any) => {
             { content && (
                 <>
                     <section className='header-with-icon'>
-                        <Image imageContent={content.icone.data.attributes}/>
+                        <ImageComponent imageContent={content.icone.data.attributes}/>
                         <Entete content={content}/>
                     </section>
                     <div className='body-container col-1'>
-                        <Image imageContent={content.entete.data.attributes}/>
+                        <ImageComponent imageContent={content.entete.data.attributes}/>
                         <RichText data={content.presentation}/>
                     </div>
                     <Slideshow data={content.diaporama.data}/>
                     <div className='action-container'>
-                    { action && (
+                    
+                    { action && action.length > 0 && (
                         <>
-                            <TitreH2 titre={content.lesActions.titre} sousTitre={content.lesActions.sousTitre}/>
+                            {content.lesActions && (
+                                <TitreH2 titre={content.lesActions.titre} sousTitre={content.lesActions.sousTitre}/>
+                            )}
                             <div className='vignette-container'>
                                 {action.map((entry, index) => {
-                                    return ( <Vignette key={index} data={entry.attributes} domaine={false}/> )
+                                    return ( <Vignette key={index} entry={entry} domaine={false}/> )
                                 })}
                             </div>
                         </>

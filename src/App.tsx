@@ -10,6 +10,7 @@ import Accueil from './pages/Accueil';
 import About from './pages/About';
 import Event from './pages/Event';
 import Vocation from './pages/Vocation'; 
+import SingleAction from './pages/SingleAction';
 
 interface PageComponentMap {
   [key: string]: (props: any) => JSX.Element;
@@ -26,7 +27,8 @@ const pageComponent: PageComponentMap = {
   "Event": Event,
   "Action": Vocation,
   "Federer": Vocation, 
-  "Vocation": Vocation 
+  "Vocation": Vocation,
+  "SingleAction": SingleAction 
 };
 
 import "./App.css";

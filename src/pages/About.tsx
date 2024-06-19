@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 import pageServices from '../services/pages'
-import Image from '../components/interface/Image';
+import ImageComponent from '../components/interface/ImageComponent';
 import { useLang } from '../context/LangContext';
 import RichText from '../components/interface/RichText';
 import Partenaires from '../components/interface/Partenaires';
@@ -26,7 +26,7 @@ interface Content {
 const BodyContainer = ({imageContent, textContent}:any) => {
     return (
     <div className='body-container col-2'>
-        <Image imageContent={imageContent}/>
+        <ImageComponent imageContent={imageContent}/>
         <RichText data={textContent}/>
     </div>
     )

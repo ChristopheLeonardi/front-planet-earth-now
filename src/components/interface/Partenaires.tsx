@@ -1,4 +1,4 @@
-import Image from './Image'
+import ImageComponent from './ImageComponent'
 import TitreH2 from './TitreH2'
 const Partenaires = ({partenariatData}:any) => {
     console.log(partenariatData)
@@ -16,7 +16,7 @@ const Partenaires = ({partenariatData}:any) => {
                         href={partenaire.Lien} 
                         target="_blank" title={`Aller sur le site de ${imageAttributes.alternativeText}`}
                     >
-                        <Image imageContent={imageAttributes}/>
+                        <ImageComponent imageContent={imageAttributes}/>
                     </a>)
                 })}
             </div>
