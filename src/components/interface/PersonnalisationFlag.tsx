@@ -3,7 +3,7 @@ import TitreH2 from './TitreH2';
 import ImageComponent from './ImageComponent';
 import Canvas from './Canvas';
 import { RadioField, InputField, ImageField, UserConsent, Button } from './PersonalisationFormItem';
-
+import utils from '../../services/utils';
 import "./flagPersonnalisation.css";
 import "./forms.css"
 
@@ -14,6 +14,7 @@ const FlagPersonnalisation = ({ data }: any) => {
     orientation: 'paysage',
     sloganInput: '',
     image: null as HTMLImageElement | null,
+    perso: false,
     consent: false,
   });
 
@@ -93,12 +94,11 @@ const FlagPersonnalisation = ({ data }: any) => {
           </form>
 
           <div className="baseImage">
-            {/* <ImageComponent imageContent={data.baseEfoSlogan.data.attributes} id="baseEfoSlogan" /> */}
-            <img src="http://85.31.236.134:2222/uploads/large_efo_e808cba3e0.jpg"id="baseEfoSlogan" />
+            <ImageComponent imageContent={data.baseEfoSlogan.data.attributes} id="baseEfoSlogan" />
             <ImageComponent imageContent={data.baseEfoPerso.data.attributes} id="baseEfoPerso" />
           </div>
 
-          {imagesLoaded && <Canvas data={formData} />}
+          {imagesLoaded && <Canvas data={formData}/>}
         </>
       )}
     </>
