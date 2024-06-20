@@ -21,10 +21,27 @@ const resetCanvas = (
   return {"ctx" : ctx, "canvas" : canvas}
 
 }
+const handleOrientation = (ctx:any, img:any, data:any, canvas:any) => {
+  if(data.orientation === "portrait"){
+    var x = canvas.width / 2;
+    var y = canvas.height / 2;
+    var angleInRadians = 90 * Math.PI/180
+    var width = img.width;
+    var height = img.height;
 
+    ctx.translate(x, y);
+    ctx.rotate(angleInRadians);
+    ctx.drawImage(img, -width / 2, -height / 2, width, height);
+    ctx.rotate(-angleInRadians);
+    ctx.translate(-x, -y);
+  }
+  else{
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  }
+}
 const drawSlogan = (ctx:any, img:any, data:any, canvas:any) => {
 
-  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  handleOrientation(ctx, img, data, canvas)
 
   const padding = 30
   const text = data.sloganInput
@@ -129,6 +146,7 @@ const crop = (inputImage:any, aspectRatio:number) => {
   if(!ctx) { return }
   ctx.drawImage(inputImage, outputX, outputY);
   var outputImage = new Image();
+  outputImage.crossOrigin="anonymous";
   outputImage.src = outputCanvas.toDataURL();
   return outputImage
 }
@@ -157,4 +175,4 @@ const drawPersonnalisation = (ctx:any, img:any, data:any, canvas:any) => {
   }
   
 }
-export default { resetCanvas, drawSlogan, drawPersonnalisation }
+export default { resetCanvas, drawSlogan, drawPersonnalisation, handleOrientation }

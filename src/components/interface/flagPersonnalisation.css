@@ -1,15 +1,39 @@
 .baseImage{
     display: none;
 }
-
-canvas{
+.perso-container{
+    margin-bottom: 2em;
+}
+.perso-container canvas.paysage{
     width: calc(100vw - 2em);
     height: calc((100vw - 2em) * 2/3);
+    border-radius: 16px;
+}
+.perso-container canvas.portrait{
+    width: calc((100vw - 2em) * 2/3);
+    height: calc(100vw - 2em); 
+    border-radius: 16px;
 }
 
 @media  screen and (min-width:768px) {
-    canvas{
-        width: calc(100vw - 10em);
-        height: calc((100vw - 10em) * 2/3);
+    .perso-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .perso-container form {
+        width: 48%;
+    }
+    .perso-container canvas.paysage{
+        width: 48%;
+        height: calc(48% * 2/3);
+        max-width: 600px;
+        max-height: 400px;
+    }
+    .perso-container canvas.portrait{
+        width: calc(48% * 2/3);
+        height: 48%; 
+        max-width: 400px;
+        max-height: 400px;
     }
 }

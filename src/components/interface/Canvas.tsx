@@ -3,8 +3,12 @@ import utils from './canvasUtils/Utils'
 
 interface CanvasProps {
   data: {
-    typedepersonnalisation: string;
-    sloganInput: string;
+    consent: boolean,
+    image: any,
+    orientation: string,
+    perso: boolean,
+    sloganInput: string,
+    typedepersonnalisation:string
   };
 }
 
@@ -34,7 +38,7 @@ const drawImage = (
     console.error(`Image element with ID '${idImg}' not found.`);
     return;
   }
-
+  img.crossOrigin="anonymous"
   if( data.typedepersonnalisation === 'slogan'){
     img.complete 
     ? utils.drawSlogan(ctx, img, data, canvas) 
@@ -52,10 +56,8 @@ const drawImage = (
           setPersoImageLoaded(true)
         }
       }
-
-      console.log("end")
     }
-    ctx.drawImage(img,  0, 0, canvas.width, canvas.height);
+    utils.handleOrientation(ctx, img, data, canvas)
   } 
 
 };
@@ -65,6 +67,8 @@ const Canvas: React.FC<CanvasProps> = ({ data }) => {
   const [persoImageLoaded, setPersoImageLoaded] = useState(false);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  const canvasSize = data.orientation === "paysage" ? {width: 1000, height: 680} : {width: 680, height: 1000}
 
   useEffect(() => {
     drawCanvas(canvasRef, data, setPersoImageLoaded)
@@ -77,7 +81,7 @@ const Canvas: React.FC<CanvasProps> = ({ data }) => {
     }
   }, [persoImageLoaded]);
 
-  return <canvas ref={canvasRef} width="1000" height="680" />;
+  return <canvas id="flag-personnalisation" className={data.orientation} ref={canvasRef} width={canvasSize.width} height={canvasSize.height} />;
 };
 
 export default Canvas;
