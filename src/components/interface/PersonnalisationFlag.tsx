@@ -5,7 +5,7 @@ import Canvas from './Canvas';
 import { RadioField, InputField, ImageField, UserConsent, Button } from './PersonalisationFormItem';
 import "./flagPersonnalisation.css";
 import "./forms.css"
-
+import TextSizeSelector from './canvasUtils/TextSizeSelector';
 
 const FlagPersonnalisation = ({ data }: any) => {
   const [formData, setFormData] = useState({
@@ -19,53 +19,79 @@ const FlagPersonnalisation = ({ data }: any) => {
   const [message, setMessage] = useState("")
 
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked, files } = e.target;
-    if (type === 'file' && files && files[0]) {
-      const file = files[0];
-      const validImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
-      
-      if (!validImageTypes.includes(file.type)) {
-        setMessage("Erreur, seul les fichiers d'image (JPEG, PNG, GIF) sont acceptés.");
-        setTimeout(() => { setMessage("") }, 3000);
-        return;
-      }
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | { name: string; value: string }
+  ) => {
+    if ('target' in e) {
+      const target = e.target as HTMLInputElement | HTMLTextAreaElement;
+      const { name, value, type } = target;
   
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const img = new Image();
-        img.src = event.target?.result as string;
-        img.onload = () => {
-          setFormData((prevData) => ({
-            ...prevData,
-            image: img,
-          }));
-        };
-      };
-      reader.readAsDataURL(file);
+      if (type === 'file') {
+        const inputTarget = target as HTMLInputElement;
+        const files = inputTarget.files;
+        if (files && files[0]) {
+          const file = files[0];
+          const validImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
+  
+          if (!validImageTypes.includes(file.type)) {
+            setMessage("Erreur, seul les fichiers d'image (JPEG, PNG, GIF) sont acceptés.");
+            setTimeout(() => {
+              setMessage("");
+            }, 3000);
+            return;
+          }
+  
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            const img = new Image();
+            img.src = event.target?.result as string;
+            img.onload = () => {
+              setFormData((prevData) => ({
+                ...prevData,
+                image: img,
+              }));
+            };
+          };
+          reader.readAsDataURL(file);
+        }
+      } else if (type === 'checkbox') {
+        const inputTarget = target as HTMLInputElement;
+        const checked = inputTarget.checked;
+        setFormData((prevData) => ({
+          ...prevData,
+          [name]: checked,
+        }));
+      } else {
+        setFormData((prevData) => ({
+          ...prevData,
+          [name]: value,
+        }));
+      }
     } else {
       setFormData((prevData) => ({
         ...prevData,
-        [name]: type === 'checkbox' ? checked : value,
+        [e.name]: e.value,
       }));
     }
   };
-  
 
-  const handleOnClick = (e: any) => {
+  const handleOnSubmit = (e: any) => {
     e.preventDefault();
-    if (!formData.consent) {
-      setMessage("Erreur, vous devez accepter les conditions d'utilisation")
-      setTimeout(() => { setMessage("") }, 3000)
-      return;
+    const consent = document.getElementById("cgv") as HTMLInputElement | null
+    if (consent){
+      if (!consent.checked) {
+        setMessage("Erreur, vous devez accepter les conditions d'utilisation")
+        setTimeout(() => { setMessage("") }, 3000)
+        return;
+      }
+      downloadCanvas()
     }
-    downloadCanvas()
   };
   
   const downloadCanvas = () => {
     var link = document.createElement('a');
     link.download = 'earth-flag-one.png';
-    const canvas = document.getElementById('flag-personnalisation')  as HTMLCanvasElement
+    const canvas = document.getElementById('flag-personnalisation') as HTMLCanvasElement
     if(!canvas) { return }
     link.href = canvas.toDataURL()
     link.click();
@@ -92,6 +118,24 @@ const FlagPersonnalisation = ({ data }: any) => {
     });
   }, [data]);
 
+  useEffect( () => {
+    var input = document.getElementById("sloganInput") as HTMLInputElement
+    if (!input) { return }
+
+    const currentMaxLength = input.getAttribute("maxlength")
+    var maxLength = formData.orientation === "portrait" ? 39 : 61
+    if (currentMaxLength != maxLength.toString()){
+      setFormData((prevData) => ({
+        ...prevData,
+        sloganInput: formData.sloganInput.substring(0, maxLength)
+      }));
+      formData.sloganInput.substring(0, maxLength)
+      input.value = formData.sloganInput.substring(0, maxLength)
+    }
+    input.setAttribute("maxlength", maxLength.toString())
+
+  }, [formData])
+
   return (
     <>
       {data && (
@@ -101,17 +145,20 @@ const FlagPersonnalisation = ({ data }: any) => {
             <form>
               <RadioField label={data.typeLabel} options={data.typeOption} handleChange={handleChange} />
               <RadioField label={data.orientationTitre} options={data.orientationOption} handleChange={handleChange} />
-
               {formData.typedepersonnalisation === "slogan" && (
+                <>
                 <InputField label={data.sloganTitre} option={data.sloganInput} handleChange={handleChange} />
+                {/* <TextSizeSelector/> */}
+                </>
               )}
-
+              
               {formData.typedepersonnalisation === "logoIncrustation" && (
                 <ImageField label={data.uploadLabel} data={formData} handleChange={handleChange} />
               )}
-              <UserConsent option={data.CGV} handleChange={handleChange} />
-              <Button data={data.submitButton} onClick={handleOnClick} buttonClass="primary-button" />
-              <Button data={data.createVerso} buttonClass="secondary-button" />
+
+              <UserConsent data={data} handleChange={handleChange} />
+              <Button data={data.submitButton} onClick={handleOnSubmit} buttonClass="primary-button" />
+              {/* <Button data={data.createVerso} buttonClass="secondary-button"  onClick={handleOnAddVerso}/> */}
               <p>{message}</p>
             </form>
             {imagesLoaded && <Canvas data={formData}/>}
@@ -119,6 +166,7 @@ const FlagPersonnalisation = ({ data }: any) => {
           <div className="baseImage">
             <ImageComponent imageContent={data.baseEfoSlogan.data.attributes} id="baseEfoSlogan"/>
             <ImageComponent imageContent={data.baseEfoPerso.data.attributes} id="baseEfoPerso" />
+            <ImageComponent imageContent={data.baseEfoSloganVertical.data.attributes} id="baseEfoSloganVertical" />
           </div>
         </>
       )}

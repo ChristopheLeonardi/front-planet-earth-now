@@ -5,6 +5,7 @@ import Footer from './components/navigation/Footer';
 import { ConfigProvider, useConfig } from './context/ConfigContext';
 import { LangProvider } from './context/LangContext'; 
 import SiteSettings from './components/settings/SiteSettings';
+import { SelectedProvider } from './context/SelectedContext';
 
 import Accueil from './pages/Accueil';
 import About from './pages/About';
@@ -63,9 +64,12 @@ const App = () => {
   return (
     <LangProvider>
       <ConfigProvider>
+        <SelectedProvider>
+
         <Router>
           <AppContent />
         </Router>
+        </SelectedProvider>
       </ConfigProvider>
     </LangProvider>
   );
