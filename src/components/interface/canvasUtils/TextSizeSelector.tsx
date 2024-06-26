@@ -10,9 +10,10 @@ const TextSizeSelector = () => {
   const handleChangeTailleSelect = (value: number) => {
     setTailleSelect(value);
 
+    console.log(textsSaved)
     // Create a new array with the updated text size
     const updatedTexts = textsSaved.map((text, index) => {
-      if (index === selectedText) {
+      if (text.is_selected) {
         return {
           ...text,
           size: value * 10
@@ -27,22 +28,20 @@ const TextSizeSelector = () => {
       textsSaved: updatedTexts,
     }));
 
-    console.log(selectedText)
-    console.log(updatedTexts)
-    console.log(textsSaved)
-    redrawCanvas(updatedTexts, ctx, canvas, canvasRef, data, img); // Redraw the canvas
+    redrawCanvas(); // Redraw the canvas
   };
 
-  const redrawCanvas = (textsSaved: any, ctx: any, canvas: any, canvasRef: any, data: any, img: any) => {
+  const redrawCanvas = () => {
     utils.resetCanvas(canvasRef);
     utils.handleOrientation(ctx, img, data, canvas);
 
     // Redraw all texts
+    if (!ctx) { return }
     ctx.strokeStyle = '#1a1a1a';
     ctx.lineWidth = 4;
     ctx.fillStyle = 'white';
     ctx.textAlign = 'center';
-
+    console.log(textsSaved)
     textsSaved.forEach((t: any) => {
       ctx.font = `${t.size.toString()}px ${data.fontFamily}`;
       ctx.fillText(t.text, t.x + t.width / 2, t.y + t.height);

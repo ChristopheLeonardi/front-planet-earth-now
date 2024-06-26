@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import TitreH2 from './TitreH2';
 import ImageComponent from './ImageComponent';
-import Canvas from './Canvas';
+import Canvas from './TestCanvas';
 //import Canvas from './TestCanvas';
 import { RadioField, InputField, ImageField, UserConsent, Button } from './PersonalisationFormItem';
 import "./flagPersonnalisation.css";
@@ -151,7 +151,7 @@ const FlagPersonnalisation = ({ data }: any) => {
               {formData.typedepersonnalisation === "slogan" && (
                 <>
                 <InputField label={data.sloganTitre} option={data.sloganInput} handleChange={handleChange} />
-                {/* <TextSizeSelector/> */}
+                <TextSizeSelector/>
                 </>
               )}
               

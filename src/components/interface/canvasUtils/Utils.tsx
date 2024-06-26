@@ -39,7 +39,16 @@ const handleOrientation = (ctx:any, img:any, data:any, canvas:any) => {
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
   }
 }
+const loadFont = async (data: any) => {
+  const css = `@import url('https://fonts.googleapis.com/css?family=${data.fontFamily.replace(' ', '+')}&subset=latin,latin-ext');`;
+  const head = document.head || document.getElementsByTagName('head')[0];
+  let style = document.getElementById('loadFont') || document.createElement('style');
+  style.setAttribute('id', 'loadFont');
+  head.appendChild(style);
+
+  style.appendChild(document.createTextNode(css));
+  await document.fonts.load(`${parseInt(data.taille)}px ${data.fontFamily}`);
+};
 
 
-
-export default { resetCanvas, handleOrientation }
+export default { resetCanvas, handleOrientation, loadFont }

@@ -58,6 +58,7 @@ interface Line {
   y: number;
   size: number;
   fontFamily: string;
+  is_selected: boolean;
 }
 
 interface SelectedContextType {
