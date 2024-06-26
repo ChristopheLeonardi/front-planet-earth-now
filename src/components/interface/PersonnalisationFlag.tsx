@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TitreH2 from './TitreH2';
 import ImageComponent from './ImageComponent';
 import Canvas from './Canvas';
+//import Canvas from './TestCanvas';
 import { RadioField, InputField, ImageField, UserConsent, Button } from './PersonalisationFormItem';
 import "./flagPersonnalisation.css";
 import "./forms.css"
@@ -15,6 +16,8 @@ const FlagPersonnalisation = ({ data }: any) => {
     image: null as HTMLImageElement | null,
     perso: false,
     consent: false,
+    taille: '10', // Exemple de type string pour la taille, ajustez selon vos besoins
+    fontFamily: 'Open Sans',
   });
   const [message, setMessage] = useState("")
 

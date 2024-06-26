@@ -110,10 +110,17 @@ export const InputField: React.FC<InputFieldProps> = ({ label, option, handleCha
     }));
 
     // Update the context state with the updated texts
-    setSelected({
+    /* setSelected({
       textsSaved: updatedTexts,
     });
-    setTaille(value)
+    setTaille(value) */
+  }
+  const [slogan, setSlogan] = useState("")
+  const handleOnChangeSlogan = (value:string, name:string) => {
+    setSlogan(value)
+    if (value.slice(-1) !== '\n') { value = value + '\n';
+    }
+    handleChange({name:name, value:value})
   }
   useEffect(() => {
     handleChange({ name: 'fontFamily', value: activeFontFamily });
@@ -131,8 +138,9 @@ export const InputField: React.FC<InputFieldProps> = ({ label, option, handleCha
         <textarea
           id={option.idAndName}
           name={option.idAndName}
-          placeholder="Entrez votre texte (touche entrée pour le saut de ligne)"
-          onChange={handleChange}
+          placeholder="Touche entrée pour le saut de ligne"
+          onChange={(e) => handleOnChangeSlogan(e.target.value, option.idAndName)}
+          value={slogan}
         ></textarea>
       </fieldset>
       <div className="options">
@@ -160,7 +168,53 @@ export const InputField: React.FC<InputFieldProps> = ({ label, option, handleCha
     </div>
   );
 };
+/* 
+export const InputField = ({ label, option, handleChange }: any) => {
 
+  return (
+    <div>
+      <fieldset>
+        <legend>{label}</legend>
+        <input
+          type="text"
+          id={option.idAndName}
+          name={option.idAndName}
+          placeholder={option.label}
+          onChange={handleChange}
+          maxLength={80}
+        />
+      </fieldset>
+      <div className="options">
+      <fieldset>
+        <legend>Police</legend>
+        <div id="font-picker"></div>
+
+      </fieldset>
+      <fieldset>
+        <legend>Taille</legend>
+        <input
+          type="number"
+          id="taille"
+          name="taille"
+          value="16"
+          onChange={handleChange}
+        />
+      </fieldset>
+      <fieldset>
+        <legend>Marge</legend>
+        <input
+          type="number"
+          id="marge"
+          name="marge"
+          value="10"
+          onChange={handleChange}
+        />
+      </fieldset>
+      <FontComponent/>
+      </div>
+    </div>
+  );
+}; */
 
 export const RadioField = ({ label, options, handleChange }: any) => {
     const checkRadioElement = (id:string) => {

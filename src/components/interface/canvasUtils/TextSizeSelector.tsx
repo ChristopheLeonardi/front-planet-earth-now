@@ -1,33 +1,54 @@
 import React, { useState } from 'react';
 import utils from './Utils';
-const redrawCanvas = (select:any) => {
-  utils.resetCanvas(select.canvasRef)
-  utils.handleOrientation(select.ctx, select.img, select.data, select.canvas)
-  // Redraw all texts
-  select.ctx.strokeStyle = '#1a1a1a';
-  select.ctx.lineWidth = 4;
-  select.ctx.fillStyle = "white";
-  select.ctx.textAlign = "center"
-
-  select.texts.forEach((t:any) => {
-    select.ctx.font = `${t.size.toString()}px ${select.data.fontFamily}`;
-    select.ctx.fillText(t.text, t.x + t.width / 2, t.y + t.height);
-    select.ctx.strokeText(t.text, t.x + t.width / 2, t.y + t.height);
-    select.ctx.fillText(t.text, t.x + t.width / 2, t.y + t.height);
-  });
-
-};
+import { useSelected } from './../../../context/SelectedContext';
 
 const TextSizeSelector = () => {
+  const { textsSaved, selectedText, ctx, canvas, canvasRef, data, img, setSelected } = useSelected();
+
   const [tailleSelect, setTailleSelect] = useState(10);
 
   const handleChangeTailleSelect = (value: number) => {
-    console.log(window.selected);
     setTailleSelect(value);
-    if (window.selected && window.selected.selectedText) {
-      window.selected.texts[window.selected.selectedText].size = value * 10
-      redrawCanvas(window.selected); // Redessine le canevas
-    }
+
+    // Create a new array with the updated text size
+    const updatedTexts = textsSaved.map((text, index) => {
+      if (index === selectedText) {
+        return {
+          ...text,
+          size: value * 10
+        };
+      }
+      return text;
+    });
+
+    // Update the context state with the updated texts
+    setSelected((prevState) => ({
+      ...prevState,
+      textsSaved: updatedTexts,
+    }));
+
+    console.log(selectedText)
+    console.log(updatedTexts)
+    console.log(textsSaved)
+    redrawCanvas(updatedTexts, ctx, canvas, canvasRef, data, img); // Redraw the canvas
+  };
+
+  const redrawCanvas = (textsSaved: any, ctx: any, canvas: any, canvasRef: any, data: any, img: any) => {
+    utils.resetCanvas(canvasRef);
+    utils.handleOrientation(ctx, img, data, canvas);
+
+    // Redraw all texts
+    ctx.strokeStyle = '#1a1a1a';
+    ctx.lineWidth = 4;
+    ctx.fillStyle = 'white';
+    ctx.textAlign = 'center';
+
+    textsSaved.forEach((t: any) => {
+      ctx.font = `${t.size.toString()}px ${data.fontFamily}`;
+      ctx.fillText(t.text, t.x + t.width / 2, t.y + t.height);
+      ctx.strokeText(t.text, t.x + t.width / 2, t.y + t.height);
+      ctx.fillText(t.text, t.x + t.width / 2, t.y + t.height);
+    });
   };
 
   return (
