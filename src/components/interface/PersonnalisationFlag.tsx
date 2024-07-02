@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import TitreH2 from './TitreH2';
 import ImageComponent from './ImageComponent';
-import Canvas from './TestCanvas';
-//import Canvas from './TestCanvas';
+import Canvas from './Canvas';
 import { RadioField, InputField, ImageField, UserConsent, Button } from './PersonalisationFormItem';
 import "./flagPersonnalisation.css";
 import "./forms.css"
-import TextSizeSelector from './canvasUtils/TextSizeSelector';
 
 const FlagPersonnalisation = ({ data }: any) => {
   const [formData, setFormData] = useState({
@@ -35,7 +33,13 @@ const FlagPersonnalisation = ({ data }: any) => {
         if (files && files[0]) {
           const file = files[0];
           const validImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
-  
+          if(file.size > 1100000){
+            setMessage("L'image ne doit pas dépasser 1Mo");
+            setTimeout(() => {
+              setMessage("");
+            }, 3000);
+            return
+          }
           if (!validImageTypes.includes(file.type)) {
             setMessage("Erreur, seul les fichiers d'image (JPEG, PNG, GIF) sont acceptés.");
             setTimeout(() => {
@@ -57,20 +61,17 @@ const FlagPersonnalisation = ({ data }: any) => {
           };
           reader.readAsDataURL(file);
         }
-      } else if (type === 'checkbox') {
-        const inputTarget = target as HTMLInputElement;
-        const checked = inputTarget.checked;
-        setFormData((prevData) => ({
-          ...prevData,
-          [name]: checked,
-        }));
-      } else {
+      }
+      // Set Data form radio
+      else {
         setFormData((prevData) => ({
           ...prevData,
           [name]: value,
         }));
       }
-    } else {
+    } 
+    // Set Data Form values 
+    else {
       setFormData((prevData) => ({
         ...prevData,
         [e.name]: e.value,
@@ -151,12 +152,11 @@ const FlagPersonnalisation = ({ data }: any) => {
               {formData.typedepersonnalisation === "slogan" && (
                 <>
                 <InputField label={data.sloganTitre} option={data.sloganInput} handleChange={handleChange} />
-                <TextSizeSelector/>
                 </>
               )}
               
               {formData.typedepersonnalisation === "logoIncrustation" && (
-                <ImageField label={data.uploadLabel} data={formData} handleChange={handleChange} />
+                <ImageField label={data.uploadLabel} subLabel={data.uploadTexte} data={formData} handleChange={handleChange} />
               )}
 
               <UserConsent data={data} handleChange={handleChange} />
@@ -170,6 +170,7 @@ const FlagPersonnalisation = ({ data }: any) => {
             <ImageComponent imageContent={data.baseEfoSlogan.data.attributes} id="baseEfoSlogan"/>
             <ImageComponent imageContent={data.baseEfoPerso.data.attributes} id="baseEfoPerso" />
             <ImageComponent imageContent={data.baseEfoSloganVertical.data.attributes} id="baseEfoSloganVertical" />
+            <ImageComponent imageContent={data.baseEfoPersoVertical.data.attributes} id="baseEfoPersoVertical" />
           </div>
         </>
       )}

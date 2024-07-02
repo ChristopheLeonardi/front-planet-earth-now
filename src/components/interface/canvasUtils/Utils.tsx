@@ -21,23 +21,15 @@ const resetCanvas = (
   return {"ctx" : ctx, "canvas" : canvas}
 
 }
-const handleOrientation = (ctx:any, img:any, data:any, canvas:any) => {
-  if(data.orientation === "portrait" && data.typedepersonnalisation === "logoIncrustation"){
-    var x = canvas.width / 2;
-    var y = canvas.height / 2;
-    var angleInRadians = 90 * Math.PI/180
-    var width = img.width;
-    var height = img.height;
 
-    ctx.translate(x, y);
-    ctx.rotate(angleInRadians);
-    ctx.drawImage(img, -width / 2, -height / 2, width, height);
-    ctx.rotate(-angleInRadians);
-    ctx.translate(-x, -y);
-  }
-  else{
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-  }
+const getBackgroundImageId = (type:string, orientation:string) => {
+  if (type == "logoIncrustation"){
+    var idImg = orientation === 'paysage'? 'baseEfoPerso' : 'baseEfoPersoVertical';
+  } else {
+    var idImg = orientation === 'paysage'? 'baseEfoSlogan' : 'baseEfoSloganVertical';
+  }       
+
+  return idImg
 }
 const loadFont = async (data: any) => {
   const css = `@import url('https://fonts.googleapis.com/css?family=${data.fontFamily.replace(' ', '+')}&subset=latin,latin-ext');`;
@@ -49,6 +41,46 @@ const loadFont = async (data: any) => {
   style.appendChild(document.createTextNode(css));
   await document.fonts.load(`${parseInt(data.taille)}px ${data.fontFamily}`);
 };
+const crop = (inputImage: any, aspectRatio: number, scalerValue:number) => {
+  if(!scalerValue) { 
+    scalerValue = 1
+  }
+  // let's store the width and height of our image
+  const inputWidth = inputImage.naturalWidth;
+  const inputHeight = inputImage.naturalHeight;
 
+  const scaler = scalerValue;
+  // get the aspect ratio of the input image
+  const inputImageAspectRatio = inputImage.width / inputImage.height;
 
-export default { resetCanvas, handleOrientation, loadFont }
+  // if it's bigger than our target aspect ratio
+  let outputWidth = inputWidth;
+  let outputHeight = inputHeight;
+  if (inputImageAspectRatio > aspectRatio) {
+    outputWidth = inputHeight * aspectRatio;
+  } else if (inputImageAspectRatio < aspectRatio) {
+    outputHeight = inputWidth / aspectRatio;
+  }
+
+  // calculate the position to draw the image at
+  const outputX = (outputWidth * scaler - inputWidth) * 0.5;
+  const outputY = (outputHeight * scaler - inputHeight) * 0.5;
+
+  // create a canvas that will present the output image
+  const outputCanvas = document.createElement('canvas');
+
+  // set it to the same size as the image
+  outputCanvas.width = outputWidth * scaler;
+  outputCanvas.height = outputHeight * scaler;
+
+  // draw our image at position 0, 0 on the canvas
+  const ctx = outputCanvas.getContext('2d');
+  if (!ctx) { return; }
+  ctx.drawImage(inputImage, outputX, outputY);
+  var outputImage = new Image();
+  outputImage.crossOrigin = "anonymous";
+  outputImage.src = outputCanvas.toDataURL();
+  return outputImage;
+}
+
+export default { resetCanvas, loadFont, crop, getBackgroundImageId }

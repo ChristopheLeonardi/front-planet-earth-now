@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import utils from './Utils';
 import { useSelected } from './../../../context/SelectedContext';
 
@@ -7,12 +7,25 @@ const TextSizeSelector = () => {
 
   const [tailleSelect, setTailleSelect] = useState(10);
 
+  const initSizeValue = () => {
+    let selected = textsSaved.filter(t => { return t.is_selected === true })[0]
+    let size = selected.size
+    return size
+  }
+
+  useEffect(() => {
+    if(selectedText >= 0 ){
+      setTailleSelect(initSizeValue() / 10)  
+    }    
+  }, [selectedText])
+
   const handleChangeTailleSelect = (value: number) => {
+
     setTailleSelect(value);
 
     console.log(textsSaved)
     // Create a new array with the updated text size
-    const updatedTexts = textsSaved.map((text, index) => {
+    const updatedTexts = textsSaved.map((text) => {
       if (text.is_selected) {
         return {
           ...text,
@@ -33,7 +46,10 @@ const TextSizeSelector = () => {
 
   const redrawCanvas = () => {
     utils.resetCanvas(canvasRef);
-    utils.handleOrientation(ctx, img, data, canvas);
+    if(!ctx || !img || !canvas) { return }
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+    //utils.handleOrientation(ctx, img, data, canvas);
 
     // Redraw all texts
     if (!ctx) { return }
@@ -41,7 +57,7 @@ const TextSizeSelector = () => {
     ctx.lineWidth = 4;
     ctx.fillStyle = 'white';
     ctx.textAlign = 'center';
-    console.log(textsSaved)
+
     textsSaved.forEach((t: any) => {
       ctx.font = `${t.size.toString()}px ${data.fontFamily}`;
       ctx.fillText(t.text, t.x + t.width / 2, t.y + t.height);
@@ -54,7 +70,7 @@ const TextSizeSelector = () => {
     <fieldset>
       <legend>Taille Texte Sélectionné</legend>
       <input
-        type="number"
+        type="range"
         id="taille"
         name="taille"
         value={tailleSelect}

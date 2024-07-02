@@ -1,6 +1,5 @@
 import { useSelected } from "../../../context/SelectedContext";
-import utils from "./Utils";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 
 interface Line {
   height: number;
@@ -23,7 +22,6 @@ const DragText = ({ fontSize }: { fontSize: any }) => {
     if (!textsSaved.length || !canvas) {
       return;
     }
-
     const texts = textsSaved;
 
     const textHittest = (x: number, y: number, textIndex: number) => {
@@ -105,8 +103,6 @@ const calculateStart = (pos: { x: number, y: number }) => {
     };
 
     const handleMouseUp = (e: MouseEvent | TouchEvent) => {
-      console.log(textsSaved) 
-
       e.preventDefault();
       setSelected((prevState) => ({
         ...prevState,
@@ -128,15 +124,18 @@ const calculateStart = (pos: { x: number, y: number }) => {
       if (!ctx) return;
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      utils.handleOrientation(ctx, img, data, canvas);
+      if(!ctx || !img || !canvas) { return }
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-      ctx.font = `${fontSize}px ${data.fontFamily}`;
+
+      
       ctx.strokeStyle = '#1a1a1a';
       ctx.lineWidth = 4;
       ctx.fillStyle = 'white';
       ctx.textAlign = 'center';
 
       texts.forEach((t: Line) => {
+        ctx.font = `${t.size}px ${data.fontFamily}`;
         ctx.fillText(t.text, t.x + t.width / 2, t.y + t.height);
         ctx.strokeText(t.text, t.x + t.width / 2, t.y + t.height);
         ctx.fillText(t.text, t.x + t.width / 2, t.y + t.height);

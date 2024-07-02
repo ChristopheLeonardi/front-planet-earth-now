@@ -3,7 +3,7 @@ import pageServices from '../services/pages'
 import utils from '../services/utils';
 import { useLang } from '../context/LangContext';
 import FlagPersonnalisation from '../components/interface/PersonnalisationFlag'; 
-
+import Diaporama from '../components/interface/Diaporama';
 import "./content.css"
 
 interface Content {
@@ -76,7 +76,14 @@ const SingleAction = (type:string ) => {
                 <>
                 { action.attributes.template === "ef1" && (
                     <>
+                      {console.log(action)}
                         <FlagPersonnalisation data={action.attributes.PersonnalisationForm}/>
+                        {/* <Diaporama images={action.attributes.diaporama.data}/> */}
+                    </>
+                )}
+                { action.attributes.template === "simple" && (
+                    <>
+                      <Diaporama images={action.attributes.diaporama.data}/>
                     </>
                 )}
 
