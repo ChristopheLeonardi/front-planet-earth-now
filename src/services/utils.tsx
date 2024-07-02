@@ -1,5 +1,3 @@
-import pageServices from './pages.js'
-
 const baseUrl = 'http://85.31.236.134:'
 const portFront = 3333
 const portBack = 2222
@@ -22,7 +20,7 @@ const searchIdLang = (data:any, lang:string) => {
     console.log(lang)
     if (data.locale === lang) { return data }
 
-    const idLang = data.localizations.data.filter((data:any) => {
+    data.localizations.data.filter((data:any) => {
         return data.attributes.locale === lang
     })[0].id
 

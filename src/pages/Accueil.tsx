@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+/* import {useState, useEffect} from 'react'; */
 import "./Accueil.css"
 const Accueil = () => {
     return (

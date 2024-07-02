@@ -31,7 +31,8 @@ interface Action {
     attributes: Content;
 }
 
-const SingleAction = (type:string ) => {
+const SingleAction = (type:any ) => {
+    console.log(type)
     const lang = useLang();
     const [action, setAction] = useState<Action  | null>(null);
     const [id, setId] = useState<number | null>(null)
@@ -76,7 +77,6 @@ const SingleAction = (type:string ) => {
                 <>
                 { action.attributes.template === "ef1" && (
                     <>
-                      {console.log(action)}
                         <FlagPersonnalisation data={action.attributes.PersonnalisationForm}/>
                         {/* <Diaporama images={action.attributes.diaporama.data}/> */}
                     </>
@@ -86,7 +86,6 @@ const SingleAction = (type:string ) => {
                       <Diaporama images={action.attributes.diaporama.data}/>
                     </>
                 )}
-
                 </>
             )}
         </section>

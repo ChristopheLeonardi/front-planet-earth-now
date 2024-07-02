@@ -19,9 +19,67 @@ const FlagPersonnalisation = ({ data }: any) => {
   });
   const [message, setMessage] = useState("")
 
-
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | { name: string; value: string }
+  ) => {
+    if ('target' in e) {
+      const target = e.target as HTMLInputElement | HTMLTextAreaElement;
+      const { name, value, type } = target;
+  
+      if (type === 'file') {
+        const inputTarget = target as HTMLInputElement;
+        const files = inputTarget.files;
+        if (files && files[0]) {
+          const file = files[0];
+          const validImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
+          if(file.size > 1100000){
+            setMessage("L'image ne doit pas dépasser 1Mo");
+            setTimeout(() => {
+              setMessage("");
+            }, 3000);
+            return;
+          }
+          if (!validImageTypes.includes(file.type)) {
+            setMessage("Erreur, seul les fichiers d'image (JPEG, PNG, GIF) sont acceptés.");
+            setTimeout(() => {
+              setMessage("");
+            }, 3000);
+            return;
+          }
+  
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            const img = new Image();
+            img.src = event.target?.result as string;
+            img.onload = () => {
+              setFormData((prevData) => ({
+                ...prevData,
+                image: img,
+              }));
+            };
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+      // Set Data form radio
+      else {
+        setFormData((prevData) => ({
+          ...prevData,
+          [name]: value,
+        }));
+      }
+    } 
+    // Set Data Form values 
+    else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [e.name]: e.value,
+      }));
+    }
+  };
+  
+ /*  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | React.ChangeEvent<HTMLTextAreaElement>> | { name: string; value: string }
   ) => {
     if ('target' in e) {
       const target = e.target as HTMLInputElement | HTMLTextAreaElement;
@@ -78,7 +136,7 @@ const FlagPersonnalisation = ({ data }: any) => {
       }));
     }
   };
-
+ */
   const handleOnSubmit = (e: any) => {
     e.preventDefault();
     const consent = document.getElementById("cgv") as HTMLInputElement | null

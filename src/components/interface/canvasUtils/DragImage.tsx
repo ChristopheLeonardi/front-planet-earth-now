@@ -33,6 +33,7 @@ const DragImage = ({ data }: any) => {
     };
     
     const handleMouseDown = (e: MouseEvent | TouchEvent) => {
+      e.preventDefault()
       const pos = getMousePos(e);
       if (isCanvasHit(pos.x, pos.y)) {
         draggingImage.current = true;
@@ -42,6 +43,7 @@ const DragImage = ({ data }: any) => {
     };
 
     const handleMouseMove = (e: MouseEvent | TouchEvent) => {
+      e.preventDefault()
       if (!draggingImage.current) return;
       const pos = getMousePos(e);
       data.imagePosX = pos.x - startX.current;

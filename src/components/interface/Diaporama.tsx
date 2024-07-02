@@ -16,7 +16,6 @@ const Diaporama = (images:any) => {
             showBullets={true}
             infinite={true}
             showNav={true}
-            slideToIndex={0}
         />
     )
 }

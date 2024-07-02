@@ -50,7 +50,7 @@ export const Button = ({ data, onClick, buttonClass }: any) => {
   );
 };
 
-export const UserConsent = ({ data, handleChange }: any) => {
+export const UserConsent = ({ data }: any) => {
   const option = data.CGV
   return (
     <fieldset className="user-consent">
@@ -65,57 +65,6 @@ export const UserConsent = ({ data, handleChange }: any) => {
     </fieldset>
   );
 };
-
-/* 
-export const ImageField = ({ label, subLabel, data, handleChange }: any) => {
-  const [inputClass, setInputClass] = useState("")
-  const [taille, setTaille] = useState(1);
-
-  const handleChangeTaille = (e:any) => {
-    // Map over textsSaved and update each text object's size property
-    const value = Number(e.target.value)
-    setTaille(value)
-    handleChange(e)
-  };
-  useEffect(() => {
-    if (data.image){
-      setInputClass("image-loaded")
-    }
-  }, [data])
-  return (
-    <>
-      <fieldset className="upload-file">
-        {data.image && (
-          <div className="image-preview">
-            <img src={data.image.src} alt="Uploaded Preview" />
-          </div>
-        )}
-        <label htmlFor="image" className={inputClass}><p>{label}</p><p>{subLabel}</p></label>
-        <input
-          type="file"
-          id="image"
-          name="image"
-          onChange={handleChange}
-          accept="image/*"
-          className="inputfile"
-        />
-      </fieldset>
-      <fieldset>
-        <legend>Zoom de l'image</legend>
-        <input
-          type="number"
-          id="tailleImage"
-          name="tailleImage"
-          step={0.1}
-          min={0.1}
-          max={2}
-          value={taille}
-          onChange={(e) => handleChangeTaille(e)}
-        />
-      </fieldset>
-    </>
-  );
-}; */
 
 interface ImageFieldProps {
   label: string;
@@ -193,35 +142,34 @@ export const ImageField: React.FC<ImageFieldProps> = ({ label, subLabel, data, h
     </>
   );
 };
-interface Option {
-  idAndName: string;
-  label: string;
-}
+
 
 interface InputFieldProps {
   label: string;
-  option: Option;
-  handleChange: (event: React.ChangeEvent<HTMLInputElement> | { name: string; value: string }) => void;
+  option: { idAndName: string };
+  handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | { name: string; value: string }) => void;
 }
 
 export const InputField: React.FC<InputFieldProps> = ({ label, option, handleChange }) => {
   const [activeFontFamily, setActiveFontFamily] = useState('Open Sans');
   const [taille, setTaille] = useState(10);
-  const {textsSaved, setSelected } = useSelected()
-  const handleChangeTaille = (value:number) => {
+  const {textsSaved, setSelected } = useSelected();
+
+  const handleChangeTaille = (value: number) => {
     // Map over textsSaved and update each text object's size property
     const updatedTexts = textsSaved.map((text) => ({
       ...text,
       size: value * 10,
     }));
-    console.log(updatedTexts)
+    console.log(updatedTexts);
     // Update the context state with the updated texts
     setSelected((prevState) => ({
       ...prevState,
       textsSaved: updatedTexts,
     }));
-    setTaille(value)
-  }
+    setTaille(value);
+  };
+
   useEffect(() => {
     handleChange({ name: 'fontFamily', value: activeFontFamily });
   }, [activeFontFamily]);
@@ -229,7 +177,6 @@ export const InputField: React.FC<InputFieldProps> = ({ label, option, handleCha
   useEffect(() => {
     handleChange({ name: 'taille', value: taille.toString() });
   }, [taille]);
-
 
   return (
     <div className='slogan-options'>
@@ -249,7 +196,7 @@ export const InputField: React.FC<InputFieldProps> = ({ label, option, handleCha
             apiKey="AIzaSyD2t9Jryr9LXXguyTG9SVS2W_gW8hIOCc0"
             activeFontFamily={activeFontFamily}
             onChange={(nextFont) => setActiveFontFamily(nextFont.family)}
-            families={fontFamilies} 
+            families={fontFamilies}
             variants={["regular", "700"]}
             limit={20}
           />
@@ -264,13 +211,11 @@ export const InputField: React.FC<InputFieldProps> = ({ label, option, handleCha
             onChange={(e) => handleChangeTaille(Number(e.target.value))}
           />
         </fieldset>
-        <TextSizeSelector/>
-
+        <TextSizeSelector />
       </div>
     </div>
   );
 };
-
 interface ToggleProps {
   label: string;
   options: { idAndName: string; label: string }[];
