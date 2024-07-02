@@ -46,6 +46,9 @@ div[id^=font-picker]{
 .slogan-options textarea{
     width: 100%;
 }
+.slogan-options textarea{
+    margin-top: 8px;
+}
 label p{
     margin: 0 1em 0.5em;
 }
@@ -121,11 +124,15 @@ fieldset.switch-field{
 
   }
   
-  .zoom-control button:hover{
+  .zoom-control button:hover:enabled{
     background-color: var(--blue-pen);
     color: var(--white);
     transition: all 0.3s ease-in-out;
 
+  }
+  
+  .zoom-control button:disabled {
+    border: 1px solid var(--light-grey);
   }
 
   .zoom-control button.decrement{

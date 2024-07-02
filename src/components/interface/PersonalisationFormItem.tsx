@@ -176,8 +176,8 @@ export const ImageField: React.FC<ImageFieldProps> = ({ label, subLabel, data, h
       <fieldset className="zoom-control">
         <legend>Zoom de l'image</legend>
         <div>
-          <button className="increment" type="button" onClick={decrementTaille}>+</button>
-          <button className="decrement" type="button" onClick={incrementTaille}>-</button>
+          <button className="increment" type="button" onClick={decrementTaille} disabled={taille === 0.1 ? true : false}>+</button>
+          <button className="decrement" type="button" onClick={incrementTaille}  disabled={taille === 2 ? true : false}>-</button>
           <input
             type="number"
             id="tailleImage"
