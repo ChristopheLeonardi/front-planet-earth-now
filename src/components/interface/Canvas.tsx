@@ -12,7 +12,7 @@ interface CanvasProps {
     orientation: string;
     perso: boolean;
     sloganInput: string;
-    typedepersonnalisation: string;
+    type: string;
     taille: string;
     fontFamily: string;
   };
@@ -99,28 +99,13 @@ const Canvas: React.FC<CanvasProps> = ({ data }) => {
 
   const drawPersonnalisation = (ctx: any, img: any, data: any, canvas: any) => {
     if (data.image) {
-      const outputImage = Utils.crop(data.image, 1, data.tailleImage);
-      const canvasRatio = canvas.width / canvas.height;
+      const outputImage = Utils.crop(data.image, data.tailleImage);
+      //const canvasRatio = canvas.width / canvas.height;
   
       if (!outputImage) { return; }
   
-      let imagePosX = data.imagePosX || 0;
-      let imagePosY = data.imagePosY || 0;
-  
-      if (canvasRatio >= 1) {
-        outputImage.width = outputImage.height = canvas.height;
-        if (!data.imagePosX && !data.imagePosY) {
-          imagePosX = canvas.width / 2 - outputImage.width / 2;
-          imagePosY = 0;
-        }
-      } else {
-        outputImage.width = canvas.width;
-        outputImage.height = canvas.width;
-        if (!data.imagePosX && !data.imagePosY) {
-          imagePosX = 0;
-          imagePosY = canvas.height / 2 - outputImage.height / 2;
-        }
-      }
+      let imagePosX = canvas.width / 2 - outputImage.width / 2 || data.imagePosX || 0;
+      let imagePosY = canvas.height / 2 - outputImage.height / 2 || data.imagePosY || 0;
   
       ctx.drawImage(outputImage, imagePosX, imagePosY, outputImage.width, outputImage.height);
   
@@ -146,7 +131,7 @@ const Canvas: React.FC<CanvasProps> = ({ data }) => {
     const canvasData = utils.resetCanvas(canvasRef);
     if (!canvasData) return;
 
-    const idImg = Utils.getBackgroundImageId(data.typedepersonnalisation, data.orientation)
+    const idImg = Utils.getBackgroundImageId(data.type, data.orientation)
     const img = document.getElementById(idImg) as HTMLImageElement | null;
     if (!img) {
       console.error(`Image element with ID '${idImg}' not found.`);
@@ -159,7 +144,7 @@ const Canvas: React.FC<CanvasProps> = ({ data }) => {
       img: img,
     }));
 
-    if (data.typedepersonnalisation === 'slogan') {
+    if (data.type === 'slogan') {
       if (img.complete) {
         drawSlogan(canvasData.ctx, img, data, canvasData.canvas)
         setPersoImageLoaded(true);
@@ -170,7 +155,7 @@ const Canvas: React.FC<CanvasProps> = ({ data }) => {
       }
     }
 
-    if (data.typedepersonnalisation === 'logoIncrustation') {
+    if (data.type === 'logoIncrustation') {
       if (!data.image) { return }
       if (img.complete) {
         drawPersonnalisation(canvasData.ctx, img, data, canvasData.canvas);
@@ -200,7 +185,7 @@ const Canvas: React.FC<CanvasProps> = ({ data }) => {
 
   useEffect(() => {
     if(!data) { return }
-    var idImg = Utils.getBackgroundImageId(data.typedepersonnalisation, data.orientation)   
+    var idImg = Utils.getBackgroundImageId(data.type, data.orientation)   
     const updatedImg = document.getElementById(idImg) as HTMLImageElement | null;
     setSelected((prevState) => ({
       ...prevState,
@@ -211,10 +196,10 @@ const Canvas: React.FC<CanvasProps> = ({ data }) => {
 
    return (
       <>
-      {data.typedepersonnalisation === "slogan" && (
+      {data.type === "slogan" && (
         <DragText fontSize={parseInt(data.taille) * 10}/>
       )}
-      {data.typedepersonnalisation === "logoIncrustation" && (
+      {data.type === "logoIncrustation" && (
         <DragImage data={data}/>
       )}
       <canvas id="flag-personnalisation" className={data.orientation} ref={canvasRef} width={canvasSize.width} height={canvasSize.height}></canvas>

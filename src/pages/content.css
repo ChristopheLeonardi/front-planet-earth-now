@@ -106,6 +106,34 @@
 @media screen and (min-width:1440px) {
     .page-content{
         max-width: 1440px;
+        width: 90%;
         margin: auto;
     }
 }
+
+/*  Citation Component */
+.accueil .citation {
+    margin: 4em auto;
+    max-width: 90%;
+}
+.accueil .citation blockquote{
+    font-family: var(--primary-font);
+    font-size: 2.5em;
+    color: var(--blue-pen);
+    margin: 0;
+}
+.accueil .citation blockquote::before,
+.accueil .citation blockquote::after{
+    content:'"';
+}
+.accueil .citation blockquote,
+.accueil .citation p{
+    text-align: center;
+}
+@media screen and (min-width:768px) {
+    .accueil .citation {
+        margin: 6em auto;
+        max-width: 60%;
+    }
+}
+/*  END Citation Component */

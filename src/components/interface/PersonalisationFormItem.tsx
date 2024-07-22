@@ -1,42 +1,12 @@
-import React, { useState, useEffect, Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import FontPicker from 'font-picker-react';
 import { useSelected } from '../../context/SelectedContext';
-import TextSizeSelector from './canvasUtils/TextSizeSelector';
 
-interface FontComponentState {
-  activeFontFamily: string;
-}
 const fontFamilies = [
   "Playfair", "Merriweather", "Alegreya", "Roboto", "Oswald", "Bebas Neue",
   "Anton", "Acme", "Courgette", "Montserrat"
 ]
 
-export default class FontComponent extends Component<{}, FontComponentState> {
-    constructor(props:any) {
-        super(props);
-        this.state = {
-            activeFontFamily: "Open Sans",
-        };
-    }
-    render() {
-        return (
-            <div>
-                <FontPicker
-                    apiKey="AIzaSyD2t9Jryr9LXXguyTG9SVS2W_gW8hIOCc0"
-                    activeFontFamily={this.state.activeFontFamily}
-                    families={fontFamilies}
-                    
-                    onChange={(nextFont) =>
-                        this.setState({
-                            activeFontFamily: nextFont.family,
-                        })
-                    }
-                />
-                <p className="apply-font">The font will be applied to this text.</p>
-            </div>
-        );
-    }
-}
 export const Button = ({ data, onClick, buttonClass }: any) => {
   return (
     <button
@@ -75,26 +45,6 @@ interface ImageFieldProps {
 
 export const ImageField: React.FC<ImageFieldProps> = ({ label, subLabel, data, handleChange }) => {
   const [inputClass, setInputClass] = useState("");
-  const [taille, setTaille] = useState(1);
-
-  const handleChangeTaille = (e: any) => {
-    const value = Number(e.target.value);
-    setTaille(value);
-    handleChange(e);
-  };
-
-  const incrementTaille = () => {
-    const newTaille = Math.min(taille + 0.1, 2);
-    setTaille(newTaille);
-    handleChange({ target: { name: 'tailleImage', value: newTaille.toFixed(1) } });
-  };
-
-  const decrementTaille = () => {
-    const newTaille = Math.max(taille - 0.1, 0.1);
-    setTaille(newTaille);
-    handleChange({ target: { name: 'tailleImage', value: newTaille.toFixed(1) } });
-  };
-
   useEffect(() => {
     if (data.image) {
       setInputClass("image-loaded");
@@ -111,7 +61,7 @@ export const ImageField: React.FC<ImageFieldProps> = ({ label, subLabel, data, h
         )}
         <label htmlFor="image" className={inputClass}>
           <p>{label}</p>
-          <p>{subLabel}</p>
+          <p className='subLabel'>{subLabel}</p>
         </label>
         <input
           type="file"
@@ -122,27 +72,50 @@ export const ImageField: React.FC<ImageFieldProps> = ({ label, subLabel, data, h
           className="inputfile"
         />
       </fieldset>
-      <fieldset className="zoom-control">
-        <legend>Zoom de l'image</legend>
-        <div>
-          <button className="increment" type="button" onClick={decrementTaille} disabled={taille === 0.1 ? true : false}>+</button>
-          <button className="decrement" type="button" onClick={incrementTaille}  disabled={taille === 2 ? true : false}>-</button>
-          <input
-            type="number"
-            id="tailleImage"
-            name="tailleImage"
-            step={0.1}
-            min={0.1}
-            max={2}
-            value={taille}
-            onChange={handleChangeTaille}
-          />
-        </div>
-      </fieldset>
     </>
   );
 };
 
+export const ZoomImage = ({handleChange}:any) => {
+  const [taille, setTaille] = useState(1);
+
+  const handleChangeTaille = (e: any) => {
+    const value = Number(e.target.value);
+    setTaille(value);
+    handleChange(e);
+  };
+
+  const incrementTaille = () => {
+    const newTaille = Math.min(taille + 0.05, 2);
+    setTaille(newTaille);
+    handleChange({ target: { name: 'tailleImage', value: newTaille.toFixed(1) } });
+  };
+
+  const decrementTaille = () => {
+    const newTaille = Math.max(taille - 0.05, 0.1);
+    setTaille(newTaille);
+    handleChange({ target: { name: 'tailleImage', value: newTaille.toFixed(1) } });
+  };
+  return (
+    <fieldset className="zoom-control">
+    <legend>Zoom de l'image</legend>
+    <div>
+      <button className="increment" type="button" onClick={incrementTaille}  disabled={taille === 2 ? true : false}>+</button>
+      <button className="decrement" type="button" onClick={decrementTaille} disabled={taille === 0.1 ? true : false}>-</button>
+      <input
+        type="number"
+        id="tailleImage"
+        name="tailleImage"
+        step={0.05}
+        min={0.1}
+        max={2}
+        value={taille}
+        onChange={handleChangeTaille}
+      />
+    </div>
+  </fieldset>
+  )
+}
 
 interface InputFieldProps {
   label: string;
@@ -151,7 +124,43 @@ interface InputFieldProps {
 }
 
 export const InputField: React.FC<InputFieldProps> = ({ label, option, handleChange }) => {
+  return (
+    <div className='slogan-options'>
+      <fieldset>
+        <legend>{label}</legend>
+        <textarea
+          id={option.idAndName}
+          name={option.idAndName}
+          placeholder="Touche entrée pour le saut de ligne"
+          onChange={handleChange}
+        ></textarea>
+      </fieldset>
+    </div>
+  );
+};
+
+export const ChangeFont = ({handleChange}:any) => {
   const [activeFontFamily, setActiveFontFamily] = useState('Open Sans');
+
+  useEffect(() => {
+    handleChange({ name: 'fontFamily', value: activeFontFamily });
+  }, [activeFontFamily]);
+  return (
+    <fieldset>
+    <legend>Police</legend>
+    <FontPicker
+      apiKey="AIzaSyD2t9Jryr9LXXguyTG9SVS2W_gW8hIOCc0"
+      activeFontFamily={activeFontFamily}
+      onChange={(nextFont) => setActiveFontFamily(nextFont.family)}
+      families={fontFamilies}
+      variants={["regular", "700"]}
+      limit={20}
+    />
+  </fieldset>
+  )
+}
+export const TextTailleGeneral = ({handleChange}:any) => {
+
   const [taille, setTaille] = useState(10);
   const {textsSaved, setSelected } = useSelected();
 
@@ -171,51 +180,25 @@ export const InputField: React.FC<InputFieldProps> = ({ label, option, handleCha
   };
 
   useEffect(() => {
-    handleChange({ name: 'fontFamily', value: activeFontFamily });
-  }, [activeFontFamily]);
-
-  useEffect(() => {
     handleChange({ name: 'taille', value: taille.toString() });
   }, [taille]);
 
   return (
-    <div className='slogan-options'>
-      <fieldset>
-        <legend>{label}</legend>
-        <textarea
-          id={option.idAndName}
-          name={option.idAndName}
-          placeholder="Entrez votre texte (touche entrée pour le saut de ligne)"
-          onChange={handleChange}
-        ></textarea>
-      </fieldset>
-      <div className="options">
-        <fieldset>
-          <legend>Police</legend>
-          <FontPicker
-            apiKey="AIzaSyD2t9Jryr9LXXguyTG9SVS2W_gW8hIOCc0"
-            activeFontFamily={activeFontFamily}
-            onChange={(nextFont) => setActiveFontFamily(nextFont.family)}
-            families={fontFamilies}
-            variants={["regular", "700"]}
-            limit={20}
-          />
-        </fieldset>
-        <fieldset>
-          <legend>Taille Générale</legend>
-          <input
-            type="range"
-            id="taille"
-            name="taille"
-            value={taille}
-            onChange={(e) => handleChangeTaille(Number(e.target.value))}
-          />
-        </fieldset>
-        <TextSizeSelector />
-      </div>
-    </div>
-  );
-};
+    <fieldset>
+    <legend>Taille Générale</legend>
+    <input
+      type="range"
+      id="taille"
+      name="taille"
+      value={taille}
+      min={8}
+      max={64}
+      onChange={(e) => handleChangeTaille(Number(e.target.value))}
+    />
+  </fieldset>
+  )
+}
+
 interface ToggleProps {
   label: string;
   options: { idAndName: string; label: string }[];

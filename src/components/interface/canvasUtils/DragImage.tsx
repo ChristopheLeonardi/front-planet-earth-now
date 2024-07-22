@@ -50,32 +50,16 @@ const DragImage = ({ data }: any) => {
       data.imagePosY = pos.y - startY.current;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       if (data.image) {
-        const outputImage = Utils.crop(data.image, 1, data.tailleImage);
-        const canvasRatio = canvas.width / canvas.height;
+        const outputImage = Utils.crop(data.image, data.tailleImage);
     
         if (!outputImage) { return; }
-    
         let imagePosX = data.imagePosX || 0;
         let imagePosY = data.imagePosY || 0;
-    
-        if (canvasRatio >= 1) {
-          outputImage.width = outputImage.height = canvas.height;
-          if (!data.imagePosX && !data.imagePosY) {
-            imagePosX = canvas.width / 2 - outputImage.width / 2;
-            imagePosY = 0;
-          }
-        } else {
-          outputImage.width = canvas.width;
-          outputImage.height = canvas.width;
-          if (!data.imagePosX && !data.imagePosY) {
-            imagePosX = 0;
-            imagePosY = canvas.height / 2 - outputImage.height / 2;
-          }
-        }
+
         ctx.drawImage(outputImage, imagePosX, imagePosY, outputImage.width, outputImage.height);
     
         // Dessiner l'image de masque par-dessus
-        var idImg = Utils.getBackgroundImageId(data.typedepersonnalisation, data.orientation)   
+        var idImg = Utils.getBackgroundImageId(data.type, data.orientation)   
         const updatedImg = document.getElementById(idImg) as HTMLImageElement | null;
         if (!updatedImg) { return }
         ctx.drawImage(updatedImg, 0, 0, canvas.width, canvas.height);

@@ -29,11 +29,26 @@
     height: 200px;
     object-fit: cover;
 }
+.vignette.img-picto img{
+    object-fit: contain;
+    margin: 2em auto 0;
+    height: 140px;
+}
+.vignette.img-picto h3{
+    color: var(--dark-grey);
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 0;
+}
+.vignette.img-picto p{
+    text-align: center;
+}
 .vignette h3{
     font-family: var(--primary-font);
     font-family: 2.5em;
     color: var(--green-pen);
     margin-bottom: 0;
+    text-transform: uppercase;
 }
 .vignette .domaine{
     position: absolute;

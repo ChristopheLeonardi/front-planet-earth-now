@@ -23,7 +23,6 @@ const TextSizeSelector = () => {
 
     setTailleSelect(value);
 
-    console.log(textsSaved)
     // Create a new array with the updated text size
     const updatedTexts = textsSaved.map((text) => {
       if (text.is_selected) {
@@ -49,8 +48,6 @@ const TextSizeSelector = () => {
     if(!ctx || !img || !canvas) { return }
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-    //utils.handleOrientation(ctx, img, data, canvas);
-
     // Redraw all texts
     if (!ctx) { return }
     ctx.strokeStyle = '#1a1a1a';
@@ -68,11 +65,13 @@ const TextSizeSelector = () => {
 
   return (
     <fieldset>
-      <legend>Taille Texte Sélectionné</legend>
+      <legend>Taille Selection</legend>
       <input
         type="range"
         id="taille"
         name="taille"
+        min={8}
+        max={64}
         value={tailleSelect}
         onChange={(e) => handleChangeTailleSelect(Number(e.target.value))}
       />

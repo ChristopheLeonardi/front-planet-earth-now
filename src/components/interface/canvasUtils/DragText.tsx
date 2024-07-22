@@ -11,6 +11,21 @@ interface Line {
   fontFamily: string;
   is_selected: boolean;
 }
+export const deselectAll = (textsSaved:any, canvas:any, ctx:any, img:any) => {
+  // Bug lors de la déselection
+
+  if(!ctx || !img || !canvas) { return }
+  // Add Click on canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  textsSaved.map((text:any) => {
+    ctx.strokeStyle = '#1a1a1a';
+    ctx.lineWidth = 4;
+    ctx.fillText(text.text, text.x + text.width / 2, text.y + text.height);
+    ctx.strokeText(text.text, text.x + text.width / 2, text.y + text.height);
+    ctx.fillText(text.text, text.x + text.width / 2, text.y + text.height);
+  })
+}
 
 const DragText = ({ fontSize }: { fontSize: any }) => {
   const { textsSaved, selectedText, canvas, ctx, img, data, setSelected } = useSelected();
@@ -87,6 +102,15 @@ const calculateStart = (pos: { x: number, y: number }) => {
       textsSaved: updatedTexts,
     }));
   }
+  else {
+    const updateText = textsSaved.map(text => ({ ...text, is_selected: false }));
+    console.log(updateText);
+    setSelected((prevState) => ({
+      ...prevState,
+      textsSaved: updateText
+    }));
+    deselectAll(textsSaved, canvas, ctx, img)
+  }
 };
 
 
@@ -121,21 +145,23 @@ const calculateStart = (pos: { x: number, y: number }) => {
         textsSaved: [...texts],
       }));
 
-      if (!ctx) return;
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
       if(!ctx || !img || !canvas) { return }
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-
       
-      ctx.strokeStyle = '#1a1a1a';
-      ctx.lineWidth = 4;
       ctx.fillStyle = 'white';
       ctx.textAlign = 'center';
 
       texts.forEach((t: Line) => {
         ctx.font = `${t.size}px ${data.fontFamily}`;
+        if (t.is_selected){
+          ctx.strokeStyle = 'rgba(224, 94, 201, 0.6)';
+          ctx.lineWidth = 24;
+        }
+        else {
+          ctx.strokeStyle = '#1a1a1a';
+          ctx.lineWidth = 4;
+        }
         ctx.fillText(t.text, t.x + t.width / 2, t.y + t.height);
         ctx.strokeText(t.text, t.x + t.width / 2, t.y + t.height);
         ctx.fillText(t.text, t.x + t.width / 2, t.y + t.height);

@@ -108,7 +108,7 @@
   .image-gallery-left-nav .image-gallery-svg,
   .image-gallery-right-nav .image-gallery-svg {
     height: 120px;
-    width: 60px;
+    width: 40px;
   }
   @media (max-width: 768px) {
     .image-gallery-left-nav .image-gallery-svg,
@@ -211,7 +211,7 @@
   }
   .image-gallery-slide .image-gallery-image {
     width: 100%;
-    object-fit: contain;
+    object-fit: cover;
   }
   .image-gallery-slide .image-gallery-description {
     background: rgba(0, 0, 0, 0.4);
@@ -465,7 +465,7 @@
   
   /* Custom CSS */
   .image-gallery-content{
-    margin-bottom: 3em;
+    margin-bottom: 5em;
   }
   .image-gallery-thumbnail.active, 
   .image-gallery-thumbnail:focus,
@@ -476,7 +476,8 @@
   .image-gallery-bullets .image-gallery-bullet{
     background-color: var(--blue-pen);
     border: none;
-    padding: 15px;
+    padding: 10px;
+    margin-top: 10px;
   }
   .image-gallery-bullets-container{
     display: block;

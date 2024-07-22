@@ -6,6 +6,8 @@
 }
 canvas{
     cursor: pointer;
+    margin: auto;
+    display: block;
 }
 .perso-container canvas.paysage{
     width: calc(100vw - 2em);
@@ -32,22 +34,20 @@ div[id^=font-picker]{
     border-radius: 8px;
     margin: 0.5em 0;
 }
-.slogan-options{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
+
 .slogan-options > *{
-    width: 48%;
+  width: 100%;
 }
 
-.slogan-options input,
-.slogan-options #font-picker,
-.slogan-options textarea{
-    width: 100%;
-}
 .slogan-options textarea{
     margin-top: 8px;
+    height: 90px;
+    width: 100%;
+    max-width: 20vw;
+    min-height: unset;
+}
+.subLabel{
+  font-size: 0.8em;
 }
 label p{
     margin: 0 1em 0.5em;
@@ -84,6 +84,7 @@ fieldset.switch-field{
     border: 1px solid rgba(0, 0, 0, 0.2);
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
     transition: all 0.1s ease-in-out;
+    font-size: 0.8em;
   }
   
   .switch-field label:hover {
@@ -138,25 +139,98 @@ fieldset.switch-field{
   .zoom-control button.decrement{
     padding-top: 5px;
   }
+
+  .perso-container input[type="checkbox"]{
+    width: 20px;
+  }
+
+  .perso-container legend{
+    font-size: 0.9em;
+  }
+  .perso-container .col-2{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+  .perso-container .col-2 fieldset{
+    width: 48%;
+  }
+  .perso-container .col-2 > div{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+  }
+  
 @media  screen and (min-width:768px) {
-    .perso-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-    }
-    .perso-container form {
-        width: 48%;
-    }
+
+    .perso-container .col-2 {
+      flex-direction: column;
+      justify-content: flex-start;
+     }
+     .col-2 div {
+      flex-direction: row;
+     }
+     .col-2 div fieldset{
+      margin-right: 1em;
+     }
+     .position-ref{
+      position: relative;
+      width: 0;
+      height: 0;
+     }
+     .slogan-controls {
+      position: absolute;
+      bottom: -100px;
+  }
     .perso-container canvas.paysage{
-        width: 48%;
-        height: calc(48% * 2/3);
-        max-width: 600px;
-        max-height: 400px;
+        width: 60vw;
+        height: calc(60vw * 2/3);
+        max-width: 1024px;
+        max-height: calc(1024px *2/3);
     }
     .perso-container canvas.portrait{
-        width: calc(48% * 2/3);
-        height: 48%; 
-        max-width: 400px;
-        max-height: 600px;
+        width: calc(60vh * 2/3);
+        height: 60vh; 
+        max-width: 800px;
+        max-height: 1200px;
     }
+    .canvas-container{
+      display: flex;
+    }
+    .slogan-options{
+      margin-right: 1em;
+      width: 50%;
+    }
+    .slogan-options > *{
+      width: 100%;
+    }
+    .perso-container .col-2 > div {
+      display: flex;
+      flex-direction: row;
+      width: 30%;
+      justify-content: space-between;
+  }
+  .slogan-controls div#font-picker{
+    width: 150px;
+  }
+    
+    .slogan-options textarea{
+        margin-top: 8px;
+        height: 90px;
+        width: 100%;
+    }
+    fieldset.user-consent {
+      margin-top: 80px;
+  }
+}
+
+@media screen and (min-width:927px) {
+  fieldset.user-consent {
+    margin-top: 0;
+    justify-content: flex-start;
+}
+.slogan-controls {
+  bottom: -20px;
+}
 }

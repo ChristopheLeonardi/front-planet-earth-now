@@ -3,19 +3,30 @@ import ImageComponent from "./ImageComponent"
 import "./vignette.css"
 import utils from "../../services/utils"
 
-const Vignette = ({entry}:any, domaine:boolean) => {
+const Vignette = ({ entry, domaine }: { entry: any; domaine: boolean }) => {
+
     const id = entry.id
-    const data = entry.attributes
+    const data = entry.attributes ? entry.attributes : entry
+    const imageContent = data.entete ? data.entete.data.attributes : data.image.data.attributes
+
+    // Utilisation de la forme des données pour définir si un lien doit être calculé ou non
+    const autoLink = entry.attributes ? false : true
+    const linkUrl = autoLink ? data.lien : utils.seFrontUrl("/single-action?id=" + id)
+
+    console.log(entry)
     const [sousTitre, setSousTitre] = useState("")
+
     useEffect(() => {
-        var sub = data.sousTitre
-       if (data.sousTitre.length > 100 ){ sub = `${sub.substring(0, 100)}...` }
-       setSousTitre(sub)
+        var sub = data.sousTitre || data.description
+        if (!sub) { return }
+        if (sub.length > 100 ){ sub = `${sub.substring(0, 100)}...` }
+        setSousTitre(sub)
     }, [])
+
     return(
-        <article className="vignette">
+        <article className={`vignette ${entry.vocation ? "img-picto" : ""}`}>
             {id && (
-            <a href={utils.seFrontUrl("/single-action?id=" + id)} title="go to action"> 
+            <a href={linkUrl} title="go to action"> 
             <div className="textes">
                 <h3>{data.titre}</h3>
                 <p className="description">{sousTitre}</p>
@@ -30,7 +41,8 @@ const Vignette = ({entry}:any, domaine:boolean) => {
             ) : (
                 null
             )}
-            <ImageComponent imageContent={data.entete.data.attributes}/>
+            
+            <ImageComponent imageContent={imageContent}/>
         </a>
             )}
 
