@@ -1,0 +1,82 @@
+.card{
+  background-color: var(--white);
+  border: 1px solid #ccc;
+  transition: all 0.3s ease-in-out;
+}
+.card:first-child{
+  border-radius: 16px 16px 0 0;
+}
+.card:last-child{
+  border-radius: 0 0 16px 16px;
+}
+.card .title{
+  display: inline-block;
+  text-decoration: none;
+  width: 100%;
+  padding: 1em;
+  box-sizing: border-box;
+}
+.card .title h3{
+  margin: 0;
+}
+.card svg{
+  margin-left: 10px;
+  width: 15px;
+}
+
+.card h3,
+.card p{
+  color: var(--dark-grey);
+  transition: all 0.3s ease-in-out;
+}
+.card .details{
+  margin: 0.5em 0 0 0;
+}
+.card.pen-present{
+  background-color: var(--green-pen);
+}
+
+.card.pen-present svg path{
+  fill: var(--white);
+  transition: all 0.3s ease-in-out;
+}
+.card.pen-present h3,
+.card.pen-present p{
+  color: var(--white);
+}
+.legend{
+  font-weight: bold;
+}
+.legend::before{
+  content: "";
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  display: inline-block;
+  background-color: var(--green-pen);
+  margin-right: 5px;
+}
+
+.card:hover {
+  background-color: rgba(33,81,163,0.8);
+  transition: all 0.3s ease-in-out;
+}
+.card:hover h3,
+.card:hover p{
+  color: var(--white);
+  transition: all 0.3s ease-in-out;
+}
+.card:hover svg path{
+  fill: var(--white);
+  transition: all 0.3s ease-in-out;
+}
+.events.single .card{
+  border-radius: 16px;
+}
+@media screen and (min-width:768px){
+  .card .details{
+    display: flex;
+    justify-content: flex-start;
+  }
+  
+}

@@ -7,7 +7,7 @@ import Partenaires from '../components/interface/Partenaires';
 import ContactForm from '../components/interface/ContactForm';
 import Entete from '../components/interface/Entete';
 import "./content.css"
-
+import "./about.css"
 interface Content {
     titre: string;
     sousTitre: string;
@@ -56,7 +56,7 @@ const About = () => {
     }, [lang]);
     
     return (
-        <section className='page-content'>
+        <section className='page-content about'>
         { content && (
         <>
             <Entete content={content}/>

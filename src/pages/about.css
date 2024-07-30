@@ -1,0 +1,16 @@
+@media screen and (min-width:768px) {
+  .about .body-container.col-2{
+    display: flex;
+    max-width: 100%;
+    margin-top: 6em;
+  }
+  .about .body-container.col-2 img,
+  .about .body-container.col-2 .rich-text-block{
+    width: 48%;
+    align-self: flex-end;
+    margin: 0;
+  }
+  .about .body-container.col-2 img{
+    max-height: 450px;
+  }
+}

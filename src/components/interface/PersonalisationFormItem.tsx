@@ -77,6 +77,10 @@ export const ImageField: React.FC<ImageFieldProps> = ({ label, subLabel, data, h
 };
 
 export const ZoomImage = ({handleChange}:any) => {
+
+  const minZoom = 0.1
+  const maxZoom = 6
+  const increment = 0.05
   const [taille, setTaille] = useState(1);
 
   const handleChangeTaille = (e: any) => {
@@ -86,13 +90,13 @@ export const ZoomImage = ({handleChange}:any) => {
   };
 
   const incrementTaille = () => {
-    const newTaille = Math.min(taille + 0.05, 2);
+    const newTaille = Math.min(taille + increment, maxZoom);
     setTaille(newTaille);
     handleChange({ target: { name: 'tailleImage', value: newTaille.toFixed(1) } });
   };
 
   const decrementTaille = () => {
-    const newTaille = Math.max(taille - 0.05, 0.1);
+    const newTaille = Math.max(taille - increment, minZoom);
     setTaille(newTaille);
     handleChange({ target: { name: 'tailleImage', value: newTaille.toFixed(1) } });
   };
@@ -100,15 +104,15 @@ export const ZoomImage = ({handleChange}:any) => {
     <fieldset className="zoom-control">
     <legend>Zoom de l'image</legend>
     <div>
-      <button className="increment" type="button" onClick={incrementTaille}  disabled={taille === 2 ? true : false}>+</button>
-      <button className="decrement" type="button" onClick={decrementTaille} disabled={taille === 0.1 ? true : false}>-</button>
+      <button className="increment" type="button" onClick={incrementTaille}  disabled={taille === maxZoom ? true : false}>+</button>
+      <button className="decrement" type="button" onClick={decrementTaille} disabled={taille === minZoom ? true : false}>-</button>
       <input
         type="number"
         id="tailleImage"
         name="tailleImage"
-        step={0.05}
-        min={0.1}
-        max={2}
+        step={increment}
+        min={minZoom}
+        max={maxZoom}
         value={taille}
         onChange={handleChangeTaille}
       />

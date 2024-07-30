@@ -5,6 +5,7 @@ import { useLang } from '../context/LangContext';
 import pageServices from '../services/pages'
 import TableEvent from '../components/TableEvent';
 
+import "./event.css"
 const Event = () => {
 
     const lang = useLang();
@@ -27,14 +28,18 @@ const Event = () => {
         googleSheetServices
             .fetchCSVData(sheetId)
             .then((res:any) => { 
-                console.log(res)
                 setSheetData(res) })
             .catch((error) => { console.error('Error fetching config:', error) });
     }, [])
     return (
-        <section>
-            <EnteteAction content={content}/>
-            <TableEvent content={sheetData}/>
+        <section className='page-content'>
+            {content && (
+                <>
+                    <EnteteAction content={content}/>
+                    <TableEvent content={sheetData}/>
+                </>
+            )}
+
         </section>
     )
 }

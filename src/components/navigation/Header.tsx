@@ -28,6 +28,7 @@ const Header = () => {
                                 <div className="line1"></div>
                                 <div className="line2"></div>
                                 <div className="line3"></div>
+                                <span className='overlay'></span>
                             </button>
 
                             <ul className={`nav-links ${isOpen ? 'toggle' : ''} `}>
@@ -35,7 +36,7 @@ const Header = () => {
                                 if (page.is_displayed === "false") { return null }
                                 return (
                                     <li key={page.name_fr}>
-                                        <NavLink to={page.path} className={isCurrent}>{page[`name_${lang[0]}`]}</NavLink>
+                                        <NavLink to={page.path} className={isCurrent} onClick={() => setIsOpen(!isOpen)}>{page[`name_${lang[0]}`]}</NavLink>
                                     </li>
                                 )
                             })}

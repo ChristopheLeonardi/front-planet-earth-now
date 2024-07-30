@@ -50,3 +50,20 @@ requete single-action avec langues dans data
 
 lien pour google doc events
 https://docs.google.com/spreadsheets/d/1v4YCZZTr-FEasGT0nLaCcfadfF8EXj8S/edit?gid=1819074687#gid=1819074687
+
+    {
+      "name_fr": "éducation",
+      "path": "/education",
+      "name_en": "education",
+      "name_es": "educación",
+      "template": "Vocation",
+      "is_displayed": "true"
+    },
+    {
+      "name_fr": "fédérer",
+      "path": "/federer",
+      "name_en": "federate",
+      "name_es": "federar",
+      "template": "Vocation",
+      "is_displayed": "true"
+    },

@@ -4,7 +4,7 @@ import { useLang } from '../context/LangContext';
 import ImageComponent from '../components/interface/ImageComponent';
 import Entete from '../components/interface/Entete';
 import RichText from '../components/interface/RichText';
-import Slideshow from '../components/interface/Slideshow';
+/* import Slideshow from '../components/interface/Slideshow'; */
 import Vignette from '../components/interface/Vignette';
 import TitreH2 from '../components/interface/TitreH2';
 
@@ -64,7 +64,7 @@ const Vocation = ({type}:any) => {
                         <ImageComponent imageContent={content.entete.data.attributes}/>
                         <RichText data={content.presentation}/>
                     </div>
-                    <Slideshow data={content.diaporama.data}/>
+                    {/* <Slideshow data={content.diaporama.data}/> */}
                     <div className='action-container'>
                     
                     { action && action.length > 0 && (

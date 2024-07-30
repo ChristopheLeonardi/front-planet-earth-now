@@ -4,7 +4,6 @@ import "./vignette.css"
 import utils from "../../services/utils"
 
 const Vignette = ({ entry, domaine }: { entry: any; domaine: boolean }) => {
-
     const id = entry.id
     const data = entry.attributes ? entry.attributes : entry
     const imageContent = data.entete ? data.entete.data.attributes : data.image.data.attributes
@@ -13,7 +12,6 @@ const Vignette = ({ entry, domaine }: { entry: any; domaine: boolean }) => {
     const autoLink = entry.attributes ? false : true
     const linkUrl = autoLink ? data.lien : utils.seFrontUrl("/single-action?id=" + id)
 
-    console.log(entry)
     const [sousTitre, setSousTitre] = useState("")
 
     useEffect(() => {

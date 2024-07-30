@@ -17,7 +17,6 @@ const getUrlParams = (params:string[]) => {
 }
 
 const searchIdLang = (data:any, lang:string) => {
-    console.log(lang)
     if (data.locale === lang) { return data }
 
     data.localizations.data.filter((data:any) => {

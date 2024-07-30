@@ -3,7 +3,7 @@ import pageServices from '../services/pages'
 import utils from '../services/utils';
 import { useLang } from '../context/LangContext';
 import FlagPersonnalisation from '../components/interface/PersonnalisationFlag'; 
-import Diaporama from '../components/interface/Diaporama';
+import EnteteAction from '../components/EnteteAction';
 import "./content.css"
 
 interface Content {
@@ -32,7 +32,6 @@ interface Action {
 }
 
 const SingleAction = (type:any ) => {
-    console.log(type)
     const lang = useLang();
     const [action, setAction] = useState<Action  | null>(null);
     const [id, setId] = useState<number | null>(null)
@@ -75,16 +74,13 @@ const SingleAction = (type:any ) => {
         <section className='page-content'>
             {action && (
                 <>
-                { action.attributes.template === "ef1" && (
+                {action.attributes.template === "ef1" && (
                     <>
                         <FlagPersonnalisation data={action.attributes.PersonnalisationForm}/>
-                        {/* <Diaporama images={action.attributes.diaporama.data}/> */}
                     </>
                 )}
-                { action.attributes.template === "simple" && (
-                    <>
-                      <Diaporama images={action.attributes.diaporama.data}/>
-                    </>
+                {action.attributes.template === "simple" && (
+                      <EnteteAction content={action.attributes}/>
                 )}
                 </>
             )}

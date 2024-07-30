@@ -88,11 +88,12 @@ const FlagPersonnalisation = ({ data }: any) => {
     e.preventDefault();
     const updateText = textsSaved.map(text => ({ ...text, is_selected: false }));
     console.log(updateText);
+    console.log(formData);
     setSelected((prevState) => ({
       ...prevState,
       textsSaved: updateText
     }));
-    deselectAll(textsSaved, canvas, ctx, img)
+    if (formData.type === "slogan") { deselectAll(textsSaved, canvas, ctx, img)} 
     const consent = document.getElementById("cgv") as HTMLInputElement | null
     if (consent){
       if (!consent.checked) {

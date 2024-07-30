@@ -31,6 +31,7 @@ interface Content {
     diaporama:any;
     content: any;
     vignettesSection:any;
+    actionsVignettes:any;
     partenariats: any;
 
 }
@@ -67,7 +68,19 @@ const VignettesSection = ({content}:any) => {
     )
 }
 
-
+const VignettesAction = ({content}:any) => {
+    return (
+        <section>
+            <TitreH2 titre={ content.titre.titre} sousTitre={ content.titre.sousTitre}/>
+            <div className='vignette-container'>
+                {content.single_actions.data.map((entry:any, index:number) => {
+                    console.log(entry)
+                    return ( <Vignette key={index} entry={entry} domaine={false}/> )
+                })}
+            </div>
+        </section>
+    )
+}
 const Accueil = () => {
 
     const lang = useLang();
@@ -77,7 +90,7 @@ const Accueil = () => {
         pageServices
             .getPageContent({"page": "accueil", "lang": lang[0]})
             .then((res: Content) => { 
-                const objRes = {
+                const objRes = { 
                     ...res
                 }
                 setContent(objRes) })
@@ -88,7 +101,6 @@ const Accueil = () => {
         <section className='page-content accueil'>
         { content && (
         <>
-            {console.log(content)}
             <EnteteAccueil heading={content.Heading} image={content.ImageEntete}/>
 
             {content.citation && (<Citation content={content.citation}/>)}
@@ -97,10 +109,16 @@ const Accueil = () => {
 
             <BodyContainer textContent={content.content}/>
 
-            {content.vignettesSection && content.vignettesSection.map((section:any, index:number) => {
-                return ( <VignettesSection key={index} content={section}/> )
+            {content.vignettesSection && 
+                content.vignettesSection.map((section:any, index:number) => {
+                    return ( <VignettesSection key={index} content={section}/> )
                 })
             }
+            
+            {content.actionsVignettes && 
+                content.actionsVignettes.single_actions.data.length > 0 && (
+                    <VignettesAction content={content.actionsVignettes}/>
+            )}
             
             <Partenaires partenariatData={content.partenariats} />
         </>

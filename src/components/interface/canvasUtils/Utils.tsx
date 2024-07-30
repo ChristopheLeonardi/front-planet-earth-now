@@ -43,29 +43,29 @@ const loadFont = async (data: any) => {
 };
 
 const crop = (inputImage: any, scalerValue: number) => {
-  if (!scalerValue) {
-    scalerValue = 1;
-  }
+
+  if (!scalerValue) { scalerValue = 1 }
+
+  const minSizeValue = 1168
 
   // Store the width and height of the image
   const inputWidth = inputImage.naturalWidth;
   const inputHeight = inputImage.naturalHeight;
 
-  const scaler = scalerValue;
-
+  // Set initial image size in proportion of flag
+  const outputHeight = inputWidth <= inputHeight ? minSizeValue : minSizeValue * inputHeight / inputWidth
+  const outputWidth = inputWidth <= inputHeight ? minSizeValue * inputWidth / inputHeight : minSizeValue
   // Create a canvas that will present the output image
   const outputCanvas = document.createElement('canvas');
 
   // Set it to the scaled size of the image
-  outputCanvas.width = inputWidth * scaler;
-  outputCanvas.height = inputHeight * scaler;
+  outputCanvas.width = outputWidth * scalerValue;
+  outputCanvas.height = outputHeight * scalerValue;
 
   // Draw the image at the calculated position on the canvas
   const ctx = outputCanvas.getContext('2d');
-  if (!ctx) {
-    return;
-  }
-  ctx.drawImage(inputImage, 0, 0, inputWidth * scaler, inputHeight * scaler);
+  if (!ctx) { return }
+  ctx.drawImage(inputImage, 0, 0, outputCanvas.width, outputCanvas.height);
   
   const outputImage = new Image();
   outputImage.crossOrigin = "anonymous";

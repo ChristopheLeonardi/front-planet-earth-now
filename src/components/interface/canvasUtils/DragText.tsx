@@ -12,13 +12,13 @@ interface Line {
   is_selected: boolean;
 }
 export const deselectAll = (textsSaved:any, canvas:any, ctx:any, img:any) => {
-  // Bug lors de la déselection
 
   if(!ctx || !img || !canvas) { return }
   // Add Click on canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
   textsSaved.map((text:any) => {
+    ctx.font = `${text.size}px ${text.fontFamily}`;
     ctx.strokeStyle = '#1a1a1a';
     ctx.lineWidth = 4;
     ctx.fillText(text.text, text.x + text.width / 2, text.y + text.height);
