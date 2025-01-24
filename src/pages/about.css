@@ -13,4 +13,56 @@
   .about .body-container.col-2 img{
     max-height: 450px;
   }
+  .about .spe-accueil{
+    text-align: left;
+  }
+
 }
+.about h2{
+  font-weight: 400;
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+.about .blue{
+  color: var(--blue-pen);
+}
+
+.about{
+  max-width: 1024px;
+  margin: auto;
+}
+.about .rich-text-block .text-container{
+  text-align: center;
+}
+/* .about .rich-text-block{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2em;
+}
+
+.about .rich-text-block img,
+.about .rich-text-block .text-container{
+  width: 48%;
+}
+
+.about .rich-text-block img{
+  border-radius: 16px;
+
+}
+#button-flag .primary-button.spe-accueil{
+  margin: 0;
+}
+@media screen and (max-width: 768px) {
+  .about .rich-text-block{
+display: block;
+  }
+  .about .rich-text-block img,
+  .about .rich-text-block .text-container{
+    width: 100%;
+  }
+    
+}
+
+.subTitle-temp{
+  text-align: left !important;
+} */

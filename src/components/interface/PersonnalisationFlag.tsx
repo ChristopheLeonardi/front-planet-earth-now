@@ -7,21 +7,37 @@ import TextSizeSelector from './canvasUtils/TextSizeSelector';
 import { TextTailleGeneral, ZoomImage, ChangeFont } from './PersonalisationFormItem';
 import { deselectAll } from './canvasUtils/DragText';
 import { useSelected } from '../../context/SelectedContext';
+import Utils from './canvasUtils/Utils';
 import "./flagPersonnalisation.css";
 import "./forms.css"
+import pageServices from "../../services/pages"
 
-const FlagPersonnalisation = ({ data }: any) => {
+const FlagPersonnalisation = ({ data, flagUseConsent }: any) => {
   const {textsSaved, canvas, ctx, img, setSelected} = useSelected()
 
   const [formData, setFormData] = useState({
     type: 'slogan',
-    orientation: 'paysage',
+    format: 'paysage',
     sloganInput: '',
     image: null as HTMLImageElement | null,
+    imageInitSize: null as HTMLImageElement | null,
     perso: false,
     consent: false,
     taille: '10', // Exemple de type string pour la taille, ajustez selon vos besoins
     fontFamily: 'Open Sans',
+    imagePosX: 0,
+    imagePosY: 0,
+    tailleImage: 1,
+    size: {width:0, height:0, canvas: {width:0, height:0}},
+    flagUseConsent: false, 
+    typeId: "type",
+    orientationId: "format",
+    radioPlaneteId: "radioPlanete",
+    SloganCanvasTitle: data.SloganCanvasTitle,
+    PersoCanvasTitle: data.PersoCanvasTitle,
+    SloganCanvasSubtitle: data.SloganCanvasSubtitle,
+    PersoCanvasSubtitle: data.PersoCanvasSubtitle
+
   });
   const [message, setMessage] = useState("")
 
@@ -38,13 +54,7 @@ const FlagPersonnalisation = ({ data }: any) => {
         if (files && files[0]) {
           const file = files[0];
           const validImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
-          if(file.size > 1100000){
-            setMessage("L'image ne doit pas dépasser 1Mo");
-            setTimeout(() => {
-              setMessage("");
-            }, 3000);
-            return;
-          }
+
           if (!validImageTypes.includes(file.type)) {
             setMessage("Erreur, seul les fichiers d'image (JPEG, PNG, GIF) sont acceptés.");
             setTimeout(() => {
@@ -54,14 +64,57 @@ const FlagPersonnalisation = ({ data }: any) => {
           }
   
           const reader = new FileReader();
+
           reader.onload = (event) => {
             const img = new Image();
             img.src = event.target?.result as string;
+            
             img.onload = () => {
-              setFormData((prevData) => ({
-                ...prevData,
-                image: img,
-              }));
+              // Calculer les nouvelles dimensions pour l'image
+              const maxWidth = window.innerWidth / 2;
+              const maxHeight = window.innerHeight / 2;
+            
+              let newWidth = img.width;
+              let newHeight = img.height;
+            
+              // Vérifier si l'image dépasse la largeur ou la hauteur maximale
+              if (img.width > maxWidth) {
+                newWidth = maxWidth;
+                newHeight = (img.height * maxWidth) / img.width;
+              }
+            
+              if (newHeight > maxHeight) {
+                newHeight = maxHeight;
+                newWidth = (img.width * maxHeight) / img.height;
+              }
+            
+              // Créer un canvas temporaire pour redimensionner l'image
+              const canvas = document.createElement('canvas');
+              const ctx = canvas.getContext('2d');
+            
+              canvas.width = newWidth;
+              canvas.height = newHeight;
+              
+              // Dessiner l'image redimensionnée dans le canvas
+              ctx?.drawImage(img, 0, 0, newWidth, newHeight);
+            
+              // Extraire l'image redimensionnée du canvas
+              const resizedImgSrc = canvas.toDataURL();
+            
+              // Créer une nouvelle image à partir de la source redimensionnée
+              const resizedImg = new Image();
+              resizedImg.src = resizedImgSrc;
+              resizedImg.width = newWidth;
+              resizedImg.height = newHeight;
+            
+              resizedImg.onload = () => {
+            
+                setFormData((prevData) => ({
+                  ...prevData,
+                  image: resizedImg,
+                  imageInitSize: img // Conserver la taille originale si nécessaire
+                }));
+              };
             };
           };
           reader.readAsDataURL(file);
@@ -84,11 +137,23 @@ const FlagPersonnalisation = ({ data }: any) => {
     }
   };
 
+  const downloadCanvas = (formData:any) => {
+    var link = document.createElement('a');
+    link.download = 'earth-flag-one.png';
+    const exportCanvas = (formData.type === "logoIncrustation" && formData.image && formData.imageInitSize) ?
+      Utils.expandPersoCanvasSize(formData) : 
+      Utils.expandSloganCanvas(formData, textsSaved)
+
+      if (!exportCanvas) { return }
+      link.href = exportCanvas.toDataURL()
+      link.click();
+      return exportCanvas.toDataURL()
+
+  }
+
   const handleOnSubmit = (e: any) => {
     e.preventDefault();
     const updateText = textsSaved.map(text => ({ ...text, is_selected: false }));
-    console.log(updateText);
-    console.log(formData);
     setSelected((prevState) => ({
       ...prevState,
       textsSaved: updateText
@@ -101,18 +166,17 @@ const FlagPersonnalisation = ({ data }: any) => {
         setTimeout(() => { setMessage("") }, 3000)
         return;
       }
-      downloadCanvas()
+
+      const exportCanvas = downloadCanvas(formData)
+      const flagUseConsent = document.getElementById("flagUseConsent") as HTMLInputElement | null
+      if (flagUseConsent){
+        if (!flagUseConsent.checked) { return }
+        
+        pageServices.saveFlagOnServer(exportCanvas)
+      }
     }
+
   };
-  
-  const downloadCanvas = () => {
-    var link = document.createElement('a');
-    link.download = 'earth-flag-one.png';
-    const canvas = document.getElementById('flag-personnalisation') as HTMLCanvasElement
-    if(!canvas) { return }
-    link.href = canvas.toDataURL()
-    link.click();
-  }
 
   const [imagesLoaded, setImagesLoaded] = useState(false);
 
@@ -140,7 +204,7 @@ const FlagPersonnalisation = ({ data }: any) => {
     if (!input) { return }
 
     const currentMaxLength = input.getAttribute("maxlength")
-    var maxLength = formData.orientation === "portrait" ? 39 : 61
+    var maxLength = formData.format === "portrait" ? 39 : 61
     if (currentMaxLength != maxLength.toString()){
       setFormData((prevData) => ({
         ...prevData,
@@ -153,32 +217,58 @@ const FlagPersonnalisation = ({ data }: any) => {
 
   }, [formData])
 
+  const [title, setTitle] = useState(data.Heading.titre)
+  useEffect(() => {
+    setTitle(data.Heading.titre)
+  }, [data])
+
+  const [taille, setTaille] = useState(1);
+
+  const [titleCanvas, setTitleCanvas] = useState({legend: data.SloganCanvasTitle, modeEmploi: data.SloganCanvasSubtitle})
+  useEffect(() => {
+    const legend = formData.type === "slogan" ? data.SloganCanvasTitle : data.PersoCanvasTitle
+    const modeEmploi = formData.type === "slogan" ? data.SloganCanvasSubtitle : data.PersoCanvasSubtitle
+    setTitleCanvas({"legend" : legend, "modeEmploi": modeEmploi})
+  }, [formData, data ])
+
   return (
     <>
       {data && (
         <>
-          <TitreH2 titre={data.Heading.titre} sousTitre={data.Heading.sousTitre} />
-
+          <TitreH2 titre={title} sousTitre={data.Heading.sousTitre} />
           <div className='perso-container'>
             <form>
               <div className='col-2'>
                 <div>
-                  <RadioField label={data.typeLabel} options={data.typeOption} handleChange={handleChange} />
-                  <RadioField label={data.orientationTitre} options={data.orientationOption} handleChange={handleChange} />
+                  <RadioField   lang={data.lang} formData={formData} order="1" label={data.orientationTitre} options={data.orientationOption} handleChange={handleChange} id={formData.orientationId}/>
+                  <RadioField   lang={data.lang} formData={formData} order="2" label={data.typeLabel} options={data.typeOption} handleChange={handleChange} id={formData.typeId}/>
                 </div>
               </div>
-              <p>{message}</p>
-            </form>
-            <div className='canvas-container'>
+
+              <div className='canvas-container'>
               {formData.type === "logoIncrustation" && (
-                <ImageField label={data.uploadLabel} subLabel={data.uploadTexte} data={formData} handleChange={handleChange} />
+                <ImageField legend={data.imageUploadTitle} order={3} label={data.uploadLabel} subLabel={data.uploadTexte} data={formData} handleChange={handleChange} />
               )}
               {formData.type === "slogan" && (
-                <InputField label={data.sloganTitre} option={data.sloganInput} handleChange={handleChange} />
+                <InputField order={3} label={data.sloganTitre} option={data.sloganInput} handleChange={handleChange}/>
               )}
             
-              {imagesLoaded && <Canvas data={formData}/>}
+                
             </div>
+
+            </form>
+            {imagesLoaded && <Canvas data={formData} dataTitle={titleCanvas} taille={taille} setTaille={setTaille} formData={formData} />}
+            {formData.type === "logoIncrustation" && (
+                <div className='radio-spe'>
+                    <RadioField  
+                      formData={formData}
+                      order={""} 
+                      label={data.TextChoixDuFond} 
+                      options={data.radioPlanetelabels} 
+                      handleChange={handleChange} 
+                      id={formData.radioPlaneteId}/>
+                </div>
+              )}  
             {formData.type === "slogan" && formData.sloganInput !="" &&(
               <div className='position-ref'>
               <div className='slogan-controls'>
@@ -192,13 +282,14 @@ const FlagPersonnalisation = ({ data }: any) => {
               </div>
             )}
             {formData.type === "logoIncrustation" && formData.image &&(
-              <ZoomImage handleChange={handleChange} />
+              <ZoomImage handleChange={handleChange} taille={taille} setTaille={setTaille} /> 
             )}
 
 
           </div>
-
-          <UserConsent data={data} handleChange={handleChange} />
+          <UserConsent data={data} option={data.CGV} handleChange={handleChange} />
+          <UserConsent data={data} option={flagUseConsent} handleChange={handleChange} />
+          <p>{message}</p>
           <Button data={data.submitButton} onClick={handleOnSubmit} buttonClass="primary-button" />
           <div className="baseImage">
             <ImageComponent imageContent={data.baseEfoSlogan.data.attributes} id="baseEfoSlogan"/>

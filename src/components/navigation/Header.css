@@ -75,7 +75,7 @@ nav{
     left: 0;
     background-color: transparent;
 }
-  
+
 @media only screen and (max-width: 760px){
     nav{
         justify-content: space-between;

@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import Header from './components/navigation/Header';
 import Footer from './components/navigation/Footer';
 import { ConfigProvider, useConfig } from './context/ConfigContext';
@@ -32,12 +33,38 @@ const pageComponent: PageComponentMap = {
 };
 
 import "./App.css";
+const Bandeau = () => {
+  const [isCentered, setIsCentered] = useState(false);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 60) {
+        setIsCentered(true);
+      } else {
+        setIsCentered(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+  return (
+      <div>
+          <p
+        className={`bandeau-vertical ${isCentered ? 'centered' : ''}`}
+        style={isCentered ? { textAlign: 'center' } : {}}
+      ><span className='green'>Planet</span> <span className='blue'>Earth</span> <span className='green'>Now</span></p>
+      </div>
+  )
+}
 const AppContent = () => {
   const { config } = useConfig();
 
   return (
     <>
+      {/* <Bandeau/> */}
       <SiteSettings />
       <Header />
       <Routes>
@@ -53,6 +80,7 @@ const AppContent = () => {
             );
           })
         }
+        <Route path="/custom-flag" element={<SingleAction />} />
       </Routes>
       <Footer />
     </>
@@ -64,10 +92,9 @@ const App = () => {
     <LangProvider>
       <ConfigProvider>
         <SelectedProvider>
-
-        <Router>
-          <AppContent />
-        </Router>
+          <Router>
+            <AppContent />
+          </Router>
         </SelectedProvider>
       </ConfigProvider>
     </LangProvider>

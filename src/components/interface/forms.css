@@ -10,7 +10,7 @@ form div{
 }
 label{
     font-family: var(--primary-font);
-    font-weight: bold;
+    /* font-weight: bold; */
 }
 form aside{
     display: flex;
@@ -68,11 +68,12 @@ legend {
     font-family: var(--primary-font);
 }
 .upload-file{
-    width: 100%;
+    width: fit-content;
     border-radius: 16px;
-    border: 2px dashed var(--dark-grey);
+    /* border: 2px dashed var(--dark-grey); */
     max-height: 80vw;
     position: relative;
+
 }
 .upload-file:hover label:not(.image-loaded){
     background-color: var(--light-grey);
@@ -108,7 +109,7 @@ legend {
 	cursor: pointer;
     margin: auto;
     padding: 3em 0; 
-    width: 100%;
+    width: fit-content;
     text-align: center;
 }
 
@@ -120,6 +121,7 @@ legend {
 }
 .image-preview{
     height: 100%;
+    width: 100%;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);

@@ -19,14 +19,18 @@ interface Content {
     entete: any;
     partenariats: any;
     contact:any;
-    contactMessage:any
+    contactMessage:any;
+    ef1_link:any;
 }
 
 
 const BodyContainer = ({imageContent, textContent}:any) => {
     return (
-    <div className='body-container col-2'>
-        <ImageComponent imageContent={imageContent}/>
+    <div className='spe-accueil'>
+        {/* <Entete content={{titre :"Planet Earth Now"}}/> */}
+        { imageContent &&(
+            <ImageComponent imageContent={imageContent}/>
+        )}
         <RichText data={textContent}/>
     </div>
     )
@@ -59,9 +63,32 @@ const About = () => {
         <section className='page-content about'>
         { content && (
         <>
-            <Entete content={content}/>
-            <BodyContainer imageContent={content.entete.data.attributes} textContent={content.body}/>
-            <Partenaires partenariatData={content.partenariats} />
+            {console.log(content)}
+            <h2 className='subTitle-temp'>
+                {/* TODO : MAKE IT RIGHT */}
+                <span className='blue'>{content.sousTitre.split(' ')[0]} 
+                </span>    
+                {/* TODO : MAKE IT RIGHT */}
+                <span className='blue'> {content.sousTitre.split(' ')[1]}
+                </span>    
+                <span className='green'> {content.sousTitre.split(' ')[2]}
+                </span>    
+            </h2>
+            <BodyContainer textContent={content.body}/>
+            <div className='button-2-col' id="bouton-flag">
+                {content.ef1_link && (
+                    <a 
+                        className="primary-button spe-accueil"
+                        href={content.ef1_link.link} 
+                        target='_blank'
+                        title={content.ef1_link.buttonTitle}
+                    >{content.ef1_link.buttonLabel}</a>
+                )}
+                {/* <a className="primary-button spe-accueil"href='https://planetearthnow.org/custom-flag' target='_blank'>Personnaliser le drapeau</a> */}
+            </div>
+            {/*      */}
+{/*             <p className="center">Des idées de collaboration ? Contactez-nous !</p>
+ */}
             <ContactForm 
                 titre={content.contact.titre} 
                 message={content.contactMessage}

@@ -20,8 +20,7 @@ export const Button = ({ data, onClick, buttonClass }: any) => {
   );
 };
 
-export const UserConsent = ({ data }: any) => {
-  const option = data.CGV
+export const UserConsent = ({ data, option }: any) => {
   return (
     <fieldset className="user-consent">
       <input
@@ -31,7 +30,7 @@ export const UserConsent = ({ data }: any) => {
         value="consent"
        
       />
-      <label htmlFor={option.idAndName}>{option.label}<a className="link" href={data.lienCGV} target="_blank">{data.titreLienCGV}</a></label>
+      <label className="consent-label" htmlFor={option.idAndName}>{option.label}*</label>
     </fieldset>
   );
 };
@@ -41,9 +40,11 @@ interface ImageFieldProps {
   subLabel: string;
   data: any;
   handleChange: (e: any) => void;
+  order:any;
+  legend:string;
 }
 
-export const ImageField: React.FC<ImageFieldProps> = ({ label, subLabel, data, handleChange }) => {
+export const ImageField: React.FC<ImageFieldProps> = ({ label, subLabel, data, handleChange, order, legend }) => {
   const [inputClass, setInputClass] = useState("");
   useEffect(() => {
     if (data.image) {
@@ -52,16 +53,18 @@ export const ImageField: React.FC<ImageFieldProps> = ({ label, subLabel, data, h
   }, [data]);
 
   return (
-    <>
-      <fieldset className="upload-file">
+    <div className='slogan-options'>
+      <fieldset className="upload-file switch-field slogan">
+      <legend className='number-title'>{order} <br/>{legend}</legend>
+
         {data.image && (
           <div className="image-preview">
             <img src={data.image.src} alt="Uploaded Preview" />
           </div>
         )}
         <label htmlFor="image" className={inputClass}>
-          <p>{label}</p>
-          <p className='subLabel'>{subLabel}</p>
+          <span>{label}</span><br/>
+          <span className='subLabel'>{subLabel}</span>
         </label>
         <input
           type="file"
@@ -72,42 +75,45 @@ export const ImageField: React.FC<ImageFieldProps> = ({ label, subLabel, data, h
           className="inputfile"
         />
       </fieldset>
-    </>
+    </div>
   );
 };
 
-export const ZoomImage = ({handleChange}:any) => {
+export const ZoomImage = ({handleChange, taille, setTaille }:any) => {
 
   const minZoom = 0.1
   const maxZoom = 6
   const increment = 0.05
-  const [taille, setTaille] = useState(1);
+  
 
   const handleChangeTaille = (e: any) => {
-    const value = Number(e.target.value);
+    let value = Number(e.target.value);
+    value = Math.max(minZoom, Math.min(maxZoom, value));
     setTaille(value);
-    handleChange(e);
   };
 
   const incrementTaille = () => {
     const newTaille = Math.min(taille + increment, maxZoom);
     setTaille(newTaille);
-    handleChange({ target: { name: 'tailleImage', value: newTaille.toFixed(1) } });
   };
 
   const decrementTaille = () => {
     const newTaille = Math.max(taille - increment, minZoom);
     setTaille(newTaille);
-    handleChange({ target: { name: 'tailleImage', value: newTaille.toFixed(1) } });
   };
+  useEffect(() => {
+    handleChange({ target: { name: 'tailleImage', value: taille } });
+  }, [taille])
   return (
     <fieldset className="zoom-control">
-    <legend>Zoom de l'image</legend>
+    <legend>Zoom</legend>
     <div>
-      <button className="increment" type="button" onClick={incrementTaille}  disabled={taille === maxZoom ? true : false}>+</button>
-      <button className="decrement" type="button" onClick={decrementTaille} disabled={taille === minZoom ? true : false}>-</button>
+      
+        
+      <button className="decrement" type="button" onClick={decrementTaille} disabled={taille === minZoom ? true : false}>-</button> 
+     
       <input
-        type="number"
+        type="range"
         id="tailleImage"
         name="tailleImage"
         step={increment}
@@ -116,6 +122,7 @@ export const ZoomImage = ({handleChange}:any) => {
         value={taille}
         onChange={handleChangeTaille}
       />
+      <button className="increment" type="button" onClick={incrementTaille}  disabled={taille === maxZoom ? true : false}>+</button>
     </div>
   </fieldset>
   )
@@ -123,19 +130,22 @@ export const ZoomImage = ({handleChange}:any) => {
 
 interface InputFieldProps {
   label: string;
-  option: { idAndName: string };
+  option: {
+    placeholder: string | undefined; idAndName: string 
+};
   handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | { name: string; value: string }) => void;
+  order:any;
 }
 
-export const InputField: React.FC<InputFieldProps> = ({ label, option, handleChange }) => {
+export const InputField: React.FC<InputFieldProps> = ({ label, option, handleChange, order}) => {
   return (
     <div className='slogan-options'>
-      <fieldset>
-        <legend>{label}</legend>
+      <fieldset className='switch-field slogan'>
+        <legend>{order} <br/>{label}</legend>
         <textarea
           id={option.idAndName}
           name={option.idAndName}
-          placeholder="Touche entrée pour le saut de ligne"
+          placeholder={option.placeholder}
           onChange={handleChange}
         ></textarea>
       </fieldset>
@@ -165,16 +175,22 @@ export const ChangeFont = ({handleChange}:any) => {
 }
 export const TextTailleGeneral = ({handleChange}:any) => {
 
-  const [taille, setTaille] = useState(10);
+  const canvas = document.getElementById("flag-personnalisation")
+  if (!canvas) { return }
+  const canvasSize = canvas.getBoundingClientRect()
+  const minSize = canvasSize.height * 0.05
+  const maxSize = canvasSize.height * 0.90
+  const initSize = canvasSize.height * 0.20
+
+  const [taille, setTaille] = useState(initSize);
   const {textsSaved, setSelected } = useSelected();
 
   const handleChangeTaille = (value: number) => {
     // Map over textsSaved and update each text object's size property
     const updatedTexts = textsSaved.map((text) => ({
       ...text,
-      size: value * 10,
+      size: value,
     }));
-    console.log(updatedTexts);
     // Update the context state with the updated texts
     setSelected((prevState) => ({
       ...prevState,
@@ -195,8 +211,8 @@ export const TextTailleGeneral = ({handleChange}:any) => {
       id="taille"
       name="taille"
       value={taille}
-      min={8}
-      max={64}
+      min={minSize}
+      max={maxSize}
       onChange={(e) => handleChangeTaille(Number(e.target.value))}
     />
   </fieldset>
@@ -207,9 +223,12 @@ interface ToggleProps {
   label: string;
   options: { idAndName: string; label: string }[];
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  order:any;
+  id:string;
+  lang:string;
 }
 
-const Toggle: React.FC<ToggleProps> = ({ label, options, handleChange }) => {
+const Toggle: React.FC<ToggleProps> = ({ label, options, handleChange, order, id, lang }) => {
   const [selectedOption, setSelectedOption] = useState<string>(options[0].idAndName);
 
   useEffect(() => {
@@ -226,18 +245,18 @@ const Toggle: React.FC<ToggleProps> = ({ label, options, handleChange }) => {
 
   return (
     <fieldset className="switch-field">
-      <legend>{label}</legend>
+      <legend>{order}<br/>{label}</legend>
       {options.map(option => (
-        <div key={option.idAndName} className='switch'>
+        <div key={option.idAndName} className={`switch ${option.idAndName}`}>
           <input
             type="radio"
             id={option.idAndName}
-            name={label.replace(/\s/gm, '').toLowerCase()}
+            name={id.replace(/\s/gm, '').toLowerCase()}
             value={option.idAndName}
             onChange={toggleState}
             checked={selectedOption === option.idAndName}
           />
-          <label htmlFor={option.idAndName}>{option.label}</label>
+          <label htmlFor={option.idAndName} className={lang}>{option.label} </label>
         </div>
       ))}
     </fieldset>
@@ -245,19 +264,23 @@ const Toggle: React.FC<ToggleProps> = ({ label, options, handleChange }) => {
 };
 
 
-export const RadioField = ({ label, options, handleChange }: any) => {
+export const RadioField = ({ label, options, handleChange, order, formData, id, lang }: any) => {
     const checkRadioElement = (id:string) => {
         const radioElement = document.getElementById(id) as HTMLInputElement | null;
-        if (radioElement) {
-          radioElement.checked = true;
+
+        
+        if(radioElement){
+         radioElement.checked = true;
+         radioElement.click();
         }
     }
     useEffect(() => {
-        checkRadioElement('slogan')
-        checkRadioElement('paysage')
+        checkRadioElement(formData.format)
+        checkRadioElement(formData.type)
+        checkRadioElement(formData.utilisationdudrapeauaveclaplanète)
     }, [])
     return (
-      <Toggle label={label} options={options} handleChange={handleChange} />
+        <Toggle order={order} label={label} options={options} handleChange={handleChange} id={id} lang={lang}/>
     );
   };
 

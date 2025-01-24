@@ -5,6 +5,7 @@ import { useLang } from '../../context/LangContext';
 
 import "./Header.css"
 
+
 const Header = () => {
     const { config } = useConfig();
     const lang = useLang();
@@ -22,6 +23,7 @@ const Header = () => {
                         <NavLink to='/'>
                             <img className="logo" src={config.logo} alt='Logo de Planet Earth Now'/>
                         </NavLink>
+                        {/* <h1 className='construct'>Site en construction</h1> */}
                         <nav>
 
                             <button className={`burger ${isOpen ? 'toggle' : ''}`} onClick={toggleMenu} name='menu'>
@@ -36,7 +38,7 @@ const Header = () => {
                                 if (page.is_displayed === "false") { return null }
                                 return (
                                     <li key={page.name_fr}>
-                                        <NavLink to={page.path} className={isCurrent} onClick={() => setIsOpen(!isOpen)}>{page[`name_${lang[0]}`]}</NavLink>
+                                        {/* <NavLink to={page.path} className={isCurrent} onClick={() => setIsOpen(!isOpen)}>{page[`name_${lang[0]}`]}</NavLink> */}
                                     </li>
                                 )
                             })}

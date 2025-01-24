@@ -1,12 +1,25 @@
+import { useState, useEffect } from "react";
 interface DataTitre {
     titre: string;
     sousTitre: string;
 }
 
 const TitreH2 = ({titre, sousTitre}:DataTitre) => {
+    const [formatTitre, setFormatTitre] = useState<string[]>([])
+    useEffect(() => {
+        if (titre) {
+            const lines = titre.split('||') ? titre.split('||') : [titre] 
+            setFormatTitre(lines)
+        }
+
+    },[titre])
     return (
-        <>
-            <h2>{titre}</h2>
+        <>  
+        <h2>
+        {formatTitre.map((line, index) => {
+            return (<p key={index}>{line}<br/></p>)
+        })}
+        </h2>
             <p>{sousTitre}</p>
         </>
     )   

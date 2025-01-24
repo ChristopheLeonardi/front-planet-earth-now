@@ -1,10 +1,9 @@
-const baseUrl = 'http://85.31.236.134:'
-const portFront = 3333
-const portBack = 2222
+const baseFrontUrl = 'https://planetearthnow.org'
+const baseBackUrl = 'https://admin.planetearthnow.org'
 
-const setUrl = (path:string) => { return baseUrl + portBack + path }
+const setUrl = (path:string) => { return baseBackUrl + path }
 
-const seFrontUrl = (path:string) => { return baseUrl + portFront + path }
+const seFrontUrl = (path:string) => { return baseFrontUrl + path }
 
 const getUrlParams = (params:string[]) => {
     const queryString = window.location.search;

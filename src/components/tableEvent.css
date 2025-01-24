@@ -88,16 +88,87 @@
   display: block;
   z-index: 9;
 }
-
+.events .card h3{
+  font-size: 1.1em;
+}
+.date-event{
+  margin: 0 0 0.5em 0;
+  font-size: 0.9em;
+  width: fit-content;
+}
+.type-event{
+  margin: 0;
+}
+.region-event,
+.ville-event{
+  margin: 0;
+}
+.card .divider{
+  display: flex;
+  justify-content: flex-start;
+}
+.card .divider > div{
+  margin-right: 0.5em !important;
+}
+.card .divider > div:last-child{
+  margin-right: 0 !important;
+}
+.card .divider{
+  display: flex;
+  justify-content: flex-start;
+  /* flex-wrap: wrap; */
+}
+.card .divider .date {
+  display: block;
+  /* width: 20%; */
+}
+.card .divider .title {
+  display: block;
+  width: 60%;
+  margin: 0;
+  padding: 0;
+}
+.card .divider .title *:not(svg){
+  width: 100%;
+  text-align: left;
+}
+.card .divider +*:not(.region){
+  margin-right: 1em;
+}
 @media screen and (min-width:426px) {
+  .card .divider .date {
+    display: block;
+  }
   .filters-container{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
   }
   .filter{
     width: 48%;
   }
+  .filter h3{
+    text-align: center;
+    margin-bottom: 0.5em;
+  }
+  .events{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .card{
+    width: 100%;
+  }
+/*   .card{
+    width: 48%;
+    border-radius: 16px !important;
+    margin-bottom: 1em;
+  } */
+}
+@media screen and (min-width:768px) {
+  .card .divider > div {
+    margin-right: 1em !important;
+}
 }
 @media screen and (min-width:1024px) {
   .filters-container{
@@ -107,4 +178,48 @@
     width: 265px;
     margin-right: 1em;
   }
+}
+.legend-type .conference::before,
+.card.conference{
+  background-color: #5499ED;
+}
+.legend-type .grandpublic::before,
+.card.grandpublic{
+  background-color: #C3D5B7;
+}
+.legend-type .salonprofessionnel::before,
+.card.salonprofessionnel {
+  background-color: #B4B8FA;
+}
+.legend-type .festival::before,
+.card.festival{
+  background-color: #969482;
+}
+
+.legend-type p::before{
+  content: "";
+  width: 15px;
+  height: 15px;
+  margin-right: 0.5em;
+  display: inline-block;
+  border-radius: 10px;
+  position: relative;
+  top: 2px;
+}
+
+
+.legend-type{
+  display: flex;
+  justify-content: center;
+  margin-top: 1em;
+}
+.legend-type p{
+  margin: 1em;
+}
+@media screen and (max-width:425px){
+
+}
+.card .divider .region{
+  width: 20%;
+  overflow: hidden;
 }

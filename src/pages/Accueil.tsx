@@ -11,6 +11,7 @@ import TitreH2 from '../components/interface/TitreH2';
 import Vignette from '../components/interface/Vignette';
 import "./content.css"
 import "./Accueil.css"
+import About from './About';
 
 interface Content {
     /* titre: string;
@@ -101,12 +102,15 @@ const Accueil = () => {
         <section className='page-content accueil'>
         { content && (
         <>
+                    {/* <h1>Site en construction</h1>
+
             <EnteteAccueil heading={content.Heading} image={content.ImageEntete}/>
-
             {content.citation && (<Citation content={content.citation}/>)}
+            {content.diaporama && (<Diaporama images={content.diaporama.data}/>)} */}
+            <About/>
+            {/* 
 
-            {content.diaporama && (<Diaporama images={content.diaporama.data}/>)}
-
+            
             <BodyContainer textContent={content.content}/>
 
             {content.vignettesSection && 
@@ -120,7 +124,7 @@ const Accueil = () => {
                     <VignettesAction content={content.actionsVignettes}/>
             )}
             
-            <Partenaires partenariatData={content.partenariats} />
+            <Partenaires partenariatData={content.partenariats} /> */}
         </>
         )}
         </section>

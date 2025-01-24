@@ -13,7 +13,7 @@
   display: inline-block;
   text-decoration: none;
   width: 100%;
-  padding: 1em;
+  padding: 0.5em;
   box-sizing: border-box;
 }
 .card .title h3{

@@ -13,6 +13,7 @@ const SiteSettings = () => {
     const [lang, setLang] = langContext;
     const handleClickLang = (code:string) => { setLang(code) }
     return(
+        <>
         <section className='site-settings'>
             {config && ( <p className='lang-selection-label'>{config.traduction.langSelect[lang]} : </p> )}
             {config && config.langues.map(langValue => {
@@ -28,6 +29,7 @@ const SiteSettings = () => {
             })
             } 
         </section>
+        </>
     )
 }
 

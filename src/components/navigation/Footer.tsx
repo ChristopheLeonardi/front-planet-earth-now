@@ -22,7 +22,7 @@ const Footer = () => {
                             if (page.is_displayed === "false") { return null }
                             return (
                             <li key={page.name_fr}>
-                                <NavLink to={page.path} className={isCurrent}>{page[`name_${lang[0]}`]}</NavLink>
+                                {/* <NavLink to={page.path} className={isCurrent}>{page[`name_${lang[0]}`]}</NavLink> */}
                             </li>
                         )})}
                         </ul>

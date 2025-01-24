@@ -4,8 +4,14 @@ import { useSelected } from './../../../context/SelectedContext';
 
 const TextSizeSelector = () => {
   const { textsSaved, selectedText, ctx, canvas, canvasRef, data, img, setSelected } = useSelected();
-
-  const [tailleSelect, setTailleSelect] = useState(10);
+  
+  const getCanvas = document.getElementById("flag-personnalisation")
+  if (!getCanvas) { return }
+  const canvasSize = getCanvas.getBoundingClientRect()
+  const minSize = canvasSize.height * 0.05
+  const maxSize = canvasSize.height * 0.90
+  const initSize = canvasSize.height * 0.20
+  const [tailleSelect, setTailleSelect] = useState(initSize);
 
   const initSizeValue = () => {
     let selected = textsSaved.filter(t => { return t.is_selected === true })[0]
@@ -15,7 +21,7 @@ const TextSizeSelector = () => {
 
   useEffect(() => {
     if(selectedText >= 0 ){
-      setTailleSelect(initSizeValue() / 10)  
+      setTailleSelect(initSizeValue())  
     }    
   }, [selectedText])
 
@@ -25,14 +31,17 @@ const TextSizeSelector = () => {
 
     // Create a new array with the updated text size
     const updatedTexts = textsSaved.map((text) => {
+      if (!ctx) {return text}
       if (text.is_selected) {
         return {
           ...text,
-          size: value * 10
+          x: text.x ,
+          size: value,
+          height:value,
         };
       }
       return text;
-    });
+    }); 
 
     // Update the context state with the updated texts
     setSelected((prevState) => ({
@@ -51,7 +60,7 @@ const TextSizeSelector = () => {
     // Redraw all texts
     if (!ctx) { return }
     ctx.strokeStyle = '#1a1a1a';
-    ctx.lineWidth = 4;
+    ctx.lineWidth = 2;
     ctx.fillStyle = 'white';
     ctx.textAlign = 'center';
 
@@ -70,12 +79,12 @@ const TextSizeSelector = () => {
         type="range"
         id="taille"
         name="taille"
-        min={8}
-        max={64}
+        min={minSize}
+        max={maxSize}
         value={tailleSelect}
         onChange={(e) => handleChangeTailleSelect(Number(e.target.value))}
       />
-    </fieldset>
+    </fieldset> 
   );
 };
 

@@ -24,6 +24,11 @@ interface Content {
     lesActions: any;
     template: string;
     PersonnalisationForm: any;
+    flagUseConsent: any;
+    SloganCanvasTitle: any;
+    PersoCanvasTitle: any;
+    SloganCanvasSubtitle: any;
+    PersoCanvasSubtitle: any;
 }
 
 interface Action {
@@ -41,6 +46,9 @@ const SingleAction = (type:any ) => {
         const params = utils.getUrlParams(['id']);
         const initialId = params.id ? parseInt(params.id, 10) : null;
         setId(initialId);
+        if(window.location.pathname === "/custom-flag"){
+          setId(2)
+        }
       }, []);
     
       useEffect(() => {
@@ -76,7 +84,7 @@ const SingleAction = (type:any ) => {
                 <>
                 {action.attributes.template === "ef1" && (
                     <>
-                        <FlagPersonnalisation data={action.attributes.PersonnalisationForm}/>
+                        <FlagPersonnalisation data={action.attributes.PersonnalisationForm} flagUseConsent={action.attributes.flagUseConsent}/>
                     </>
                 )}
                 {action.attributes.template === "simple" && (

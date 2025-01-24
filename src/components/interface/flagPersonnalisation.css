@@ -8,20 +8,32 @@ canvas{
     cursor: pointer;
     margin: auto;
     display: block;
+
 }
+.center-canvas.paysage{
+  height: calc((100vw - 2em) * 2/3);
+}
+#flag-personnalisation-background.paysage,
 .perso-container canvas.paysage{
     width: calc(100vw - 2em);
     height: calc((100vw - 2em) * 2/3);
     border-radius: 16px;
 }
+.center-canvas.portrait{
+  height: calc(100vw - 2em); 
+}
+#flag-personnalisation-background.portrait,
 .perso-container canvas.portrait{
     width: calc((100vw - 2em) * 2/3);
     height: calc(100vw - 2em); 
     border-radius: 16px;
 }
+div[id^=font-picker]{
+  width: 100% !important;
+}
 div[id^=font-picker] .dropdown-button {
     background-color: var(--white) !important;
-    width: fit-content;
+    /* width: fit-content; */
     font-family: var(--secondary-font);
     font-weight: normal;
     padding: 0.5em !important;
@@ -34,16 +46,24 @@ div[id^=font-picker]{
     border-radius: 8px;
     margin: 0.5em 0;
 }
-
+.perso-container .canvas-container{
+  width: 300px;
+  margin: auto;
+}
+.perso-container .canvas-container fieldset{
+  width: 290px;
+  height: 160px;
+}
 .slogan-options > *{
   width: 100%;
 }
-
+.radio-spe{
+  margin: auto;
+}
 .slogan-options textarea{
     margin-top: 8px;
     height: 90px;
     width: 100%;
-    max-width: 20vw;
     min-height: unset;
 }
 .subLabel{
@@ -52,8 +72,34 @@ div[id^=font-picker]{
 label p{
     margin: 0 1em 0.5em;
 }
+
 fieldset.switch-field{
-    justify-content: flex-start;
+    justify-content: space-between;
+    width: calc(100% - 2em);
+    border: 2px solid var(--green-pen);
+    border-radius: 16px;
+    padding: 1em;
+    margin: auto;
+}
+.number-title{
+  text-align: center;
+  margin-top: 2em !important;
+  font-size: 1.3em;
+  font-family: var(--primary-font);
+}
+.center-canvas {
+  position:relative;
+}
+
+#flag-personnalisation,
+#flag-personnalisation-background{
+  position: absolute;
+  top: 0;
+  left:50%;
+  transform: translateX(-50%);
+}
+p.center{
+  text-align: center;
 }
 .switch-field {
     overflow: hidden;
@@ -85,8 +131,87 @@ fieldset.switch-field{
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
     transition: all 0.1s ease-in-out;
     font-size: 0.8em;
+    width: 100%;
+    border-radius: 16px;
+  }
+  .spe-accueil{
+    margin-top: 2em;
+  }
+  .spe-accueil > *{
+    margin: 0 0.5em;
+  }
+  .upload-file.switch-field label {
+    border: none;
+    box-shadow: unset;
+    background-color: transparent;
+  }
+  .switch-field .portrait label::before{
+    content: "";
+    display:block;
+    height:60px;
+    width:60px;
+    background-size: 60px 60px;
+    background-image: url(/src/assets/img/portrait.svg);
+    background-repeat: no-repeat;
+    margin:0.5em auto;
+  }
+  .switch-field .paysage label::before{
+    content: "";
+    display:block;
+    height:60px;
+    width:60px;
+    background-size: 60px 60px;
+    background-image: url(/src/assets/img/paysage.svg);
+    background-repeat: no-repeat;
+    margin:0.5em auto;
+  }
+  .switch-field .slogan label::before{
+    content: "";
+    display:block;
+    height:50px;
+    width:80px;
+    background-size: 80px 50px;
+    background-repeat: no-repeat;
+    margin:0.5em auto;
   }
   
+  .switch-field .slogan label.fr::before{
+    background-image: url(/src/assets/img/slogan-fr-b.svg);
+  }
+  .switch-field .slogan label.en::before{
+    background-image: url(/src/assets/img/slogan-en-b.svg);
+  }
+  .switch-field .slogan label.es::before{
+    background-image: url(/src/assets/img/slogan-es-b.svg);
+  }
+  .switch-field .logoIncrustation label::before{
+    content: "";
+    display:block;
+    height:50px;
+    width:50px;
+    background-size: 50px 50px;
+    background-image: url(/src/assets/img/image.svg);
+    background-repeat: no-repeat;
+    margin:0.5em auto;
+  }
+  .switch-field .portrait input:checked + label::before{
+    background-image: url(/src/assets/img/portrait-w.svg)
+  }
+  .switch-field .paysage input:checked + label::before{
+    background-image: url(/src/assets/img/paysage-w.svg)
+  }
+  .switch-field .slogan input:checked + label.fr::before{
+    background-image: url(/src/assets/img/slogan-fr-w.svg)
+  }
+  .switch-field .slogan input:checked + label.en::before{
+    background-image: url(/src/assets/img/slogan-en-w.svg)
+  }
+  .switch-field .slogan input:checked + label.es::before{
+    background-image: url(/src/assets/img/slogan-es-w.svg)
+  }
+  .switch-field .logoIncrustation input:checked + label::before{
+    background-image: url(/src/assets/img/image-w.svg)
+  }
   .switch-field label:hover {
     cursor: pointer;
   }
@@ -96,35 +221,51 @@ fieldset.switch-field{
     color: var(--white);
     box-shadow: none;
   }
-  
-  .zoom-control button:first-of-type,
-  .switch-field .switch:first-of-type label {
+  .zoom-control div{
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+  }
+  .zoom-control div > *{
+    margin: 0.5em;
+  }
+/*   .switch-field .switch:first-of-type label {
     border-radius: 16px 0 0 16px;
   }
 
-  .zoom-control button:last-of-type,
   .switch-field .switch:last-of-type label {
     border-radius: 0 16px 16px 0;
+  } */
+  fieldset .switch{
+    width: 48%;
   }
-  .zoom-control input{
+  .zoom-control button{
+    border-radius: 16px;
+  }
+/*   .zoom-control input{
     display: none;
   }
-
+ */
   .zoom-control legend{
-    margin-bottom: 0.5em;
+    margin-top: 0.5em;
   }
   .zoom-control button{
     background-color: var(--white);
     font-size: 1em;
     border: 1px solid var(--dark-grey);
-    padding: 0.5em;
+    /* padding-top: 4px; */
     width: 2em;
+    height: 2em;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
+    text-align: center;
 
   }
-  
+  .zoom-control button.increment{
+    padding-top: 2px;
+  }
+
   .zoom-control button:hover:enabled{
     background-color: var(--blue-pen);
     color: var(--white);
@@ -137,7 +278,7 @@ fieldset.switch-field{
   }
 
   .zoom-control button.decrement{
-    padding-top: 5px;
+    padding-top: 0;
   }
 
   .perso-container input[type="checkbox"]{
@@ -145,92 +286,142 @@ fieldset.switch-field{
   }
 
   .perso-container legend{
-    font-size: 0.9em;
+    font-size: 1.3em;
+    text-align: center;
+  }
+  .slogan-controls fieldset input{
+    width: 100%;
   }
   .perso-container .col-2{
     display: flex;
     justify-content: space-between;
     flex-direction: row;
   }
-  .perso-container .col-2 fieldset{
-    width: 48%;
-  }
   .perso-container .col-2 > div{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     width: 100%;
-    justify-content: space-between;
+    justify-content: center;
   }
-  
-@media  screen and (min-width:768px) {
-
-    .perso-container .col-2 {
-      flex-direction: column;
-      justify-content: flex-start;
-     }
-     .col-2 div {
-      flex-direction: row;
-     }
-     .col-2 div fieldset{
-      margin-right: 1em;
-     }
-     .position-ref{
-      position: relative;
-      width: 0;
-      height: 0;
-     }
-     .slogan-controls {
-      position: absolute;
-      bottom: -100px;
+  fieldset label.consent-label{
+    margin: 0;
   }
-    .perso-container canvas.paysage{
-        width: 60vw;
-        height: calc(60vw * 2/3);
-        max-width: 1024px;
-        max-height: calc(1024px *2/3);
-    }
-    .perso-container canvas.portrait{
-        width: calc(60vh * 2/3);
-        height: 60vh; 
-        max-width: 800px;
-        max-height: 1200px;
-    }
-    .canvas-container{
-      display: flex;
-    }
-    .slogan-options{
-      margin-right: 1em;
-      width: 50%;
-    }
-    .slogan-options > *{
-      width: 100%;
-    }
-    .perso-container .col-2 > div {
-      display: flex;
-      flex-direction: row;
-      width: 30%;
-      justify-content: space-between;
+  fieldset.user-consent{
+    width: 100%;
   }
-  .slogan-controls div#font-picker{
-    width: 150px;
-  }
-    
-    .slogan-options textarea{
-        margin-top: 8px;
-        height: 90px;
-        width: 100%;
-    }
-    fieldset.user-consent {
-      margin-top: 80px;
-  }
-}
-
-@media screen and (min-width:927px) {
   fieldset.user-consent {
     margin-top: 0;
     justify-content: flex-start;
+  }
+  fieldset.user-consent input,
+  fieldset.user-consent input::after{
+    width: 20px !important;
+    display: block !important;
 }
-.slogan-controls {
+  
+@media  screen and (min-width:426px) {
+  .slogan-controls {
+    display: flex;
+    justify-content: space-between;
+  }
+  .slogan-controls > fieldset{
+    width: 33%;
+  }
+  .slogan-controls > div fieldset{
+    width: 50%;
+    padding: 0 0.5em;
+  }
+  .perso-container .col-2{
+    width: 100%;
+  }
+  .slogan-controls .col-2{
+    width: 66%;
+  }
+  .perso-container .slogan-controls legend{
+    text-align: left;
+  }
+}
+@media  screen and (min-width:768px) {
+  .radio-spe fieldset.switch-field:not(.upload-file):not(.slogan){
+    width: 100%;
+    border: unset;
+  }
+  fieldset.switch-field{
+    border: 2px solid var(--green-pen);
+    border-radius: 16px;
+    padding: 1em;
+    margin: 1em auto 0;
+}
+/*   fieldset.switch-field.upload-file{
+    width: 40%;
+} */
+  fieldset.switch-field:not(.upload-file):not(.slogan){
+    width: 49%;
+    margin: 0 0.5em;
+}
+  .slogan-controls {
+    display: flex;
+    justify-content: center;
+    max-width: 800px;
+    margin: auto;
+  }
+  .center-canvas.paysage{
+    height: calc(60vw * 2/3);
+  }
+  #flag-personnalisation-background.paysage,
+  .perso-container canvas.paysage{
+      width: 60vw;
+      height: calc(60vw * 2/3);
+      max-width: 1024px;
+      max-height: calc(1024px *2/3);
+  }
+  .center-canvas.portrait{
+    height: 60vh;   
+  }
+  #flag-personnalisation-background.portrait,
+  .perso-container canvas.portrait{
+      width: calc(60vh * 2/3);
+      height: 60vh; 
+      max-width: 800px;
+      max-height: 1200px;
+  }
+  .canvas-container{
+    display: flex;
+  }
+  .canvas-container > * {
+    margin: auto;
+  }
+/*   .slogan-options{
+    margin-right: 1em;
+
+  } */
+  .slogan-options > *{
+    width: 100%;
+  }
+  .perso-container .col-2 > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .slogan-options textarea{
+      margin-top: 8px;
+      height: 90px;
+      width: 100%;
+  }
+
+
+}
+
+@media screen and (min-width:927px) {
+
+/* .slogan-controls {
   bottom: -20px;
+} */
 }
+
+@media screen and (max-width:768px) {
+  .slogan-options textarea{
+    width: 100%;
+    max-width: unset;
+  }
 }

@@ -20,9 +20,12 @@ const ImageComponent: React.FC<Props> = ({ imageContent, id }) => {
             } 
             alt={imageContent.alternativeText}/>
         ) : (
+            <>
             <img 
+                id={imgId}
                 srcSet={utils.setUrl(imageContent.url)} 
-            alt={imageContent.alternativeText}/>
+                alt={imageContent.alternativeText}/>
+            </>
         )}
         </>
 

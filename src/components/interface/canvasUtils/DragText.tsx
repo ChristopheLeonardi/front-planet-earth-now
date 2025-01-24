@@ -156,7 +156,7 @@ const calculateStart = (pos: { x: number, y: number }) => {
         ctx.font = `${t.size}px ${data.fontFamily}`;
         if (t.is_selected){
           ctx.strokeStyle = 'rgba(224, 94, 201, 0.6)';
-          ctx.lineWidth = 24;
+          ctx.lineWidth = 12;
         }
         else {
           ctx.strokeStyle = '#1a1a1a';
