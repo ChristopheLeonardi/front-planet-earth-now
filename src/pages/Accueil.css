@@ -14,7 +14,7 @@
 }
 .primary-button.spe-accueil{
     text-decoration: none;
-    margin: auto;
+    margin: 0;
     display: block;
     width: fit-content; 
 }
@@ -73,4 +73,51 @@
     .accueil .entete .title-container *{
         text-align: right;
     }
+}
+
+.accueil .h3-title{
+    font-family: var(--primary-font);
+    color: var(--blue-pen);
+    font-weight: normal;
+    font-size: 1.5em;
+    margin-top: 2.5em;
+}
+
+.accueil .rich-text-block{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2em;
+}
+
+.accueil .rich-text-block img,
+.accueil .rich-text-block .text-container{
+  width: 48%;
+}
+
+.accueil .rich-text-block img{
+  border-radius: 16px;
+  height: 500px;
+  object-fit: cover;
+
+}
+#button-flag .primary-button.spe-accueil{
+  margin: 0;
+}
+@media screen and (max-width: 768px) {
+  .accueil .rich-text-block{
+display: block;
+  }
+  .accueil .rich-text-block img,
+  .accueil .rich-text-block .text-container{
+    width: 100%;
+  }
+    
+}
+
+.subTitle-temp{
+  text-align: left !important;
+}
+
+p{
+    font-size: 1.2em;
 }

@@ -3,29 +3,14 @@ import pageServices from '../services/pages'
 import ImageComponent from '../components/interface/ImageComponent';
 import { useLang } from '../context/LangContext';
 import RichText from '../components/interface/RichText';
-import Partenaires from '../components/interface/Partenaires';
-import Entete from '../components/interface/Entete';
-import Citation from '../components/interface/Citation';
-import Diaporama from '../components/interface/Diaporama';
-import TitreH2 from '../components/interface/TitreH2';
-import Vignette from '../components/interface/Vignette';
 import "./content.css"
 import "./Accueil.css"
-import About from './About';
+import ContactForm from '../components/interface/ContactForm';
+import "./content.css"
+import "./about.css"
+
 
 interface Content {
-    /* titre: string;
-    sousTitre: string;
-    
-    createdAt: string;
-    updatedAt: string;
-    publishedAt: string;
-    locale: string;
-    entete: any;
-    
-    contact:any;
-    contactMessage:any; */
-
     Heading:any;
     ImageEntete:any;
     citation:any;
@@ -34,54 +19,34 @@ interface Content {
     vignettesSection:any;
     actionsVignettes:any;
     partenariats: any;
-
+    titre: string;
+    sousTitre: string;
+    body: any;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
+    locale: string;
+    entete: any;
+    contact:any;
+    contactMessage:any;
+    ef1_link:any;
 }
 
-const EnteteAccueil = ({heading, image}:any) => {
-    return (
-        <section className='entete'>
-            <Entete content={heading}/>
-            <ImageComponent imageContent={image.data.attributes}/>
-        </section>
-    )
-}
 
-const BodyContainer = ({textContent}:any) => {
+const BodyContainer = ({imageContent, textContent}:any) => {
     return (
-    <div className='body-container col-2'>
+    <div className='spe-accueil'>
+        { imageContent &&(
+            <ImageComponent imageContent={imageContent}/>
+        )}
         <RichText data={textContent}/>
     </div>
     )
 }
 
-const VignettesSection = ({content}:any) => {
-    return (
-        <section className='vignette-section'>
-            <TitreH2 titre={content.titre.titre} sousTitre={content.titre.sousTitre}/>
-            <div className="vignette-container">
-            {content.vignettes.map((vignette:any, index:number) => {
-                return (
-                    <Vignette key={index} entry={vignette} domaine={false}/>
-                )
-            })}
-            </div>
-        </section>
-    )
-}
 
-const VignettesAction = ({content}:any) => {
-    return (
-        <section>
-            <TitreH2 titre={ content.titre.titre} sousTitre={ content.titre.sousTitre}/>
-            <div className='vignette-container'>
-                {content.single_actions.data.map((entry:any, index:number) => {
-                    console.log(entry)
-                    return ( <Vignette key={index} entry={entry} domaine={false}/> )
-                })}
-            </div>
-        </section>
-    )
-}
+
+
 const Accueil = () => {
 
     const lang = useLang();
@@ -89,7 +54,7 @@ const Accueil = () => {
 
     useEffect(() => {
         pageServices
-            .getPageContent({"page": "accueil", "lang": lang[0]})
+            .getPageContent({"page": "about", "lang": lang[0]})
             .then((res: Content) => { 
                 const objRes = { 
                     ...res
@@ -98,35 +63,39 @@ const Accueil = () => {
             .catch((error) => { console.error('Error fetching config:', error) });
     }, [lang]);
     
+    const chooseColor = (index:number) => {
+      return index <= 1 ? "blue" : "green"
+    }
+
     return (
         <section className='page-content accueil'>
-        { content && (
-        <>
-                    {/* <h1>Site en construction</h1>
+        { content && (<>
 
-            <EnteteAccueil heading={content.Heading} image={content.ImageEntete}/>
-            {content.citation && (<Citation content={content.citation}/>)}
-            {content.diaporama && (<Diaporama images={content.diaporama.data}/>)} */}
-            <About/>
-            {/* 
-
-            
-            <BodyContainer textContent={content.content}/>
-
-            {content.vignettesSection && 
-                content.vignettesSection.map((section:any, index:number) => {
-                    return ( <VignettesSection key={index} content={section}/> )
-                })
-            }
-            
-            {content.actionsVignettes && 
-                content.actionsVignettes.single_actions.data.length > 0 && (
-                    <VignettesAction content={content.actionsVignettes}/>
-            )}
-            
-            <Partenaires partenariatData={content.partenariats} /> */}
-        </>
-        )}
+            <h2 className='subTitle-temp'>
+                {content.sousTitre.split(' ').map((word, index) => {
+                  return <span className={chooseColor(index)}>{word} </span>
+                })}
+   
+            </h2>
+            <BodyContainer textContent={content.body}/>
+            <div className='button-2-col' id="bouton-flag">
+                {content.ef1_link && (
+                    <a 
+                        className="primary-button spe-accueil"
+                        href={content.ef1_link.link} 
+                        target='_blank'
+                        title={content.ef1_link.buttonTitle}
+                    >{content.ef1_link.buttonLabel}</a>
+                )}
+            </div>
+            {console.log(content)}
+            {content.contact.heading[0] && <h3 className='h3-title'>{content.contact.heading[0].titre}</h3>}
+            <ContactForm 
+                titre={content.contact.titre} 
+                message={content.contactMessage}
+                sousTitre={content.contact.sousTitre} 
+                fields={content.contact.formContent}/>
+        </>)}
         </section>
     )
 }

@@ -34,7 +34,7 @@
   --light-grey: #d6d6d6;
   --white: #ffffff;
   --primary-font: "bowlby", arial, sans-serif;
-  --secondary-font:"gilroy-bold", arial, sans-serif;
+  --secondary-font:"gilroy", arial, sans-serif;
 }
 html{
   overflow-x: hidden;
