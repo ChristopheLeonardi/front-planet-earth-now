@@ -73,7 +73,7 @@ const Accueil = () => {
 
             <h2 className='subTitle-temp'>
                 {content.sousTitre.split(' ').map((word, index) => {
-                  return <span className={chooseColor(index)}>{word} </span>
+                  return <span className={chooseColor(index)} key={index}>{word} </span>
                 })}
    
             </h2>
@@ -88,7 +88,6 @@ const Accueil = () => {
                     >{content.ef1_link.buttonLabel}</a>
                 )}
             </div>
-            {console.log(content)}
             {content.contact.heading[0] && <h3 className='h3-title'>{content.contact.heading[0].titre}</h3>}
             <ContactForm 
                 titre={content.contact.titre} 
