@@ -6,6 +6,19 @@ interface RichTextProps { data: any; }
 const RichText: React.FC<RichTextProps> = ({ data }) => {
   const content: BlocksContent = data;
 
+    const setElementsAttributes = (nodeArray:any, attribute:string, value:string) => {
+      if (nodeArray.length) {
+        Array.from(nodeArray).map( (elt:any) => {
+          if( !elt.getAttribute(attribute) ) { elt.setAttribute(attribute, value)}
+        })
+      }
+    }
+
+    const removeEmptyElement = (eltArray:any) => {
+      let filtered = Array.from(eltArray).filter((c:any) => c.children.length === 0)
+      filtered.map((f:any) => f.remove())
+    }
+
     useEffect(() => {
 
       let paragraph = document.querySelectorAll(".rich-text-block p");
@@ -13,18 +26,25 @@ const RichText: React.FC<RichTextProps> = ({ data }) => {
       let container = document.createElement("div")
       container.setAttribute("class","text-container")
 
-      Array.from(document.querySelectorAll(".rich-text-block + p")).map(elt => elt.innerHTML = "")
+      // Remove old paragraph
+      Array.from(document.querySelectorAll(".rich-text-block + p")).map(elt => elt.remove())
 
+      // Append paragraph in container
       Array.from(paragraph).map(p => { return container.appendChild(p)})
 
       document.getElementById("rich-container")?.appendChild(container)
-      
+
+      // Displace button element
       let button = document.getElementById("bouton-flag")
       if(button){ container.appendChild(button) }
 
+      // Remove empty elements
       let textContainer = document.querySelectorAll(".text-container")
-      let filtered = Array.from(textContainer).filter(c => c.children.length === 0)
-      filtered.map(f => f.remove())
+      removeEmptyElement(textContainer)
+
+      // set target blank on links
+      let links = document.querySelectorAll(".text-container a")
+      setElementsAttributes(links, "target", "_blank")
 
     }, [])
 
