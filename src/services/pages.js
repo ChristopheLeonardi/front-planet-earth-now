@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'https://admin.planetearthnow.org';
+const baseUrl = 'http://localhost:1337';
 
 const getPagesTitle = async () => {
     const request = axios.get(baseUrl + "/api/pages");

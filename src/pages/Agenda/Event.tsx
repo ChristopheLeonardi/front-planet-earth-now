@@ -1,9 +1,9 @@
 import {useState, useEffect} from 'react';
-import googleSheetServices from '../services/googleSheet'
-import EnteteAction from '../components/EnteteAction';
-import { useLang } from '../context/LangContext';
-import pageServices from '../services/pages'
-import TableEvent from '../components/TableEvent';
+import googleSheetServices from '../../services/googleSheet'
+import EnteteAction from '../../components/EnteteAction';
+import { useLang } from '../../context/LangContext';
+import pageServices from '../../services/pages'
+import TableEvent from './TableEvent';
 
 import "./event.css"
 const filterEvent = (res:any) => {
