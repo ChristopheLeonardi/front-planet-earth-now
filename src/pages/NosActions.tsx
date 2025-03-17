@@ -40,12 +40,16 @@ interface Content {
 }
 
 
-const NosActions = () => {
+const NosActions = ({previewData=false}:any) => {
 
     const lang = useLang();
     const [content, setContent] = useState<Content | null>(null);
 
     useEffect(() => {
+        if (previewData){
+            setContent(previewData)
+            return
+        } else {
         pageServices
             .getPageContent({"page": "nos-actions", "lang": lang[0]})
             .then((res: Content) => { 
@@ -55,6 +59,7 @@ const NosActions = () => {
                 objRes.actions.data.map( (action:any) => { action.attributes["bouton_see_more"] = res.bouton_see_more}),
                 setContent(objRes) })
             .catch((error) => { console.error('Error fetching config:', error) });
+        }
     }, [lang]);
     
     return (<>

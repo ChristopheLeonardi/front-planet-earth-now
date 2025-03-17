@@ -3,12 +3,6 @@ import pageServices from '../services/pages'
 import ImageComponent from '../components/interface/ImageComponent';
 import { useLang } from '../context/LangContext';
 import RichText from '../components/interface/RichText';
-import Partenaires from '../components/interface/Partenaires';
-import Entete from '../components/interface/Entete';
-import Citation from '../components/interface/Citation';
-import Diaporama from '../components/interface/Diaporama';
-import TitreH2 from '../components/interface/TitreH2';
-import Vignette from '../components/interface/Vignette';
 import "./content.css"
 import "./Accueil.css"
 import EnteteAccueil from '../components/EnteteAccueil';
@@ -34,7 +28,6 @@ interface Content {
 
 
 const BandeauTextePhoto = ({entry}:any) => {
-    console.log(entry)
     return (
         <article className='page-content'  style={{ backgroundColor: entry.background_color  ? entry.background_color : "#f4f4f4" }}>
         <article className={`bandeau-texte-photo ${entry.Position}`}>
@@ -57,13 +50,17 @@ const BandeauTextePhoto = ({entry}:any) => {
         </article>
     )
 }
-const Accueil = () => {
+const Accueil = ({previewData=false}:any) => {
 
     const lang = useLang();
     const [content, setContent] = useState<Content | null>(null);
 
     useEffect(() => {
-        pageServices
+        if (previewData){
+            setContent(previewData)
+            return
+        } else {
+            pageServices
             .getPageContent({"page": "accueil", "lang": lang[0]})
             .then((res: Content) => { 
                 const objRes = { 
@@ -71,13 +68,13 @@ const Accueil = () => {
                 }
                 setContent(objRes) })
             .catch((error) => { console.error('Error fetching config:', error) });
+        }
     }, [lang]);
     
     return (
         <section>
         { content && (
         <>
-
             <article className='page-content entete' >
                 <EnteteAccueil 
                     heading={{titre: content.titre, sousTitre: content.sousTitre}} 
@@ -89,10 +86,8 @@ const Accueil = () => {
             <article className='page-content'>
                 <RichText data={content.content}/>
             </article>
-            {content.Bandeau_Texte_Photo && content.Bandeau_Texte_Photo.map( (bandeau:any) => {
-                return (<>
-                    <BandeauTextePhoto entry={bandeau}/>
-                </>)
+            {content.Bandeau_Texte_Photo && content.Bandeau_Texte_Photo.map( (bandeau: any, index: number) => {
+                return (<BandeauTextePhoto key={index} entry={bandeau}/>)
             })}
             
             

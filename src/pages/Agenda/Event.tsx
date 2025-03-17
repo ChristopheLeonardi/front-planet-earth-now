@@ -46,7 +46,6 @@ const Event = () => {
             .then((res:any) => { 
                 const filtered = filterEvent(res)
                 setSheetData(filtered) 
-                console.log(filtered)
             })
             .catch((error) => { console.error('Error fetching config:', error) });
     }, [])

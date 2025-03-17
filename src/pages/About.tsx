@@ -26,12 +26,16 @@ interface Content {
 }
 
 
-const About = () => {
+const About = ({previewData=false}:any) => {
 
     const lang = useLang();
     const [content, setContent] = useState<Content | null>(null);
 
     useEffect(() => {
+        if (previewData){
+            setContent(previewData)
+            return
+        } else {
         pageServices
             .getPageContent({"page": "about", "lang": lang[0]})
             .then((res: Content) => { 
@@ -40,6 +44,7 @@ const About = () => {
                 }
                 setContent(objRes) })
             .catch((error) => { console.error('Error fetching config:', error) });
+            }
     }, [lang]);
     
     return (<>
@@ -61,7 +66,6 @@ const About = () => {
                 {content.End_section && (
                     <section className='page-content'style={{ backgroundColor: content.background_color  ? content.background_color : "#f4f4f4" }}>
                         <article>
-                        {console.log(content.End_section)}
                             {content.End_section.titre && (<TitreH2 titre={content.titre} sousTitre={content.sousTitre}/>)}
                             {content.End_section.Body_section && (<RichText data={content.End_section.Body_section}/>)}
                             

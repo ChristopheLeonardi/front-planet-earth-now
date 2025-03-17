@@ -4,10 +4,8 @@ import "./vignette.css"
 import utils from "../../services/utils"
 
 const Vignette = ({ entry }: { entry: any; }) => {
-    console.log(entry.slug)
     const id = entry.id
     const data = entry.attributes ? entry.attributes : entry
-    console.log(data)
     const imageContent = data.entete_image ? data.entete_image.data.attributes : data.image.data.attributes
 
     // Utilisation de la forme des données pour définir si un lien doit être calculé ou non

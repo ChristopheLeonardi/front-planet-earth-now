@@ -28,7 +28,7 @@ interface Content {
 
 }
 interface SingleActionProps {
-    id: number;
+    id?: number;
   }
 
 
@@ -62,7 +62,6 @@ const ModulesImages = ({elt}:any) => {
     </>)
 }
 const AvisExpert = ({avis}:any) => {
-    console.log(avis)
     const backgroundColor = avis.background_color || 'var(--blue-pen)'
     return (
         <div className='single-avis'>
@@ -82,12 +81,16 @@ const AvisExpert = ({avis}:any) => {
         </div>
     )
 }
-const SingleAction = ({id}:SingleActionProps) => {
+const SingleAction = ({ id, previewData = false }: SingleActionProps & { previewData?: any }) => {
 
     const lang = useLang();
     const [content, setContent] = useState<Content | null>(null);
 
     useEffect(() => {
+        if (previewData){
+            setContent(previewData)
+            return
+        } else {
         pageServices
             .getPageContent({"page": "actions/" + id, "lang": lang[0]})
             .then((res: Content) => { 
@@ -96,6 +99,7 @@ const SingleAction = ({id}:SingleActionProps) => {
                 }
                 setContent(objRes) })
             .catch((error) => { console.error('Error fetching config:', error) });
+        }
     }, [lang]);
     
     return (<>
@@ -103,21 +107,20 @@ const SingleAction = ({id}:SingleActionProps) => {
             
         <section style={{ backgroundColor: content.background_color_principal  ? content.background_color_principal : "#f4f4f4" }}>
             
-            <>{console.log(content)}</>
             <article className='page-content entete' >
             <EnteteAccueil heading={{titre:content.titre, sousTitre:content.sousTitre}} image={content.entete_image}/>
             </article>
             {content.modules_media && content.modules_media.map((elt:any, index:number) => {
-                return (<>
-                    <ModulesImages key={index} elt={elt}/>
+                return (<div key={index}>
+                    <ModulesImages elt={elt}/>
                     {elt.Avis_expert && (
                         <article className='avis-container'>
-                            {elt.Avis_expert.map((avis:any) => {
-                                return <AvisExpert avis={avis}/>
+                            {elt.Avis_expert.map((avis: any, avisIndex: number) => {
+                                return <AvisExpert key={avisIndex} avis={avis} />
                             })}
                         </article>
                     )}
-                </>)
+                </div>)
             })}   
             {content.CTA && (
                 <div className='cta center'>

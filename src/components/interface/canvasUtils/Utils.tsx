@@ -130,7 +130,6 @@ const loadFont = async (data: any) => {
         // Dessin de l'image sur le canevas avec les coordonnées et dimensions mises à l'échelle
         ctx.fillStyle = "white";
         ctx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
-        console.log(formData)
         if (!formData.radioplanete || formData.radioPlanete === "sansFond"){
           ctx.drawImage(formData.imageInitSize, exportPosition.posX, exportPosition.posY, exportImageSize.width, exportImageSize.height);
           ctx.drawImage(img, 0, 0, fullCanvasSize.width, fullCanvasSize.height);
