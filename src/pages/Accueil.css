@@ -1,5 +1,44 @@
+.page-content.entete{
+    width: 100%;
+    padding: 0;
+}
+.page-content.entete section{
+    position: relative;
+    padding: 2em 0;
+    height: 60vh;
+}
+.page-content.entete section {
+    position: relative;
+    padding: 2em 0;
+    height: 40vh;
+}
+.page-content.entete .title-container {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    color: #fff;
+}
+.page-content.entete .title-container *{
+    color: #fff;
+}
+.page-content.entete .overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    background-color: #000;
+    opacity: 0.3;
+}
+
+.accueil.page-content
 .accueil .entete{
-    margin: auto;
+    margin: 0 auto 4em;
 }
 .accueil .entete h1{
     text-transform: capitalize;
@@ -30,6 +69,7 @@
     flex-direction: row;
     justify-content: space-between;
   }
+
 @media screen and (min-width: 768px) {
 
     .body-container.col-2 {
@@ -56,12 +96,7 @@
 
 
 @media screen and (min-width:868px) {
-    .accueil .entete{
-        display: flex;
-        justify-content: space-between;
-        margin-top: 2em;
-        max-width: 75%;
-    }
+
     .accueil .entete p{
         margin-bottom: 0;
     }

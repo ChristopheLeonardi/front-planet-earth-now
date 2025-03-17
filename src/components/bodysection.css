@@ -1,0 +1,59 @@
+@media screen and (min-width:768px){
+  .module-image-texte{
+    display: flex;
+    justify-content: space-between;
+  }
+  .module-image-texte > div{
+    padding: 1%;
+    width: 30%;
+  }
+  .module-image-texte.collaborateur{
+    flex-wrap: wrap;
+  }
+  .module-image-texte.collaborateur > div{
+    width: 20%;
+  }
+  
+}
+.module-image-texte.collaborateur > div{
+  margin: 5vw 1vw;
+}
+.module-image-texte > div{
+  padding: 1%;
+}
+.module-image-texte img{
+  width: 100%;
+}
+
+.module-image-texte p{
+  text-align: center;
+  margin: 0;
+}
+
+.module-image-texte p.titre{
+  font-weight: bold;
+}
+
+.module-image-texte p.sousTitre{
+
+}
+
+.module-image-texte p.auteur{
+  font-style: italic;
+}
+
+
+.module-image-texte.collaborateur img{
+  border-radius: 100%;
+}
+
+
+
+.module-image-texte.citations p{
+  margin: 1em 0;
+}
+
+.module-image-texte h3{
+  text-align: center;
+}
+

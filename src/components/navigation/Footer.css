@@ -19,3 +19,13 @@ footer .logo{
 footer ul{
     flex-wrap: wrap;
 }
+.contact_infos{
+    margin: 0 auto 1em;
+}
+.contact_infos *{
+    font-size: 1em;
+    font-family: var(--secondary-font);
+    font-style: normal;
+    text-align: center;
+    margin: 0.5em;
+}

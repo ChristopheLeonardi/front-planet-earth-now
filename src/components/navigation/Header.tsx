@@ -17,13 +17,12 @@ const Header = () => {
     return (
         <>
 
-            <header>
+            <header style={{ backgroundColor: config?.navigation_color }}>
                 {config && (
                     <>
                         <NavLink to='/'>
                             <img className="logo" src={config.logo} alt='Logo de Planet Earth Now'/>
                         </NavLink>
-                        {/* <h1 className='construct'>Site en construction</h1> */}
                         <nav>
 
                             <button className={`burger ${isOpen ? 'toggle' : ''}`} onClick={toggleMenu} name='menu'>
@@ -33,12 +32,12 @@ const Header = () => {
                                 <span className='overlay'></span>
                             </button>
 
-                            <ul className={`nav-links ${isOpen ? 'toggle' : ''} `}>
+                            <ul className={`nav-links ${isOpen ? 'toggle' : ''} `} >
                             {config.pages.map(page => { 
                                 if (page.is_displayed === "false") { return null }
                                 return (
                                     <li key={page.name_fr}>
-                                        {/* <NavLink to={page.path} className={isCurrent} onClick={() => setIsOpen(!isOpen)}>{page[`name_${lang[0]}`]}</NavLink> */}
+                                        <NavLink to={page.path} className={isCurrent} onClick={() => setIsOpen(!isOpen)}>{page[`name_${lang[0]}`]}</NavLink>
                                     </li>
                                 )
                             })}

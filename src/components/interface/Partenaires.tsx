@@ -3,7 +3,7 @@ import TitreH2 from './TitreH2'
 const Partenaires = ({partenariatData}:any) => {
     const imageAndLink = partenariatData.partenaires.data.map((item:any) => {return item.attributes.imageAndLink})
     return (
-        <div className='partenariats'>
+        <div className='page-content partenariats'>
 
             <TitreH2 titre={partenariatData.heading.titre} sousTitre={partenariatData.heading.sousTitre} />
 

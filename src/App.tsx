@@ -1,94 +1,65 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import Header from './components/navigation/Header';
-import Footer from './components/navigation/Footer';
-import { ConfigProvider, useConfig } from './context/ConfigContext';
+
+import { ConfigProvider } from './context/ConfigContext';
 import { LangProvider } from './context/LangContext'; 
-import SiteSettings from './components/settings/SiteSettings';
 import { SelectedProvider } from './context/SelectedContext';
 
+import SiteSettings from './components/settings/SiteSettings';
+import pageServices from './services/pages'
+import Header from './components/navigation/Header';
+import Footer from './components/navigation/Footer';
 import Accueil from './pages/Accueil';
 import About from './pages/About';
-import Vocation from './pages/Vocation'; 
+import Drapeau from './pages/Drapeau';
+import NosActions from './pages/NosActions';
+import Contact from './pages/Contact';
 import SingleAction from './pages/SingleAction';
+import MentionsLegales from './pages/MentionsLegales';
+
+import PreviewPage from "./pages/PreviewPage";
 
 // Désactivation page Agenda
 //import Event from './pages/Agenda/Event';
-
-
-interface PageComponentMap {
-  [key: string]: (props: any) => JSX.Element;
-  Accueil: (props: any) => JSX.Element;
-  About: (props: any) => JSX.Element;
-  // Désactivation page Agenda
-  //Event: (props: any) => JSX.Element;
-  Action: (props: any) => JSX.Element;
-  Vocation: (props: any) => JSX.Element;
-}
-
-const pageComponent: PageComponentMap = {
-  "Accueil": Accueil,
-  "About": About,
-  "Action": Vocation,
-  "Federer": Vocation, 
-  "Vocation": Vocation,
-  "SingleAction": SingleAction 
-  // Désactivation page Agenda
-  //"Event": Event,
-};
+//<Route path="/evenements" element={<Event />} />
 
 import "./App.css";
-const Bandeau = () => {
-  const [isCentered, setIsCentered] = useState(false);
 
+
+const AppContent = () => {
+
+  const [singleActionsRoute, setSingleActionsRoute] = useState<any[]>([]);
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 60) {
-        setIsCentered(true);
-      } else {
-        setIsCentered(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+        pageServices
+            .getSingleActionsRoutes()
+            .then((res) => { setSingleActionsRoute(res) })
+            .catch((error) => { console.error('Error fetching config:', error) });
   }, []);
   return (
-      <div>
-          <p
-        className={`bandeau-vertical ${isCentered ? 'centered' : ''}`}
-        style={isCentered ? { textAlign: 'center' } : {}}
-      ><span className='green'>Planet</span> <span className='blue'>Earth</span> <span className='green'>Now</span></p>
-      </div>
-  )
-}
-const AppContent = () => {
-  const { config } = useConfig();
-
-  return (
     <>
-      {/* <Bandeau/> */}
       <SiteSettings />
       <Header />
       <Routes>
-        <>{config && console.log(config)}</>
         {
-          config && config.pages.map((page: { path: string, template: string }) => { 
-            const PageComponent = pageComponent[page.template];
-            console.log(pageComponent)
-            console.log(page)
+          singleActionsRoute.length > 0 && singleActionsRoute.map((page:any, index:number) => { 
             return (
               <Route 
-                key={page.path} 
-                path={page.path} 
-                element={<PageComponent type={page.path.replace('/','')} />} 
+                key={page.slug + index} 
+                path={`nos-actions/${page.attributes.slug}`} 
+                element={<SingleAction id={page.id}/>} 
               />
             );
           })
         }
-        <Route path="/custom-flag" element={<SingleAction />} />
+
+        <Route path="/" element={<Accueil />} />
+        <Route path="/qui-sommes-nous" element={<About />} />
+        <Route path="/nos-actions" element={<NosActions />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/custom-flag" element={<Drapeau />} />
+        <Route path="/preview" element={<PreviewPage />} />
+        <Route path="/mentions-legales" element={<MentionsLegales />} />
+        
       </Routes>
       <Footer />
     </>

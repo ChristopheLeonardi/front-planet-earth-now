@@ -22,12 +22,12 @@ interface Traduction {
 
 interface Config {
     logo: string;
-    pictoeducation: string; 
-    pictofederation: string; 
-    pictoaction: string;
     pages: Page[];
     langues: Array<string>;
     traduction: Traduction;
+    navigation_color: string;
+    adresse: string;
+    phone_number: string;
 }
 
 interface ConfigContextType {

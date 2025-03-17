@@ -34,21 +34,22 @@ nav{
 }
 
 .nav-links a{
-    color: var(--dark-grey);
+    color: var(--blue-pen);
     text-decoration: unset;
     font-family: var(--secondary-font);
+    font-weight: bold;
     padding: 0.5em 1em;
 }
 .nav-links a.active{
-    font-weight: bold;
+    font-family: var(--primary-font);
     color: var(--green-pen);
 }
 
 .nav-links a:hover{
     color:var(--blue-pen);
+    font-family: var(--primary-font);
     
 }
-
 .nav-links.toggle {
     transform: translateX(0);
 }
@@ -63,7 +64,7 @@ nav{
     width: 25px;
     height: 3px;
     border-radius: 2px;
-    background: var(--dark-grey);
+    background: var(--blue-pen);
     margin: 5px;
     transition:all 0.5s ease;
 }
@@ -97,7 +98,9 @@ nav{
         border-radius: 16px;
     }
     header .nav-links a{
-        margin: 1em;
+        margin: 0.5em 1em;
+        text-align: center;
+        display: inline-block;
     }
     header li {
         margin-left: 0;

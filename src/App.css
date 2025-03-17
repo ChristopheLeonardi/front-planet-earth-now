@@ -8,32 +8,42 @@
 }
 
 @font-face {
-  font-family: 'gilroy-bold';
-  src: url('./assets/fonts/gilroy-bold-webfont.woff2') format('woff2'),
-       url('./assets/fonts/gilroy-bold-webfont.woff') format('woff'),
-       url('./assets/fonts/gilroy-bold-webfont.ttf') format('truetype');
+  font-family: 'gilroy-heavy';
+  src: url('./assets/fonts/Gilroy-Heavy.woff2') format('woff2'),
+       url('./assets/fonts/Gilroy-Heavy.woff') format('woff'),
+       url('./assets/fonts/Gilroy-Heavy.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'gilroy';
-  src: url('./assets/fonts/gilroy-regular-webfont.woff2') format('woff2'),
-       url('./assets/fonts/gilroy-regular-webfont.woff') format('woff'),
-       url('./assets/fonts/gilroy-regular-webfont.ttf') format('truetype');
+  src: url('./assets/fonts/Gilroy-Regular.woff2') format('woff2'),
+       url('./assets/fonts/Gilroy-Regular.woff') format('woff'),
+       url('./assets/fonts/Gilroy-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'gilroy';
+  src: url('./assets/fonts/Gilroy-SemiBold.woff2') format('woff2'),
+       url('./assets/fonts/Gilroy-SemiBold.woff') format('woff'),
+       url('./assets/fonts/Gilroy-SemiBold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
 :root {
-  --background-grey: #F8F8F8;
+  --background-grey: #f4f4f4;
   --blue-pen: #2151A3;
   --green-pen: #009C1A;
   --dark-grey: #1a1a1a;
   --medium-grey: #828282;
   --light-grey: #d6d6d6;
   --white: #ffffff;
-  --primary-font: "bowlby", arial, sans-serif;
+  --primary-font: "gilroy-heavy", arial, sans-serif;
+  --primary-font-alternate: "bowlby", arial, sans-serif;
   --secondary-font:"gilroy", arial, sans-serif;
 }
 html{
@@ -61,6 +71,7 @@ body{
   padding: 0.5em 1em;
   margin: 1em 0;
   transition: all 0.3s  ease-in-out ;
+  text-decoration: none;
 }
 
 .primary-button:hover{

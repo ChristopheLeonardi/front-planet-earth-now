@@ -3,50 +3,60 @@ import pageServices from '../services/pages'
 import ImageComponent from '../components/interface/ImageComponent';
 import { useLang } from '../context/LangContext';
 import RichText from '../components/interface/RichText';
+import Partenaires from '../components/interface/Partenaires';
+import Entete from '../components/interface/Entete';
+import Citation from '../components/interface/Citation';
+import Diaporama from '../components/interface/Diaporama';
+import TitreH2 from '../components/interface/TitreH2';
+import Vignette from '../components/interface/Vignette';
 import "./content.css"
 import "./Accueil.css"
-import ContactForm from '../components/interface/ContactForm';
-import "./content.css"
-import "./about.css"
-
+import EnteteAccueil from '../components/EnteteAccueil';
 
 interface Content {
-    Heading:any;
-    ImageEntete:any;
+
+    entete_image:any;
     citation:any;
     diaporama:any;
     content: any;
     vignettesSection:any;
     actionsVignettes:any;
     partenariats: any;
-    titre: string;
-    sousTitre: string;
-    body: any;
-    createdAt: string;
-    updatedAt: string;
-    publishedAt: string;
-    locale: string;
-    entete: any;
-    contact:any;
-    contactMessage:any;
-    ef1_link:any;
+    CTA_entete : any;
+    CTA_bas_de_page : any;
+    titre:string;
+    sousTitre:string;
+    background_color:string;
+    text_position:string;
+    Bandeau_Texte_Photo:any;
+
 }
 
 
-const BodyContainer = ({imageContent, textContent}:any) => {
+const BandeauTextePhoto = ({entry}:any) => {
+    console.log(entry)
     return (
-    <div className='spe-accueil'>
-        { imageContent &&(
-            <ImageComponent imageContent={imageContent}/>
-        )}
-        <RichText data={textContent}/>
-    </div>
+        <article className='page-content'  style={{ backgroundColor: entry.background_color  ? entry.background_color : "#f4f4f4" }}>
+        <article className={`bandeau-texte-photo ${entry.Position}`}>
+            <div className='textes'>
+                <h2>{entry.titre}</h2>
+                <p>{entry.texte}</p>
+                {entry.CTA && entry.CTA.link && (
+                <div className='cta center'>
+                <a 
+                    className="primary-button"
+                    href={entry.CTA.link} 
+                    target={entry.CTA.Ouvrir_dans_une_nouvelle_fenetre ? "_blank" : ""}
+                    title={entry.CTA.attribut_title}
+                >{entry.CTA.texte}</a>
+                </div>
+            )} 
+            </div>
+            <ImageComponent imageContent={entry.image.data.attributes}/>
+        </article>
+        </article>
     )
 }
-
-
-
-
 const Accueil = () => {
 
     const lang = useLang();
@@ -54,7 +64,7 @@ const Accueil = () => {
 
     useEffect(() => {
         pageServices
-            .getPageContent({"page": "about", "lang": lang[0]})
+            .getPageContent({"page": "accueil", "lang": lang[0]})
             .then((res: Content) => { 
                 const objRes = { 
                     ...res
@@ -63,38 +73,42 @@ const Accueil = () => {
             .catch((error) => { console.error('Error fetching config:', error) });
     }, [lang]);
     
-    const chooseColor = (index:number) => {
-      return index <= 1 ? "blue" : "green"
-    }
-
     return (
-        <section className='page-content accueil'>
-        { content && (<>
+        <section>
+        { content && (
+        <>
 
-            <h2 className='subTitle-temp'>
-                {content.sousTitre.split(' ').map((word, index) => {
-                  return <span className={chooseColor(index)} key={index}>{word} </span>
-                })}
-   
-            </h2>
-            <BodyContainer textContent={content.body}/>
-            <div className='button-2-col' id="bouton-flag">
-                {content.ef1_link && (
-                    <a 
-                        className="primary-button spe-accueil"
-                        href={content.ef1_link.link} 
-                        target='_blank'
-                        title={content.ef1_link.buttonTitle}
-                    >{content.ef1_link.buttonLabel}</a>
-                )}
-            </div>
-            {content.contact.heading[0] && <h3 className='h3-title'>{content.contact.heading[0].titre}</h3>}
-            <ContactForm 
-                titre={content.contact.titre} 
-                message={content.contactMessage}
-                sousTitre={content.contact.sousTitre} 
-                fields={content.contact.formContent}/>
-        </>)}
+            <article className='page-content entete' >
+                <EnteteAccueil 
+                    heading={{titre: content.titre, sousTitre: content.sousTitre}} 
+                    image={content.entete_image}
+                    params={content.text_position}
+                    CTA={content.CTA_entete }
+                />
+            </article>
+            <article className='page-content'>
+                <RichText data={content.content}/>
+            </article>
+            {content.Bandeau_Texte_Photo && content.Bandeau_Texte_Photo.map( (bandeau:any) => {
+                return (<>
+                    <BandeauTextePhoto entry={bandeau}/>
+                </>)
+            })}
+            
+            
+
+           {content.CTA_bas_de_page && (
+                <section className='cta center'>
+                <a 
+                    className="primary-button"
+                    href={content.CTA_bas_de_page.link} 
+                    target={content.CTA_bas_de_page.Ouvrir_dans_une_nouvelle_fenetre ? "_blank" : ""}
+                    title={content.CTA_bas_de_page.attribut_title}
+                >{content.CTA_bas_de_page.texte}</a>
+                </section>
+            )}      
+        </>
+        )}
         </section>
     )
 }

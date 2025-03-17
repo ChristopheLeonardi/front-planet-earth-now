@@ -3,39 +3,27 @@ import pageServices from '../services/pages'
 import ImageComponent from '../components/interface/ImageComponent';
 import { useLang } from '../context/LangContext';
 import RichText from '../components/interface/RichText';
+import TitreH2 from '../components/interface/TitreH2';
+import BodySection from '../components/BodySection';
 import Partenaires from '../components/interface/Partenaires';
-import ContactForm from '../components/interface/ContactForm';
 import Entete from '../components/interface/Entete';
 import "./content.css"
 import "./about.css"
+
 interface Content {
     titre: string;
     sousTitre: string;
+    Body_section: any;
     body: any;
-    createdAt: string;
-    updatedAt: string;
-    publishedAt: string;
-    locale: string;
-    entete: any;
+    titre_icons_group: any;
+    background_color: string;
+    module_picto_collaborateur: string;
     partenariats: any;
-    contact:any;
-    contactMessage:any;
-    ef1_link:any;
+    CTA: any;
+    background_color_principal:string;
+    Partenaires:any;
+    End_section:any;
 }
-
-
-const BodyContainer = ({imageContent, textContent}:any) => {
-    return (
-    <div className='spe-accueil'>
-        {/* <Entete content={{titre :"Planet Earth Now"}}/> */}
-        { imageContent &&(
-            <ImageComponent imageContent={imageContent}/>
-        )}
-        <RichText data={textContent}/>
-    </div>
-    )
-}
-
 
 
 const About = () => {
@@ -48,56 +36,54 @@ const About = () => {
             .getPageContent({"page": "about", "lang": lang[0]})
             .then((res: Content) => { 
                 const objRes = {
-                    ...res,
-                    contactMessage: {
-                        "error": res.contact.errorMessage,
-                        "missing": res.contact.missingFieldMessage,
-                        "success": res.contact.successMessage
-                    }
+                    ...res
                 }
                 setContent(objRes) })
             .catch((error) => { console.error('Error fetching config:', error) });
     }, [lang]);
     
-    return (
-        <section className='page-content about'>
-        { content && (
-        <>
-            {console.log(content)}
-            <h2 className='subTitle-temp'>
-                {/* TODO : MAKE IT RIGHT */}
-                <span className='blue'>{content.sousTitre.split(' ')[0]} 
-                </span>    
-                {/* TODO : MAKE IT RIGHT */}
-                <span className='blue'> {content.sousTitre.split(' ')[1]}
-                </span>    
-                <span className='green'> {content.sousTitre.split(' ')[2]}
-                </span>    
-            </h2>
-            <BodyContainer textContent={content.body}/>
-            <div className='button-2-col' id="bouton-flag">
-                {content.ef1_link && (
-                    <a 
-                        className="primary-button spe-accueil"
-                        href={content.ef1_link.link} 
-                        target='_blank'
-                        title={content.ef1_link.buttonTitle}
-                    >{content.ef1_link.buttonLabel}</a>
+    return (<>
+            { content && (
+            <section>
+
+                <section className='page-content'style={{ backgroundColor: content.background_color_principal  ? content.background_color_principal : "#f4f4f4" }}>
+                    <article>
+                        <TitreH2 titre={content.titre} sousTitre={content.sousTitre}/>
+                        <RichText data={content.body}/>
+                    </article>
+                </section>
+
+                {content.Body_section.length > 0 && content.Body_section.map((element:any, index:number) => {
+                    return <BodySection key={index} data={element}/>
+                })}
+                
+                <Partenaires partenariatData={content.Partenaires} />
+                {content.End_section && (
+                    <section className='page-content'style={{ backgroundColor: content.background_color  ? content.background_color : "#f4f4f4" }}>
+                        <article>
+                        {console.log(content.End_section)}
+                            {content.End_section.titre && (<TitreH2 titre={content.titre} sousTitre={content.sousTitre}/>)}
+                            {content.End_section.Body_section && (<RichText data={content.End_section.Body_section}/>)}
+                            
+                        </article>
+                    </section>
                 )}
-                {/* <a className="primary-button spe-accueil"href='https://planetearthnow.org/custom-flag' target='_blank'>Personnaliser le drapeau</a> */}
-            </div>
-            {/*      */}
-{/*             <p className="center">Des idées de collaboration ? Contactez-nous !</p>
- */}
-            <ContactForm 
-                titre={content.contact.titre} 
-                message={content.contactMessage}
-                sousTitre={content.contact.sousTitre} 
-                fields={content.contact.formContent}/>
-        </>
-        )}
-        </section>
-    )
+                {content.CTA && (
+                    <section className='cta center'>
+                    <a 
+                        className="primary-button"
+                        href={content.CTA.link} 
+                        target={content.CTA.Ouvrir_dans_une_nouvelle_fenetre ? "_blank" : ""}
+                        title={content.CTA.attribut_title}
+                    >{content.CTA.texte}</a>
+                    </section>
+                )}
+
+
+            </section>
+
+            )}
+    </>)
 }
 
 export default About

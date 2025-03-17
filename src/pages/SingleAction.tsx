@@ -1,99 +1,137 @@
 import {useState, useEffect} from 'react';
 import pageServices from '../services/pages'
-import utils from '../services/utils';
+import ImageComponent from '../components/interface/ImageComponent';
 import { useLang } from '../context/LangContext';
-import FlagPersonnalisation from '../components/interface/PersonnalisationFlag'; 
-import EnteteAction from '../components/EnteteAction';
+import RichText from '../components/interface/RichText';
+import EnteteAccueil from '../components/EnteteAccueil';
+import Diaporama from '../components/interface/Diaporama';
+import utils from '../services/utils';
 import "./content.css"
+import "./Accueil.css"
+import "./singleAction.css"
 
 interface Content {
-    titre: string;
-    sousTitre: string;
-    body: any;
-    createdAt: string;
-    updatedAt: string;
-    publishedAt: string;
-    locale: string;
-    entete: any;
+    
+
+    titre:string;
+    sousTitre:string;
+    entete_image:any;
+    citation:any;
+    diaporama:any;
+    content: any;
+    vignettesSection:any;
+    actionsVignettes:any;
     partenariats: any;
-    contact:any;
-    contactMessage:any;
-    icone: any;
-    presentation:any;
-    diaporama: any;
-    lesActions: any;
-    template: string;
-    PersonnalisationForm: any;
-    flagUseConsent: any;
-    SloganCanvasTitle: any;
-    PersoCanvasTitle: any;
-    SloganCanvasSubtitle: any;
-    PersoCanvasSubtitle: any;
-}
+    background_color_principal:string;
+    modules_media:Array<any>;
+    CTA:any;
 
-interface Action {
+}
+interface SingleActionProps {
     id: number;
-    attributes: Content;
+  }
+
+
+const ModulesImages = ({elt}:any) => {
+
+    const isSingle = elt.media.data.length === 1 
+    const isImage = elt.media.data[0].attributes.mime !== "" 
+                    && !/^video\//.test(elt.media.data[0].attributes.mime)
+
+    return (<>
+        <article className='media-module page-content' style={{ backgroundColor: elt.background_color  ? elt.background_color : "#f4f4f4" }}>
+            <RichText data={elt.body}/>
+            {isSingle && isImage && (<ImageComponent imageContent={elt.media.data[0].attributes}/>)}
+            {!isSingle && isImage && (<Diaporama images={elt.media.data} />)}
+            {isSingle && !isImage && (
+                <video                     
+                controls 
+                muted 
+                autoPlay 
+                loop 
+                playsInline>
+                    <source 
+                        src={utils.setUrl(elt.media.data[0].attributes.url)} 
+                        type={elt.media.data[0].attributes.mime} 
+                    />
+                    Votre navigateur ne supporte pas la lecture de cette vidéo.
+                </video>)}
+
+        </article>
+        
+    </>)
 }
+const AvisExpert = ({avis}:any) => {
+    console.log(avis)
+    const backgroundColor = avis.background_color || 'var(--blue-pen)'
+    return (
+        <div className='single-avis'>
+            <div className='texte'  style={{ backgroundColor: backgroundColor}}>
+                <cite>{avis.citation}</cite>
+                <div className='signature'>
+                    <ImageComponent imageContent={avis.photo.data.attributes}/>
 
-const SingleAction = (type:any ) => {
+                    <div>
+                        <p className='nom'>{avis.nom}</p> 
+                        <p className='source'>{avis.source}</p> 
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    )
+}
+const SingleAction = ({id}:SingleActionProps) => {
+
     const lang = useLang();
-    const [action, setAction] = useState<Action  | null>(null);
-    const [id, setId] = useState<number | null>(null)
-
+    const [content, setContent] = useState<Content | null>(null);
 
     useEffect(() => {
-        const params = utils.getUrlParams(['id']);
-        const initialId = params.id ? parseInt(params.id, 10) : null;
-        setId(initialId);
-        if(window.location.pathname === "/custom-flag"){
-          setId(2)
-        }
-      }, []);
+        pageServices
+            .getPageContent({"page": "actions/" + id, "lang": lang[0]})
+            .then((res: Content) => { 
+                const objRes = { 
+                    ...res
+                }
+                setContent(objRes) })
+            .catch((error) => { console.error('Error fetching config:', error) });
+    }, [lang]);
     
-      useEffect(() => {
-        if (id !== null && lang.length > 0) {
-          pageServices
-            .getLocaleId(id, lang[0])
-            .then((resId: any) => {
-              setId(resId);
-            })
-            .catch((error) => {
-              console.error('Error fetching locale ID:', error);
-            });
-        }
-      }, [id, lang]);
-    
-      useEffect(() => {
-        if (id !== null) {
-          pageServices
-            .getActionById(id)
-            .then((res: any) => {
-              setAction(res);
-            })
-            .catch((error) => {
-              console.error('Error fetching actions:', error);
-            });
-        }
-      }, [id]);
-    
-
-    return (
-        <section className='page-content'>
-            {action && (
-                <>
-                {action.attributes.template === "ef1" && (
-                    <>
-                        <FlagPersonnalisation data={action.attributes.PersonnalisationForm} flagUseConsent={action.attributes.flagUseConsent}/>
-                    </>
-                )}
-                {action.attributes.template === "simple" && (
-                      <EnteteAction content={action.attributes}/>
-                )}
-                </>
-            )}
+    return (<>
+        { content && (
+            
+        <section style={{ backgroundColor: content.background_color_principal  ? content.background_color_principal : "#f4f4f4" }}>
+            
+            <>{console.log(content)}</>
+            <article className='page-content entete' >
+            <EnteteAccueil heading={{titre:content.titre, sousTitre:content.sousTitre}} image={content.entete_image}/>
+            </article>
+            {content.modules_media && content.modules_media.map((elt:any, index:number) => {
+                return (<>
+                    <ModulesImages key={index} elt={elt}/>
+                    {elt.Avis_expert && (
+                        <article className='avis-container'>
+                            {elt.Avis_expert.map((avis:any) => {
+                                return <AvisExpert avis={avis}/>
+                            })}
+                        </article>
+                    )}
+                </>)
+            })}   
+            {content.CTA && (
+                <div className='cta center'>
+                <a 
+                    className="primary-button"
+                    href={content.CTA.link} 
+                    target={content.CTA.Ouvrir_dans_une_nouvelle_fenetre ? "_blank" : ""}
+                    title={content.CTA.attribut_title}
+                >{content.CTA.texte}</a>
+                </div>
+            )}         
         </section>
-    )
+        )}
+    </>)
 }
 
 export default SingleAction

@@ -1,5 +1,5 @@
-const baseFrontUrl = 'https://planetearthnow.org'
-const baseBackUrl = 'https://admin.planetearthnow.org'
+const baseFrontUrl = 'http://localhost:5173'
+const baseBackUrl = 'http://localhost:1337'
 
 const setUrl = (path:string) => { return baseBackUrl + path }
 

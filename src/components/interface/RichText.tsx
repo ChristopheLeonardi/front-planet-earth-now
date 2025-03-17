@@ -1,12 +1,13 @@
 import React from 'react';
 import { BlocksRenderer, type BlocksContent } from '@strapi/blocks-react-renderer';
-import { useEffect } from 'react';
+import "./richtext.css"
+//import { useEffect } from 'react';
 interface RichTextProps { data: any; }
 
 const RichText: React.FC<RichTextProps> = ({ data }) => {
   const content: BlocksContent = data;
 
-    const setElementsAttributes = (nodeArray:any, attribute:string, value:string) => {
+    /* const setElementsAttributes = (nodeArray:any, attribute:string, value:string) => {
       if (nodeArray.length) {
         Array.from(nodeArray).map( (elt:any) => {
           if( !elt.getAttribute(attribute) ) { elt.setAttribute(attribute, value)}
@@ -17,9 +18,9 @@ const RichText: React.FC<RichTextProps> = ({ data }) => {
     const removeEmptyElement = (eltArray:any) => {
       let filtered = Array.from(eltArray).filter((c:any) => c.children.length === 0)
       filtered.map((f:any) => f.remove())
-    }
+    } */
 
-    useEffect(() => {
+    /* useEffect(() => {
 
       let paragraph = document.querySelectorAll(".rich-text-block p");
 
@@ -46,14 +47,13 @@ const RichText: React.FC<RichTextProps> = ({ data }) => {
       let links = document.querySelectorAll(".text-container a")
       setElementsAttributes(links, "target", "_blank")
 
-    }, [])
+    }, []) */
 
 
 
   return (
-    <div className='rich-text-block' id="rich-container">
+    <div className='rich-text-block' /* id="rich-container" */>
       <BlocksRenderer content={content} />
-      
     </div>
   );
 };

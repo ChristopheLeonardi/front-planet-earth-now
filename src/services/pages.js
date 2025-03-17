@@ -16,17 +16,23 @@ const getConfig = async () => {
             const resData = response.data.data.attributes
             const config = {
                 "logo": baseUrl + resData.logo.data.attributes.url,
-                "pictoaction": baseUrl + resData.pictoaction.data.attributes.url,
-                "pictoeducation": baseUrl + resData.pictoeducation.data.attributes.url,
-                "pictofederation": baseUrl + resData.pictofederation.data.attributes.url,
                 "pages": resData.pagesNavigation.pages,
                 "template": resData.pagesNavigation.template,
                 "langues": resData.LanguesDisponibles,
-                "traduction": resData.traduction
+                "traduction": resData.traduction,
+                "navigation_color": resData.Navigation_color,
+                "adresse": resData.adresse,
+                "phone_number": resData.Phone_number
             }
             return config            
         }
     );
+}
+const getSingleActionsRoutes = async () => {
+  const request = axios.get(baseUrl + `/api/actions`)
+  return await request.then(response => {
+    return response.data.data
+  })
 }
 
 const getPageContent = async (params) => {
@@ -116,6 +122,7 @@ const uploadImage = async (base64String) => {
     }
   };
 
+
 export default { 
     getPagesTitle, 
     getConfig, 
@@ -125,5 +132,6 @@ export default {
     getActionById,
     getLocaleId,
     uploadImage,
-    saveFlagOnServer
+    saveFlagOnServer,
+    getSingleActionsRoutes
 };

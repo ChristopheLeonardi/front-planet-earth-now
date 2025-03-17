@@ -60,7 +60,11 @@
     margin: 0;
     text-transform: capitalize;
 }
-
+.vignette .primary-button{
+    width: fit-content;
+    font-size: 1em;
+    margin-top: 0;
+}
 @media screen and (min-width:425px) {
     .vignette{
         width: 48%;

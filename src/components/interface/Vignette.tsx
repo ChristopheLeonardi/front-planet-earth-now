@@ -3,14 +3,16 @@ import ImageComponent from "./ImageComponent"
 import "./vignette.css"
 import utils from "../../services/utils"
 
-const Vignette = ({ entry, domaine }: { entry: any; domaine: boolean }) => {
+const Vignette = ({ entry }: { entry: any; }) => {
+    console.log(entry.slug)
     const id = entry.id
     const data = entry.attributes ? entry.attributes : entry
-    const imageContent = data.entete ? data.entete.data.attributes : data.image.data.attributes
+    console.log(data)
+    const imageContent = data.entete_image ? data.entete_image.data.attributes : data.image.data.attributes
 
     // Utilisation de la forme des données pour définir si un lien doit être calculé ou non
     const autoLink = entry.attributes ? false : true
-    const linkUrl = autoLink ? data.lien : utils.seFrontUrl("/single-action?id=" + id)
+    const linkUrl = autoLink ? data.lien : utils.seFrontUrl("/nos-actions/" + data.slug)
 
     const [sousTitre, setSousTitre] = useState("")
 
@@ -28,17 +30,9 @@ const Vignette = ({ entry, domaine }: { entry: any; domaine: boolean }) => {
             <div className="textes">
                 <h3>{data.titre}</h3>
                 <p className="description">{sousTitre}</p>
+                {data.bouton_see_more && (<p className="primary-button">{data.bouton_see_more.buttonLabel}</p>)}
             </div>
-            {domaine ? (
-                <p className="domaine">{
-                    data.domaine.map((domaine:string, index:number) => {
-                        var sep = data.domaine.length != index + 1 ? " | " : ""
-                        return domaine + sep
-                    })}
-                </p>
-            ) : (
-                null
-            )}
+            
             
             <ImageComponent imageContent={imageContent}/>
         </a>

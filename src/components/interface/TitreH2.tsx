@@ -15,12 +15,12 @@ const TitreH2 = ({titre, sousTitre}:DataTitre) => {
     },[titre])
     return (
         <>  
-        <h2>
+        <div>
         {formatTitre.map((line, index) => {
-            return (<p key={index}>{line}<br/></p>)
+            return (<h2 key={index}>{line}<br/></h2>)
         })}
-        </h2>
-            <p>{sousTitre}</p>
+        </div>
+        {sousTitre != "" && (<p>{sousTitre}</p>)}
         </>
     )   
 }
