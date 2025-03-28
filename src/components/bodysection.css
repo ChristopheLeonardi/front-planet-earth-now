@@ -22,7 +22,10 @@
   padding: 1%;
 }
 .module-image-texte img{
-  width: 100%;
+  width: 50%;
+  margin: auto;
+  display: block;
+  max-width: 150px;
 }
 
 .module-image-texte p{
@@ -56,4 +59,32 @@
 .module-image-texte h3{
   text-align: center;
 }
+summary::marker{
+  display: none;
+}
 
+summary{
+  display: flex;
+  align-items: center;
+}
+summary h2{
+  margin-left: 1em;
+}
+
+summary svg{
+  width: 20px;
+  transition:all 0.2s ease-in-out;
+}
+
+details[open] summary svg {
+  transform-origin: center;
+  transform: rotate(180deg);
+  transition:all 0.2s ease-in-out;
+}
+
+
+
+.rich-text-block a,
+.rich-text-block p{
+  color: inherit;
+}

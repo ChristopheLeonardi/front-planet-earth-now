@@ -1,10 +1,12 @@
 import TitreH2 from "./interface/TitreH2";
 import RichText from "./interface/RichText";
 import ImageComponent from "./interface/ImageComponent";
-
+import { useState, useEffect } from "react";
+import ArrowIcon from "./ArrowIcon";
 import "./bodysection.css"
 
-const ModuleImageTexte = ({ data, type }: { data: any; type: string }) => {
+
+const ModuleImageTexte = ({ data, type, paragraph_color }: { data: any; type: string; paragraph_color:string; }) => {
   if (!type) return null; // Correction de la condition
   const typeClass = type.toLowerCase();
 
@@ -16,32 +18,58 @@ const ModuleImageTexte = ({ data, type }: { data: any; type: string }) => {
             {elt.image?.data && (
               <ImageComponent imageContent={elt.image.data.attributes} />
             )}
-            {elt.titre && (<p className="titre">{elt.titre}</p>)}
-            {elt.sousTitre && (<p className="sousTitre">{elt.sousTitre}</p>)}
-            {elt.auteur_citation && (<p className="auteur">{elt.auteur_citation}</p>)}
+            {elt.titre && (<p className="titre" style={{color: paragraph_color || "#000"}}>{elt.titre}</p>)}
+            {elt.sousTitre && (<p className="sousTitre" style={{color: paragraph_color || "#000"}}>{elt.sousTitre}</p>)}
+            {elt.auteur_citation && (<p className="auteur" style={{color: paragraph_color || "#000"}}>{elt.auteur_citation}</p>)}
           </div>
         ))}
     </section>
   );
 };
 
-const BodySection = ({ data }: { data: any }) => {
+const handleSummaryClick = (e:any) => {
+  let details = document.querySelectorAll("details")
+  if (e.target.hasAttribute("open")){
+    e.target.toggleAttribute("open")
+  } else{
+    Array.from(details).map(elt => { elt.removeAttribute("open")})
+    e.target.setAttribute("open", "open")
+    setTimeout(() => {
+      e.target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 200);
+  }
+
+
+}
+
+const BodySection = ({ data, index }: { data: any; index:number }) => {
+  const isOpen = index === 0 ? true : false
+  useEffect(() => {
+    document.documentElement.style.setProperty("--rich-text-color", data.paragraph_color);
+  }, [])
   return (
-    <section
+    <details
       className="page-content"
-      style={{ backgroundColor: data.background_color || "#f4f4f4" }}
+      style={{ backgroundColor: data.background_color || "#ffffff" }}
+      open={isOpen}
     >
-      <article>
-        {data.titre && <h2>{data.titre}</h2>}
-        {data.Body_section && <RichText data={data.Body_section} />}
+      <summary onClick={(e) => handleSummaryClick(e)}>
+      <ArrowIcon color={data.heading_color || "var(--green-pen)"}/>
+        {data.titre && <h2 style={{ color: data.heading_color || "var(--green-pen)" }}>{data.titre}</h2>}</summary>
+      <article>        
+        {data.Body_section && (
+          <div style={{color: data.paragraph_color || "#000"}}>
+          <RichText data={data.Body_section} />
+          </div>)}
         {data.type?.length > 0 && (
         <>
           {data.titre_icons_group && <h3 className="module-image-texte-title">{data.titre_icons_group}</h3>}
-          <ModuleImageTexte data={data.module_picto_collaborateur} type={data.type} />
+
+          <ModuleImageTexte data={data.module_picto_collaborateur} type={data.type} paragraph_color={data.paragraph_color}/>
         </>
         )}
       </article>
-    </section>
+    </details>
   );
 };
 

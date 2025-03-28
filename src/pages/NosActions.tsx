@@ -12,7 +12,8 @@ import Vignette from '../components/interface/Vignette';
 import BodySection from '../components/BodySection';
 import "./content.css"
 import "./Accueil.css"
-
+import EnteteAccueil from '../components/EnteteAccueil';
+import CTA from '../components/interface/CTA';
 interface Content {
     
 
@@ -23,7 +24,7 @@ interface Content {
     vignettesSection:any;
     actions:any;
     partenariats: any;
-    title: string;
+    titre: string;
     sousTitre: string;
     Body_section: any;
     body: any;
@@ -36,6 +37,10 @@ interface Content {
     Partenaires:any;
     End_section:any;
     bouton_see_more:any;
+    entete_image:any;
+    entete_color:any;
+    entete_background_color:any;
+    text_position:any;    
 
 }
 
@@ -65,10 +70,17 @@ const NosActions = ({previewData=false}:any) => {
     return (<>
         { content && (
         <section>
-
-            <section className='page-content'style={{ backgroundColor: content.background_color_principal  ? content.background_color_principal : "#f4f4f4" }}>
+            <article className='page-content entete' >
+                <EnteteAccueil 
+                    heading={{titre: content.titre, sousTitre: content.sousTitre}} 
+                    image={content.entete_image}
+                    params={content.text_position}
+                    design={{color: content.entete_color, background:content.entete_background_color}}
+                    /* CTA={content.CTA_entete } */
+                />
+            </article>
+            <section className='page-content'style={{ backgroundColor: content.background_color_principal  ? content.background_color_principal : "#ffffff" }}>
                 <article>
-                    <TitreH2 titre={content.title} sousTitre={content.sousTitre}/>
                     <RichText data={content.body}/>
                 </article>
                 <TitreH2 titre={content.titre_section_actions} sousTitre={content.sousTitre}/>
@@ -76,7 +88,7 @@ const NosActions = ({previewData=false}:any) => {
                 {content.actions && 
                     content.actions.data?.length > 0 && 
                     content.actions.data.map((entry: any) => (
-                        <Vignette key={entry.id} entry={entry} />
+                        <Vignette key={entry.id} entry={entry} cta={content.CTA}/>
                     ))
                 }
                 </section>
@@ -85,14 +97,7 @@ const NosActions = ({previewData=false}:any) => {
             
            
             {content.CTA && (
-                <section className='cta center'>
-                <a 
-                    className="primary-button"
-                    href={content.CTA.link} 
-                    target={content.CTA.Ouvrir_dans_une_nouvelle_fenetre ? "_blank" : ""}
-                    title={content.CTA.attribut_title}
-                >{content.CTA.texte}</a>
-                </section>
+                <CTA data={content.CTA}/>
             )}
 
 

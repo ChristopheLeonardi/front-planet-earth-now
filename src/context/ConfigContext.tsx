@@ -21,7 +21,12 @@ interface Traduction {
 }
 
 interface Config {
-    logo: string;
+    logo_header_fr: string;
+    logo_header_en: string;
+    logo_footer_fr: string;
+    logo_footer_en: string;
+    profil_instagram: string;
+    profil_linkedin: string;
     pages: Page[];
     langues: Array<string>;
     traduction: Traduction;

@@ -11,7 +11,7 @@ const EnteteAction = ({content}:any) => {
           <ImageComponent imageContent={content.entete.data.attributes}/>
           <div className='title-container'>
             <h1>{content.titre}</h1>
-            <p className="abstract">{content.sousTitre}</p>
+            {content.sousTitre && (<p className="abstract">{content.sousTitre}</p>)}
             {content.linkButton && (
               <a 
                 href={content.linkButton.link} 

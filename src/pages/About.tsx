@@ -7,15 +7,18 @@ import TitreH2 from '../components/interface/TitreH2';
 import BodySection from '../components/BodySection';
 import Partenaires from '../components/interface/Partenaires';
 import Entete from '../components/interface/Entete';
+import EnteteAccueil from '../components/EnteteAccueil';
+import CTA from '../components/interface/CTA';
 import "./content.css"
 import "./about.css"
+import React from 'react';
 
 interface Content {
     titre: string;
     sousTitre: string;
     Body_section: any;
     body: any;
-    titre_icons_group: any;
+    _icons_group: any;
     background_color: string;
     module_picto_collaborateur: string;
     partenariats: any;
@@ -23,6 +26,10 @@ interface Content {
     background_color_principal:string;
     Partenaires:any;
     End_section:any;
+    entete_image:any;
+    entete_color:any;
+    entete_background_color:any;
+    text_position:any;
 }
 
 
@@ -46,41 +53,71 @@ const About = ({previewData=false}:any) => {
             .catch((error) => { console.error('Error fetching config:', error) });
             }
     }, [lang]);
+    useEffect(() => {
+        setTimeout(() => {
+            let details = document.querySelectorAll("details");
+            if (details.length > 0) {
+                details[0].setAttribute("open", "open");
+            }
+        }, 100);
+    }, []);
+    
     
     return (<>
             { content && (
             <section>
-
-                <section className='page-content'style={{ backgroundColor: content.background_color_principal  ? content.background_color_principal : "#f4f4f4" }}>
+                <article className='page-content entete' >
+                    <EnteteAccueil 
+                        heading={{titre: content.titre, sousTitre: content.sousTitre}} 
+                        image={content.entete_image}
+                        params={content.text_position}
+                        design={{color: content.entete_color, background:content.entete_background_color}}
+                        
+                    />
+                </article>
+                {content.body[0].children[0].text != "" && (
+                <section className='page-content'style={{ backgroundColor: content.background_color_principal  ? content.background_color_principal : "#ffffff" }}>
+                    <>{console.log(content.body)}</>
                     <article>
-                        <TitreH2 titre={content.titre} sousTitre={content.sousTitre}/>
                         <RichText data={content.body}/>
                     </article>
                 </section>
+                )}
+
 
                 {content.Body_section.length > 0 && content.Body_section.map((element:any, index:number) => {
-                    return <BodySection key={index} data={element}/>
+                    return (<>
+                        <BodySection key={index} data={element} index={index}/>
+                    </>)
                 })}
                 
                 <Partenaires partenariatData={content.Partenaires} />
                 {content.End_section && (
-                    <section className='page-content'style={{ backgroundColor: content.background_color  ? content.background_color : "#f4f4f4" }}>
+                    <section className='page-content'style={{ backgroundColor: content.background_color  ? content.background_color : "#ffffff" }}>
                         <article>
-                            {content.End_section.titre && (<TitreH2 titre={content.titre} sousTitre={content.sousTitre}/>)}
-                            {content.End_section.Body_section && (<RichText data={content.End_section.Body_section}/>)}
-                            
+                            {content.End_section.titre && (
+                            <div>
+                                <h2 style={{ color: content.End_section.title_color  ? content.End_section.title_color : "#1a1a1a"}}
+                                    >{content.End_section.titre}</h2>
+                            </div>
+                            )}
+                            {content.End_section.sousTitre && (
+                            <div>
+                                <h2 style={{ color: content.End_section.title_color  ? content.End_section.title_color : "#1a1a1a"}}
+                                    >{content.End_section.sousTitre}</h2>
+                            </div>
+                            )}
+                            {content.End_section.Body_section && (
+                            <RichText 
+                                data={content.End_section.Body_section}
+                                />)}
+
+
                         </article>
                     </section>
                 )}
                 {content.CTA && (
-                    <section className='cta center'>
-                    <a 
-                        className="primary-button"
-                        href={content.CTA.link} 
-                        target={content.CTA.Ouvrir_dans_une_nouvelle_fenetre ? "_blank" : ""}
-                        title={content.CTA.attribut_title}
-                    >{content.CTA.texte}</a>
-                    </section>
+                    <CTA data={content.CTA}/>
                 )}
 
 

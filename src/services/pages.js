@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:1337';
+const baseUrl = 'http://85.31.236.134:1339';
 
 const getPagesTitle = async () => {
     const request = axios.get(baseUrl + "/api/pages");
@@ -15,14 +15,19 @@ const getConfig = async () => {
         {
             const resData = response.data.data.attributes
             const config = {
-                "logo": baseUrl + resData.logo.data.attributes.url,
+                "logo_header_fr": baseUrl + resData.logo_header_fr.data.attributes.url,
+                "logo_header_en": baseUrl + resData.logo_header_en.data.attributes.url,
+                "logo_footer_fr": baseUrl + resData.logo_footer_fr.data.attributes.url,
+                "logo_footer_en": baseUrl + resData.logo_footer_en.data.attributes.url,
                 "pages": resData.pagesNavigation.pages,
                 "template": resData.pagesNavigation.template,
                 "langues": resData.LanguesDisponibles,
                 "traduction": resData.traduction,
                 "navigation_color": resData.Navigation_color,
                 "adresse": resData.adresse,
-                "phone_number": resData.Phone_number
+                "phone_number": resData.Phone_number,
+                "profil_instagram": resData.profil_instagram,
+                "profil_linkedin": resData.profil_linkedin
             }
             return config            
         }

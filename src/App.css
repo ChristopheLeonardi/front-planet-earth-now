@@ -35,9 +35,10 @@
 }
 
 :root {
-  --background-grey: #f4f4f4;
-  --blue-pen: #2151A3;
-  --green-pen: #009C1A;
+  --background-grey: #ffffff;
+  --background-white: #ffffff;
+  --blue-pen: #2E519D;
+  --green-pen: #349837;
   --dark-grey: #1a1a1a;
   --medium-grey: #828282;
   --light-grey: #d6d6d6;
@@ -45,13 +46,15 @@
   --primary-font: "gilroy-heavy", arial, sans-serif;
   --primary-font-alternate: "bowlby", arial, sans-serif;
   --secondary-font:"gilroy", arial, sans-serif;
+  --rich-text-color:"#000";
+  --peche-pen: #fcc966;
 }
 html{
   overflow-x: hidden;
   width: 100vw;
 }
 body{
-  background-color: var(--background-grey);
+  background-color: var(--background-white);
   margin: 0;
   padding: 0;
   font-family: var(--secondary-font);
@@ -72,12 +75,15 @@ body{
   margin: 1em 0;
   transition: all 0.3s  ease-in-out ;
   text-decoration: none;
+  display: inline-block;
+  max-width: 80%;
 }
 
 .primary-button:hover{
-  border: 2px solid var(--blue-pen);
-  background-color: var(--blue-pen);
+  border: 2px solid var(--green-pen);
+  background-color: transparent;
   transition: all 0.3s  ease-in-out ;
+  color: var(--green-pen);
 }
 
 .secondary-button{
@@ -120,6 +126,19 @@ body{
   color: var(--green-pen);
 }
 
+h4, h5, h6{
+  font-family: var(--primary-font);
+  font-size: 1.2em;
+}
+h4{
+  font-size: 1.3em;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--peche-pen);
+}
+p, li{
+  font-size: 1.2em;
+}
 @media screen and (max-width:768px){
   .bandeau-vertical{
     display: none;

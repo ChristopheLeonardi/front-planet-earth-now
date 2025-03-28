@@ -9,7 +9,7 @@ import utils from '../services/utils';
 import "./content.css"
 import "./Accueil.css"
 import "./singleAction.css"
-
+import CTA from '../components/interface/CTA';
 interface Content {
     
 
@@ -33,14 +33,14 @@ interface SingleActionProps {
 
 
 const ModulesImages = ({elt}:any) => {
-
+    console.log(elt)
     const isSingle = elt.media.data.length === 1 
     const isImage = elt.media.data[0].attributes.mime !== "" 
                     && !/^video\//.test(elt.media.data[0].attributes.mime)
 
     return (<>
-        <article className='media-module page-content' style={{ backgroundColor: elt.background_color  ? elt.background_color : "#f4f4f4" }}>
-            <RichText data={elt.body}/>
+        <article className='media-module page-content' style={{ backgroundColor: elt.background_color  ? elt.background_color : "#ffffff" }}>
+            <>{console.log(elt)}</>
             {isSingle && isImage && (<ImageComponent imageContent={elt.media.data[0].attributes}/>)}
             {!isSingle && isImage && (<Diaporama images={elt.media.data} />)}
             {isSingle && !isImage && (
@@ -68,7 +68,7 @@ const AvisExpert = ({avis}:any) => {
             <div className='texte'  style={{ backgroundColor: backgroundColor}}>
                 <cite>{avis.citation}</cite>
                 <div className='signature'>
-                    <ImageComponent imageContent={avis.photo.data.attributes}/>
+                    {avis.photo.data && (<ImageComponent imageContent={avis.photo.data.attributes}/>)}
 
                     <div>
                         <p className='nom'>{avis.nom}</p> 
@@ -105,14 +105,20 @@ const SingleAction = ({ id, previewData = false }: SingleActionProps & { preview
     return (<>
         { content && (
             
-        <section style={{ backgroundColor: content.background_color_principal  ? content.background_color_principal : "#f4f4f4" }}>
+        <section style={{ backgroundColor: content.background_color_principal  ? content.background_color_principal : "#ffffff" }}>
             
             <article className='page-content entete' >
             <EnteteAccueil heading={{titre:content.titre, sousTitre:content.sousTitre}} image={content.entete_image}/>
             </article>
             {content.modules_media && content.modules_media.map((elt:any, index:number) => {
                 return (<div key={index}>
-                    <ModulesImages elt={elt}/>
+                    {elt.body && ( 
+                        <article className='media-module page-content' style={{ backgroundColor: elt.background_color  ? elt.background_color : "#ffffff" }}>
+                        <div style={{color: elt.paragraph_color || "#000"}}>
+                            <RichText data={elt.body}/>
+                        </div>
+                        </article>)}
+                    {elt.media.data &&( <ModulesImages elt={elt}/>)}
                     {elt.Avis_expert && (
                         <article className='avis-container'>
                             {elt.Avis_expert.map((avis: any, avisIndex: number) => {
@@ -123,14 +129,7 @@ const SingleAction = ({ id, previewData = false }: SingleActionProps & { preview
                 </div>)
             })}   
             {content.CTA && (
-                <div className='cta center'>
-                <a 
-                    className="primary-button"
-                    href={content.CTA.link} 
-                    target={content.CTA.Ouvrir_dans_une_nouvelle_fenetre ? "_blank" : ""}
-                    title={content.CTA.attribut_title}
-                >{content.CTA.texte}</a>
-                </div>
+                <CTA data={content.CTA}/>
             )}         
         </section>
         )}

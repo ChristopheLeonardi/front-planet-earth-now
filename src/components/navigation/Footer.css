@@ -1,5 +1,5 @@
 footer{
-    background-color: var(--white);
+    background-color: var(--blue-pen);
     padding: 1em;
     margin-top: 3em;
 }
@@ -15,7 +15,12 @@ footer .logo{
     height: 50px;
     display: block;
 }
-
+footer .nav-links a {
+    color: var(--white);
+}
+footer .nav-links a:hover {
+    color: var(--peche-pen);
+}
 footer ul{
     flex-wrap: wrap;
 }
@@ -28,4 +33,23 @@ footer ul{
     font-style: normal;
     text-align: center;
     margin: 0.5em;
+    color: var(--white);
+}
+
+footer .social{
+    display: flex;
+    justify-content: center;
+}
+
+footer .social img{
+    width: 30px;
+    margin: 0 0.5em;
+    border-radius: 100%;
+    overflow: hidden;
+    transition: 0.2s ease-in-out background-color;
+}
+
+footer .social img:hover{
+    background-color: var(--peche-pen); 
+    transition: 0.2s ease-in-out background-color;
 }

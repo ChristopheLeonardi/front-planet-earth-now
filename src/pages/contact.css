@@ -4,6 +4,7 @@
   width: 100%;
   box-sizing: border-box;
 }
+
 .filter .dropdown-container button{
   background-color: transparent;
   border: none;
@@ -29,7 +30,7 @@
 
 }
 .filter .dropdown-container .dropdown::after{
-  content: url("../assets/img/chevron.svg");
+  content: url("../assets/img/chevron-black.svg");
   width: 15px;
   height: 15px;
   display: inline-block;

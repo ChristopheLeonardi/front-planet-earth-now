@@ -6,7 +6,7 @@ import RichText from '../components/interface/RichText';
 import "./content.css"
 import "./Accueil.css"
 import EnteteAccueil from '../components/EnteteAccueil';
-
+import CTA from '../components/interface/CTA';
 interface Content {
 
     entete_image:any;
@@ -23,26 +23,22 @@ interface Content {
     background_color:string;
     text_position:string;
     Bandeau_Texte_Photo:any;
+    entete_color:any;
+    entete_background_color:any;
 
 }
 
 
 const BandeauTextePhoto = ({entry}:any) => {
     return (
-        <article className='page-content'  style={{ backgroundColor: entry.background_color  ? entry.background_color : "#f4f4f4" }}>
+        <article className='page-content'  style={{ backgroundColor: entry.background_color  ? entry.background_color : "#ffffff" }}>
         <article className={`bandeau-texte-photo ${entry.Position}`}>
             <div className='textes'>
-                <h2>{entry.titre}</h2>
-                <p>{entry.texte}</p>
+                <h2 style={{ color: entry.title_color  ? entry.title_color : "#1a1a1a" }}>{entry.titre}</h2>
+                <p style={{ color: entry.paragraph_color  ? entry.paragraph_color : "#1a1a1a" }}
+                >{entry.texte}</p>
                 {entry.CTA && entry.CTA.link && (
-                <div className='cta center'>
-                <a 
-                    className="primary-button"
-                    href={entry.CTA.link} 
-                    target={entry.CTA.Ouvrir_dans_une_nouvelle_fenetre ? "_blank" : ""}
-                    title={entry.CTA.attribut_title}
-                >{entry.CTA.texte}</a>
-                </div>
+                <CTA data={entry.CTA}/>
             )} 
             </div>
             <ImageComponent imageContent={entry.image.data.attributes}/>
@@ -81,6 +77,7 @@ const Accueil = ({previewData=false}:any) => {
                     image={content.entete_image}
                     params={content.text_position}
                     CTA={content.CTA_entete }
+                    design={{color: content.entete_color, background:content.entete_background_color}}
                 />
             </article>
             <article className='page-content'>
@@ -93,14 +90,7 @@ const Accueil = ({previewData=false}:any) => {
             
 
            {content.CTA_bas_de_page && (
-                <section className='cta center'>
-                <a 
-                    className="primary-button"
-                    href={content.CTA_bas_de_page.link} 
-                    target={content.CTA_bas_de_page.Ouvrir_dans_une_nouvelle_fenetre ? "_blank" : ""}
-                    title={content.CTA_bas_de_page.attribut_title}
-                >{content.CTA_bas_de_page.texte}</a>
-                </section>
+                <CTA data={content.CTA_bas_de_page}/>
             )}      
         </>
         )}

@@ -1,12 +1,18 @@
 import ImageComponent from './ImageComponent'
 import TitreH2 from './TitreH2'
+import "../bodysection.css"
+import ArrowIcon from '../ArrowIcon'
+import React from 'react'
+
 const Partenaires = ({partenariatData}:any) => {
     const imageAndLink = partenariatData.partenaires.data.map((item:any) => {return item.attributes.imageAndLink})
     return (
-        <div className='page-content partenariats'>
+        <details className='page-content partenariats'>
 
-            <TitreH2 titre={partenariatData.heading.titre} sousTitre={partenariatData.heading.sousTitre} />
-
+            <summary>
+                <ArrowIcon color={"var(--green-pen)"}/>
+                <TitreH2 titre={partenariatData.heading.titre} sousTitre={partenariatData.heading.sousTitre} />
+            </summary>
             <div className='partenaires-container'>
                 {imageAndLink.map((partenaire:any) => {
                     const imageAttributes = partenaire.image.data.attributes
@@ -20,7 +26,7 @@ const Partenaires = ({partenariatData}:any) => {
                     </a>)
                 })}
             </div>
-        </div>
+        </details>
     )
 }
 

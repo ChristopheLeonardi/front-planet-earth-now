@@ -12,19 +12,19 @@
     padding: 2em 0;
     height: 40vh;
 }
-.page-content.entete .title-container {
+.page-content.entete .entete-container {
     position: absolute;
-    width: 100%;
+    width: fit-content;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    left: 0;
+    transform: translate(0, -50%);
     z-index: 2;
-    color: #fff;
+    padding: 1em 2em;
 }
 .page-content.entete .title-container *{
-    color: #fff;
+    color: inherit;
 }
-.page-content.entete .overlay {
+/* .page-content.entete .overlay {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -33,8 +33,8 @@
     transform: translate(-50%, -50%);
     z-index: 1;
     background-color: #000;
-    opacity: 0.3;
-}
+    opacity: 0.5;
+} */
 
 .accueil.page-content
 .accueil .entete{
@@ -153,6 +153,3 @@ display: block;
   text-align: left !important;
 }
 
-p{
-    font-size: 1.2em;
-}

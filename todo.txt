@@ -1,0 +1,10 @@
+// - probleme de taill de police dans texte on responsive,
+// - heading en bleu
+- probleme de taille d'image guideline sur différent ecran pour image 2 colonnes
+// - responsive max width ecran 1440px
+// - sur mobile gérer responsve entete
+// - remonter les images avant les textes dans les partis (ex.accueil make sense)
+// - renommer les partenaires avec des noms et pas des numéros
+// - centrer footer sur mobile
+
+PEN!2023!site

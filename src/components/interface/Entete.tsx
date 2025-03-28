@@ -2,7 +2,7 @@ const Entete = ({ content, CTA }: { content: any; CTA?: any }) => {
     return (
         <div className='title-container'>
             <h1>{content.titre}</h1>
-            <p>{content.sousTitre}</p>
+            {content.sousTitre && (<p>{content.sousTitre}</p>)}
             {CTA && CTA.link && (
                 <div className='cta'>
                     <a 

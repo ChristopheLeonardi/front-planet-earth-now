@@ -1,5 +1,5 @@
-const baseFrontUrl = 'http://localhost:5173'
-const baseBackUrl = 'http://localhost:1337'
+const baseFrontUrl = 'http://85.31.236.134:5177'
+const baseBackUrl = 'http://85.31.236.134:1339'
 
 const setUrl = (path:string) => { return baseBackUrl + path }
 

@@ -3,10 +3,12 @@ import ImageComponent from "./ImageComponent"
 import "./vignette.css"
 import utils from "../../services/utils"
 
-const Vignette = ({ entry }: { entry: any; }) => {
+const Vignette = ({ entry, cta }: { entry: any; cta:any;}) => {
     const id = entry.id
+    if (!entry) {return}
+
     const data = entry.attributes ? entry.attributes : entry
-    const imageContent = data.entete_image ? data.entete_image.data.attributes : data.image.data.attributes
+    const imageContent = data.entete_image.data ? data.entete_image.data.attributes : ""
 
     // Utilisation de la forme des données pour définir si un lien doit être calculé ou non
     const autoLink = entry.attributes ? false : true
@@ -24,11 +26,32 @@ const Vignette = ({ entry }: { entry: any; }) => {
     return(
         <article className={`vignette ${entry.vocation ? "img-picto" : ""}`}>
             {id && (
-            <a href={linkUrl} title="go to action"> 
+            <a href={entry.attributes.remplacement_lien_auto ? entry.attributes.remplacement_lien_auto : linkUrl} 
+                target={entry.attributes.remplacement_lien_auto ? "_blank" : ""}
+               title="go to action">
             <div className="textes">
-                <h3>{data.titre}</h3>
-                <p className="description">{sousTitre}</p>
-                {data.bouton_see_more && (<p className="primary-button">{data.bouton_see_more.buttonLabel}</p>)}
+                <div>
+                    <h3>{data.titre}</h3>
+                    <p className="description">{sousTitre}</p>
+                </div>
+                {data.bouton_see_more && (<p 
+                    className="primary-button"
+                    style={{
+                        backgroundColor: cta.background_color || "#009C1A", // Couleur de fond par défaut
+                        borderColor: cta.background_color,
+                        color: cta.font_color || "#ffffff", // Couleur du texte par défaut
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = cta.hover_background_color || "#007A16";
+                        e.currentTarget.style.borderColor = cta.hover_background_color || "#007A16";
+                        e.currentTarget.style.color = cta.hover_font_color || "#ffffff";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = cta.background_color || "#009C1A";
+                        e.currentTarget.style.borderColor = cta.background_color || "#009C1A";
+                        e.currentTarget.style.color = cta.font_color || "#ffffff";
+                      }}
+                    >{data.bouton_see_more.buttonLabel}</p>)}
             </div>
             
             

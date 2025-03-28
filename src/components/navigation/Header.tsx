@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink } from "react-router-dom"; 
 import { useConfig } from '../../context/ConfigContext';
 import { useLang } from '../../context/LangContext';
@@ -14,6 +14,12 @@ const Header = () => {
     const toggleMenu = () => { setIsOpen(!isOpen) };
     const isCurrent = ({ isActive }: { isActive: boolean }) => isActive ? "active" : "";
 
+    const[logoLang, setLogoLang] = useState("logo_header_fr")
+
+    useEffect(() => {
+        setLogoLang("logo_header_" + lang[0])
+    }, [lang])
+
     return (
         <>
 
@@ -21,7 +27,7 @@ const Header = () => {
                 {config && (
                     <>
                         <NavLink to='/'>
-                            <img className="logo" src={config.logo} alt='Logo de Planet Earth Now'/>
+                            <img className="logo" src={config[logoLang]} alt='Logo de Planet Earth Now'/>
                         </NavLink>
                         <nav>
 
