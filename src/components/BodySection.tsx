@@ -14,7 +14,7 @@ const ModuleImageTexte = ({ data, type, paragraph_color }: { data: any; type: st
     <section className={`module-image-texte ${typeClass}`}>
       {data &&
         data.map((elt: any, index: number) => (
-          <div key={index}>
+          <div key={elt.id}>
             {elt.image?.data && (
               <ImageComponent imageContent={elt.image.data.attributes} />
             )}
@@ -47,6 +47,7 @@ const BodySection = ({ data, index }: { data: any; index:number }) => {
   useEffect(() => {
     document.documentElement.style.setProperty("--rich-text-color", data.paragraph_color);
   }, [])
+
   return (
     <details
       className="page-content"
@@ -57,9 +58,9 @@ const BodySection = ({ data, index }: { data: any; index:number }) => {
       <ArrowIcon color={data.heading_color || "var(--green-pen)"}/>
         {data.titre && <h2 style={{ color: data.heading_color || "var(--green-pen)" }}>{data.titre}</h2>}</summary>
       <article>        
-        {data.Body_section && (
+        {data.Body_section_2 && (
           <div style={{color: data.paragraph_color || "#000"}}>
-          <RichText data={data.Body_section} />
+          <RichText ck5_data={data.Body_section_2} />
           </div>)}
         {data.type?.length > 0 && (
         <>

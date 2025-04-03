@@ -13,6 +13,7 @@ import EnteteAccueil from '../components/EnteteAccueil';
 interface Content {
     Contact_form: any;
     Texte:any;
+    Texte_2:any;
     titre:string;
     text_position:any;
     sousTitre: string;
@@ -53,7 +54,7 @@ const Contact = ({previewData=false}:any) => {
                     heading={{titre: content.titre, sousTitre: content.sousTitre}} 
                     image={content.entete_image}
                     params={content.text_position}
-                    design={{color: content.entete_color, background:content.entete_background_color}}
+                    design={{color: content.entete_color, background_color:content.entete_background_color}}
                     /* CTA={content.CTA_entete } */
                 />
             </article>
@@ -65,7 +66,7 @@ const Contact = ({previewData=false}:any) => {
 
             {console.log(content)}
             {/* <TitreH2 titre={content.titre} sousTitre=""/> */}
-            <RichText data={content.Texte}/>
+            <RichText ck5_data={content.Texte_2}/>
             <ContactForm 
                 titre={content.Contact_form.heading.titre} 
                 message={{

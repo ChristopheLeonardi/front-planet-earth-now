@@ -139,6 +139,19 @@ h4{
 p, li{
   font-size: 1.2em;
 }
+.rich-text-block li span,
+.rich-text-block p span{
+  color: inherit !important;
+  font-family: var(--secondary-font) !important;
+  font-size: 1em !important;
+}
+.rich-text-block figure{
+  margin-left: 0;
+  margin-right: 0;
+}
+.rich-text-block blockquote{
+  font-style: italic;
+}
 @media screen and (max-width:768px){
   .bandeau-vertical{
     display: none;

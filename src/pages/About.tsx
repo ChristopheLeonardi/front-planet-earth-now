@@ -30,6 +30,7 @@ interface Content {
     entete_color:any;
     entete_background_color:any;
     text_position:any;
+    body_2:any;
 }
 
 
@@ -71,15 +72,14 @@ const About = ({previewData=false}:any) => {
                         heading={{titre: content.titre, sousTitre: content.sousTitre}} 
                         image={content.entete_image}
                         params={content.text_position}
-                        design={{color: content.entete_color, background:content.entete_background_color}}
+                        design={{color: content.entete_color, background_color:content.entete_background_color}}
                         
                     />
                 </article>
                 {content.body[0].children[0].text != "" && (
                 <section className='page-content'style={{ backgroundColor: content.background_color_principal  ? content.background_color_principal : "#ffffff" }}>
-                    <>{console.log(content.body)}</>
                     <article>
-                        <RichText data={content.body}/>
+                        <RichText ck5_data={content.body_2}/>
                     </article>
                 </section>
                 )}
@@ -87,7 +87,7 @@ const About = ({previewData=false}:any) => {
 
                 {content.Body_section.length > 0 && content.Body_section.map((element:any, index:number) => {
                     return (<>
-                        <BodySection key={index} data={element} index={index}/>
+                        <BodySection key={element.id} data={element} index={index}/>
                     </>)
                 })}
                 
@@ -107,10 +107,10 @@ const About = ({previewData=false}:any) => {
                                     >{content.End_section.sousTitre}</h2>
                             </div>
                             )}
-                            {content.End_section.Body_section && (
-                            <RichText 
-                                data={content.End_section.Body_section}
-                                />)}
+                            {content.End_section.Body_section_2 && (<>
+                            
+                            <RichText ck5_data={content.End_section.Body_section_2} />
+                            </>)}
 
 
                         </article>

@@ -94,8 +94,14 @@
     margin-bottom: 1em !important;
     margin-top: 1em;
 }
+.page-content .rich-text-block h4{
+    color: var(--peche-pen);
+}
+.page-content .rich-text-block h5{
+    font-weight: bold;
+}
 .page-content .rich-text-block h2{
-    color: var(--green-pen);
+    color: var(--blue-pen);
     text-transform: uppercase;
     font-size: 2.5em;
 }

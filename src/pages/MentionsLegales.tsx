@@ -44,7 +44,7 @@ const MentionsLegales = ({previewData=false}:any) => {
     return (<>
         { content && (
             <section className='page-content'>
-                    <RichText data={content.Texte}/>
+                    <RichText ck5_data={content.Texte}/>
             </section>
         )}
 </>)

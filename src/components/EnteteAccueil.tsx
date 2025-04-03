@@ -3,7 +3,7 @@ import Entete from "./interface/Entete";
 import utils from "../services/utils";
 
 interface EnteteAccueilProps {
-  heading?: string;  
+  heading?: any;  
   image?: { data?: { attributes?: { url?: string } } };  
   params?: string; 
   CTA?: boolean;
@@ -40,9 +40,13 @@ const EnteteAccueil = ({
         backgroundSize: "cover" 
       }}
     >
+      <>{console.log(heading)}</>
+      {heading.titre && (
       <div className="entete-container" style={{ color, backgroundColor: background }}>
         <Entete content={heading} CTA={CTA} />
       </div>
+      )}
+
       {/* <div className='overlay'></div> */}
     </section>
   );

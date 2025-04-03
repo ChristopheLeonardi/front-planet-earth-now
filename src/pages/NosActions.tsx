@@ -28,6 +28,7 @@ interface Content {
     sousTitre: string;
     Body_section: any;
     body: any;
+    body_2: any;
     titre_icons_group: any;
     background_color: string;
     module_picto_collaborateur: string;
@@ -75,13 +76,13 @@ const NosActions = ({previewData=false}:any) => {
                     heading={{titre: content.titre, sousTitre: content.sousTitre}} 
                     image={content.entete_image}
                     params={content.text_position}
-                    design={{color: content.entete_color, background:content.entete_background_color}}
+                    design={{color: content.entete_color, background_color:content.entete_background_color}}
                     /* CTA={content.CTA_entete } */
                 />
             </article>
             <section className='page-content'style={{ backgroundColor: content.background_color_principal  ? content.background_color_principal : "#ffffff" }}>
                 <article>
-                    <RichText data={content.body}/>
+                    <RichText ck5_data={content.body_2}/>
                 </article>
                 <TitreH2 titre={content.titre_section_actions} sousTitre={content.sousTitre}/>
                 <section className='vignette-container'>

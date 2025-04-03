@@ -13,6 +13,7 @@ interface Content {
     citation:any;
     diaporama:any;
     content: any;
+    content_2: any;
     vignettesSection:any;
     actionsVignettes:any;
     partenariats: any;
@@ -77,11 +78,11 @@ const Accueil = ({previewData=false}:any) => {
                     image={content.entete_image}
                     params={content.text_position}
                     CTA={content.CTA_entete }
-                    design={{color: content.entete_color, background:content.entete_background_color}}
+                    design={{color: content.entete_color, background_color:content.entete_background_color}}
                 />
             </article>
             <article className='page-content'>
-                <RichText data={content.content}/>
+                <RichText ck5_data={content.content_2}/>
             </article>
             {content.Bandeau_Texte_Photo && content.Bandeau_Texte_Photo.map( (bandeau: any, index: number) => {
                 return (<BandeauTextePhoto key={index} entry={bandeau}/>)

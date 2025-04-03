@@ -14,11 +14,11 @@ const Partenaires = ({partenariatData}:any) => {
                 <TitreH2 titre={partenariatData.heading.titre} sousTitre={partenariatData.heading.sousTitre} />
             </summary>
             <div className='partenaires-container'>
-                {imageAndLink.map((partenaire:any) => {
+                {imageAndLink.map((partenaire:any, index:number) => {
                     const imageAttributes = partenaire.image.data.attributes
                     return(
                     <a 
-                        key={imageAttributes.alternativeText} 
+                        key={index} 
                         href={partenaire.Lien} 
                         target="_blank" title={`Aller sur le site de ${imageAttributes.alternativeText}`}
                     >

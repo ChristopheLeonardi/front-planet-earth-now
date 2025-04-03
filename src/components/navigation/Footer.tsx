@@ -7,7 +7,7 @@ import "./Footer.css"
 
 const Rs_icone = ({type, url}: {type:string, url:string}) => {
     return(
-        <a className={`rs ${type}`} href={url} title={`Aller sur le profil ${type}`}>
+        <a className={`rs ${type}`} href={url} title={`Aller sur le profil ${type}`}target="_blank">
             <img src={`/${type}.svg`} alt=""/>
         </a>
     )
