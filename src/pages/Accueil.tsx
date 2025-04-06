@@ -26,7 +26,7 @@ interface Content {
     Bandeau_Texte_Photo:any;
     entete_color:any;
     entete_background_color:any;
-
+    titre_bandeau:string;
 }
 
 
@@ -84,8 +84,9 @@ const Accueil = ({previewData=false}:any) => {
             <article className='page-content'>
                 <RichText ck5_data={content.content_2}/>
             </article>
+            {content.titre_bandeau && (<article className='page-content spe-bandeau-accueil'><h2>{content.titre_bandeau}</h2></article>)}
             {content.Bandeau_Texte_Photo && content.Bandeau_Texte_Photo.map( (bandeau: any, index: number) => {
-                return (<BandeauTextePhoto key={index} entry={bandeau}/>)
+                return ( <BandeauTextePhoto key={index} entry={bandeau}/>)
             })}
             
             

@@ -33,15 +33,17 @@ interface SingleActionProps {
 
 
 const ModulesImages = ({elt}:any) => {
-    console.log(elt)
     const isSingle = elt.media.data.length === 1 
     const isImage = elt.media.data[0].attributes.mime !== "" 
                     && !/^video\//.test(elt.media.data[0].attributes.mime)
 
     return (<>
         <article className='media-module page-content' style={{ backgroundColor: elt.background_color  ? elt.background_color : "#ffffff" }}>
-            <>{console.log(elt)}</>
-            {isSingle && isImage && (<ImageComponent imageContent={elt.media.data[0].attributes}/>)}
+            {isSingle && isImage && (<figure>
+                <ImageComponent imageContent={elt.media.data[0].attributes}/>
+                <>{console.log(elt.media.data)}</>
+                <figcaption>{elt.media.data[0].attributes.caption}</figcaption>
+            </figure>)}
             {!isSingle && isImage && (<Diaporama images={elt.media.data} />)}
             {isSingle && !isImage && (
                 <video                     
@@ -118,6 +120,7 @@ const SingleAction = ({ id, previewData = false }: SingleActionProps & { preview
                             <RichText ck5_data={elt.body_2}/>
                         </div>
                         </article>)}
+                    
                     {elt.media.data &&( <ModulesImages elt={elt}/>)}
                     {elt.Avis_expert && (
                         <article className='avis-container'>

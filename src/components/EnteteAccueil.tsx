@@ -40,7 +40,6 @@ const EnteteAccueil = ({
         backgroundSize: "cover" 
       }}
     >
-      <>{console.log(heading)}</>
       {heading.titre && (
       <div className="entete-container" style={{ color, backgroundColor: background }}>
         <Entete content={heading} CTA={CTA} />

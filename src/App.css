@@ -141,7 +141,7 @@ p, li{
 }
 .rich-text-block li span,
 .rich-text-block p span{
-  color: inherit !important;
+  /* color: inherit !important; */
   font-family: var(--secondary-font) !important;
   font-size: 1em !important;
 }
@@ -151,6 +151,12 @@ p, li{
 }
 .rich-text-block blockquote{
   font-style: italic;
+}
+.spe-bandeau-accueil{
+  margin-bottom: 0;
+}
+.spe-bandeau-accueil h2{
+  margin-bottom: 0 !important;
 }
 @media screen and (max-width:768px){
   .bandeau-vertical{

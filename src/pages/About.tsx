@@ -54,14 +54,14 @@ const About = ({previewData=false}:any) => {
             .catch((error) => { console.error('Error fetching config:', error) });
             }
     }, [lang]);
-    useEffect(() => {
+    /* useEffect(() => {
         setTimeout(() => {
             let details = document.querySelectorAll("details");
             if (details.length > 0) {
                 details[0].setAttribute("open", "open");
             }
         }, 100);
-    }, []);
+    }, []); */
     
     
     return (<>

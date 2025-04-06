@@ -43,7 +43,7 @@ const handleSummaryClick = (e:any) => {
 }
 
 const BodySection = ({ data, index }: { data: any; index:number }) => {
-  const isOpen = index === 0 ? true : false
+  //const isOpen = index === 0 ? true : false
   useEffect(() => {
     document.documentElement.style.setProperty("--rich-text-color", data.paragraph_color);
   }, [])
@@ -52,7 +52,7 @@ const BodySection = ({ data, index }: { data: any; index:number }) => {
     <details
       className="page-content"
       style={{ backgroundColor: data.background_color || "#ffffff" }}
-      open={isOpen}
+      open={false}
     >
       <summary onClick={(e) => handleSummaryClick(e)}>
       <ArrowIcon color={data.heading_color || "var(--green-pen)"}/>
