@@ -1,7 +1,7 @@
-import TitreH2 from "./interface/TitreH2";
+//import TitreH2 from "./interface/TitreH2";
 import RichText from "./interface/RichText";
 import ImageComponent from "./interface/ImageComponent";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import ArrowIcon from "./ArrowIcon";
 import "./bodysection.css"
 

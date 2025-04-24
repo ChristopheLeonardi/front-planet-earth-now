@@ -20,7 +20,7 @@ import MentionsLegales from './pages/MentionsLegales';
 import PreviewPage from "./pages/PreviewPage";
 
 // Désactivation page Agenda
-//import Event from './pages/Agenda/Event';
+import Event from './pages/Agenda/Event';
 //<Route path="/evenements" element={<Event />} />
 
 import "./App.css";
@@ -59,7 +59,7 @@ const AppContent = () => {
         <Route path="/custom-flag" element={<Drapeau />} />
         <Route path="/preview" element={<PreviewPage />} />
         <Route path="/mentions-legales" element={<MentionsLegales />} />
-        
+        <Route path="/evenements" element={<Event />} />
       </Routes>
       <Footer />
     </>

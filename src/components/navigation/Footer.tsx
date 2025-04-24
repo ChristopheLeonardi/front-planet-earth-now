@@ -22,7 +22,7 @@ const Footer = () => {
     const[logoLang, setLogoLang] = useState("logo_header_fr")
 
     useEffect(() => {
-        setLogoLang("logo_footer_" + lang[0])
+        setLogoLang("logo_header_" + lang[0])
     }, [lang])
 
     return (
@@ -30,6 +30,7 @@ const Footer = () => {
             {config && (
                 <>
                     <NavLink className='footer-logo-link' to='/'>
+                        <>{console.log('test')}</>
                         <img className="logo" src={config[logoLang]} alt='Logo de Planet Earth Now'/>
                     </NavLink>
                     <nav>

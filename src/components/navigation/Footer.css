@@ -1,7 +1,9 @@
 footer{
-    background-color: var(--blue-pen);
+    background-color: var(--white);
     padding: 1em;
+    padding-top: 2em;
     margin-top: 3em;
+    border-top: 4px solid var(--blue-pen);
 }
 
 footer .footer-logo-link,
@@ -16,7 +18,7 @@ footer .logo{
     display: block;
 }
 footer .nav-links a {
-    color: var(--white);
+    color: var(--blue-pen);
 }
 footer .nav-links a:hover {
     color: var(--peche-pen);

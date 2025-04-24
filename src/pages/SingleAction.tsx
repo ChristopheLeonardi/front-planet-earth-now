@@ -88,6 +88,11 @@ const SingleAction = ({ id, previewData = false }: SingleActionProps & { preview
     const lang = useLang();
     const [content, setContent] = useState<Content | null>(null);
 
+    function cleanTrailingEmptyParagraphs(html:string) {
+        // Supprime uniquement les balises <p>&nbsp;</p> à la fin du HTML, y compris les multiples répétitions
+        return html.replace(/(?:<p>(&nbsp;|\s|&#160;)*<\/p>\s*)+$/g, '');
+    }
+
     useEffect(() => {
         if (previewData){
             setContent(previewData)
@@ -117,12 +122,13 @@ const SingleAction = ({ id, previewData = false }: SingleActionProps & { preview
                     {elt.body && ( 
                         <article className='media-module page-content' style={{ backgroundColor: elt.background_color  ? elt.background_color : "#ffffff" }}>
                         <div style={{color: elt.paragraph_color || "#000"}}>
-                            <RichText ck5_data={elt.body_2}/>
+                            <RichText ck5_data={cleanTrailingEmptyParagraphs(elt.body_2)}/>
+                            <>{console.log(elt.body_2)}</>
                         </div>
                         </article>)}
                     
                     {elt.media.data &&( <ModulesImages elt={elt}/>)}
-                    {elt.Avis_expert && (
+                    {elt.Avis_expert && elt.Avis_expert.length != 0 && (
                         <article className='avis-container'>
                             {elt.Avis_expert.map((avis: any, avisIndex: number) => {
                                 return <AvisExpert key={avisIndex} avis={avis} />
