@@ -1,0 +1,4 @@
+*.log
+/var/
+node_modules/
+*.swp
