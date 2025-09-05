@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import "./richtext.css";
 
 interface RichTextProps { 
-  data: any; 
   ck5_data: any; 
+  data: any; 
 }
 
 // Fonction pour transformer une chaîne de style CSS en objet React.CSSProperties
@@ -17,7 +17,7 @@ const parseStyleString = (styleString: string): React.CSSProperties => {
       (styleObj as any)[prop]  = value.trim();
     }
   });
-  return styleObj;
+  return styleObj; 
 };
 
 const RichText: React.FC<RichTextProps> = ({ ck5_data }) => {

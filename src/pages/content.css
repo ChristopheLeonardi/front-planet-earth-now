@@ -125,7 +125,8 @@
     max-width: 180px;
 }
 .partenaires-container img{
-    object-fit: cover;
+    object-fit: contain;
+    max-height: 120px;
     width: 100%;
     border-radius: 16px;
     margin: 0.5em auto;
@@ -314,6 +315,7 @@ video{
     flex-direction: column-reverse;
     
 }
+.bandeau-texte-photo video,
 .bandeau-texte-photo img{
     border-radius: 16px;
     width: 100%;
@@ -329,6 +331,7 @@ video{
         flex-direction: row;
     }
     .bandeau-texte-photo div:not(.cta),
+    .bandeau-texte-photo video,
     .bandeau-texte-photo img{
         width: 48%;
     }

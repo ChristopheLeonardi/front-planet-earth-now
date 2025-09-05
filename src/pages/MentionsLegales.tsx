@@ -12,10 +12,12 @@ import Vignette from '../components/interface/Vignette';
 import BodySection from '../components/BodySection';
 import "./content.css"
 import "./Accueil.css"
+import SetMetaSEO from '../components/navigation/SetMetaSEO';
 
 interface Content {
     
     Texte:any;
+    SEO:any;
 
 }
 
@@ -42,6 +44,8 @@ const MentionsLegales = ({previewData=false}:any) => {
     }, [lang]);
     
     return (<>
+        {content && content.SEO && (<SetMetaSEO params={{title:content.SEO.metaTitle, description:content.SEO.metaDescription}}/>)}
+
         { content && (
             <section className='page-content'>
                     <RichText ck5_data={content.Texte}/>

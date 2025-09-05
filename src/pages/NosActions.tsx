@@ -14,6 +14,8 @@ import "./content.css"
 import "./Accueil.css"
 import EnteteAccueil from '../components/EnteteAccueil';
 import CTA from '../components/interface/CTA';
+import SetMetaSEO from '../components/navigation/SetMetaSEO';
+
 interface Content {
     
 
@@ -42,6 +44,7 @@ interface Content {
     entete_color:any;
     entete_background_color:any;
     text_position:any;    
+    SEO:any;
 
 }
 
@@ -69,6 +72,8 @@ const NosActions = ({previewData=false}:any) => {
     }, [lang]);
     
     return (<>
+        {content && content.SEO && (<SetMetaSEO params={{title:content.SEO.metaTitle, description:content.SEO.metaDescription}}/>)}
+
         { content && (
         <section>
             <article className='page-content entete' >

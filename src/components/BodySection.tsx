@@ -13,7 +13,7 @@ const ModuleImageTexte = ({ data, type, paragraph_color }: { data: any; type: st
   return (
     <section className={`module-image-texte ${typeClass}`}>
       {data &&
-        data.map((elt: any, index: number) => (
+        data.map((elt: any) => (
           <div key={elt.id}>
             {elt.image?.data && (
               <ImageComponent imageContent={elt.image.data.attributes} />
@@ -42,7 +42,7 @@ const handleSummaryClick = (e:any) => {
 
 }
 
-const BodySection = ({ data, index }: { data: any; index:number }) => {
+const BodySection = ({ data }: { data: any }) => {
   //const isOpen = index === 0 ? true : false
   useEffect(() => {
     document.documentElement.style.setProperty("--rich-text-color", data.paragraph_color);

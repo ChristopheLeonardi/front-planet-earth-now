@@ -8,3 +8,21 @@
 // - centrer footer sur mobile
 
 PEN!2023!site
+
+  - Ajouter un champ dans le BO pour pouvoir avoir un texte de présentation du site sur les moteurs de recherche --> expliquer
+
+  - ajouter la traduction en espagnol --> si la page n'existe pas, chargement des données anglaises
+
+  - régler problème de traduction de la page "nos actions" et des pages "actions" (ex : Jiboiana est traduite mais n'apparaît pas)
+
+- régler problème affichage dans éditeur (ex : page de présentation de l'action "Trophée Coeur sur l'asso") --> Questionner sur comment c'est arrivé, copié collé, éditeur de texte etc.
+
+  - régler taille police des bullet points (cf. page de présentation de l'action "Trophée Coeur sur l'asso") 
+
+  - harmoniser taille logos partenaires  --> Ajout d'une max height et object-fit contain mais il faut retailler les image avec du blanc tournatn pour vraiment harmoniser
+
+  - distinguer les visuels de la page "nos actions" et les visuels format bandeau des pages de présentation des actions 
+
+  - afficher liens vers RS (LK et Insta) --> les icones étaient restées blanches
+
+- plausible : je prends un abonnement asap et je reviens vers toi 

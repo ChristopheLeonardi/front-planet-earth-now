@@ -27,6 +27,7 @@ interface Config {
     logo_footer_en: string;
     profil_instagram: string;
     profil_linkedin: string;
+    profil_youtube: string;
     pages: Page[];
     langues: Array<string>;
     traduction: Traduction;

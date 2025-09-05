@@ -43,6 +43,9 @@ const ContactForm = ({ titre, sousTitre, fields, message, object_option }: any) 
         let isValid = true;
         let emptyFields: string[] = [];
 
+        if (data.objet === "") {data.objet = "Idée de collaboration"} 
+        console.log(data)
+
         Object.entries(data).forEach(([key, value]) => {
             if (value.trim() === '') { 
                 isValid = false;

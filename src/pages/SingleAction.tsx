@@ -10,6 +10,8 @@ import "./content.css"
 import "./Accueil.css"
 import "./singleAction.css"
 import CTA from '../components/interface/CTA';
+import SetMetaSEO from '../components/navigation/SetMetaSEO';
+
 interface Content {
     
 
@@ -25,6 +27,8 @@ interface Content {
     background_color_principal:string;
     modules_media:Array<any>;
     CTA:any;
+    SEO:any;
+    localizations:any;
 
 }
 interface SingleActionProps {
@@ -98,20 +102,39 @@ const SingleAction = ({ id, previewData = false }: SingleActionProps & { preview
             setContent(previewData)
             return
         } else {
+
         pageServices
             .getPageContent({"page": "actions/" + id, "lang": lang[0]})
             .then((res: Content) => { 
                 const objRes = { 
                     ...res
                 }
-                setContent(objRes) })
+
+                if (lang[0] == "fr"){
+                    setContent(objRes) 
+                }   
+                else{
+                    var idLocale = objRes.localizations.data.filter((locale:any) => { return lang[0] === locale.attributes.locale})[0].id
+                    pageServices
+                        .getPageContent({"page": "actions/" + idLocale, "lang": lang[0]})
+                        .then((res: Content) => { 
+                            const objRes = { 
+                                ...res
+                            }
+                            setContent(objRes) 
+                        })
+                        .catch((error) => { console.error('Error fetching config:', error) });
+
+                            }
+            })
             .catch((error) => { console.error('Error fetching config:', error) });
         }
     }, [lang]);
     
     return (<>
+            {content && content.SEO && (<SetMetaSEO params={{title:content.SEO.metaTitle, description:content.SEO.metaDescription}}/>)}
+
         { content && (
-            
         <section style={{ backgroundColor: content.background_color_principal  ? content.background_color_principal : "#ffffff" }}>
             
             <article className='page-content entete' >
@@ -123,7 +146,6 @@ const SingleAction = ({ id, previewData = false }: SingleActionProps & { preview
                         <article className='media-module page-content' style={{ backgroundColor: elt.background_color  ? elt.background_color : "#ffffff" }}>
                         <div style={{color: elt.paragraph_color || "#000"}}>
                             <RichText ck5_data={cleanTrailingEmptyParagraphs(elt.body_2)}/>
-                            <>{console.log(elt.body_2)}</>
                         </div>
                         </article>)}
                     

@@ -7,6 +7,9 @@ import "./content.css"
 import "./Accueil.css"
 import EnteteAccueil from '../components/EnteteAccueil';
 import CTA from '../components/interface/CTA';
+import utils from '../services/utils';
+import SetMetaSEO from '../components/navigation/SetMetaSEO';
+
 interface Content {
 
     entete_image:any;
@@ -27,10 +30,14 @@ interface Content {
     entete_color:any;
     entete_background_color:any;
     titre_bandeau:string;
+    SEO:any;
 }
 
 
 const BandeauTextePhoto = ({entry}:any) => {
+    const isImage = entry.image.data.attributes.mime !== "" 
+    && !/^video\//.test(entry.image.data.attributes.mime)
+    
     return (
         <article className='page-content'  style={{ backgroundColor: entry.background_color  ? entry.background_color : "#ffffff" }}>
         <article className={`bandeau-texte-photo ${entry.Position}`}>
@@ -42,8 +49,20 @@ const BandeauTextePhoto = ({entry}:any) => {
                 <CTA data={entry.CTA}/>
             )} 
             </div>
-            <ImageComponent imageContent={entry.image.data.attributes}/>
-        </article>
+            {isImage && (<ImageComponent imageContent={entry.image.data.attributes}/>)}
+            {!isImage && (<video                     
+                            controls 
+                            muted 
+                            autoPlay 
+                            loop 
+                            playsInline>
+                                <source 
+                                    src={utils.setUrl(entry.image.data.attributes.url)} 
+                                    type={entry.image.data.attributes.mime} 
+                                />
+                                Votre navigateur ne supporte pas la lecture de cette vidéo.
+                            </video>)}
+            </article>
         </article>
     )
 }
@@ -70,8 +89,10 @@ const Accueil = ({previewData=false}:any) => {
     
     return (
         <section>
+        {content && content.SEO && (<SetMetaSEO params={{title:content.SEO.metaTitle, description:content.SEO.metaDescription}}/>)}
         { content && (
         <>
+        <>{console.log(content)}</>
             <article className='page-content entete' >
                 <EnteteAccueil 
                     heading={{titre: content.titre, sousTitre: content.sousTitre}} 

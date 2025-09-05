@@ -27,6 +27,7 @@ const getConfig = async () => {
                 "adresse": resData.adresse,
                 "phone_number": resData.Phone_number,
                 "profil_instagram": resData.profil_instagram,
+                "profil_youtube": resData.profil_youtube,
                 "profil_linkedin": resData.profil_linkedin
             }
             return config            
@@ -46,6 +47,69 @@ const getPageContent = async (params) => {
         return response.data.data.attributes
     });
 }
+/* const getPageContent = async (params) => {
+  console.log(params)
+
+  try {
+    const response = await axios.get(`${baseUrl}/api/${params.page}?locale=${params.lang}&populate=deep`);
+    var dataToReturn = response
+
+    // Recherche des id pour les actions dans les autres langues
+      var idPage = params.page
+      if (/^actions/.test(params.page)) {
+        var dataLocalisation = response.data.data.attributes.localizations.data
+        var localeFiltered = dataLocalisation.filter(locale => { return params.lang === locale.attributes.locale})
+        var localeId = localeFiltered[0].id
+        dataToReturn = await axios.get(`${baseUrl}/api/${localeId}?locale=${params.lang}&populate=deep`);
+      }
+
+    return dataToReturn;
+  } catch (error) {
+    // Si la langue demandée renvoie une erreur 404, on retente avec "en"
+    if (error.response && error.response.status === 404) {
+      try {
+        const fallbackResponse = await axios.get(`${baseUrl}/api/${params.page}?locale=en&populate=deep`);
+        return fallbackResponse.data.data.attributes;
+      } catch (fallbackError) {
+        console.error('Fallback to "en" also failed:', fallbackError);
+        throw fallbackError; // ou retourne un objet vide selon ton besoin
+      }
+    } else {
+      console.error('Erreur lors de la récupération des données :', error);
+      throw error;
+    }
+  }
+}; */
+/* const getPageContent = async (params) => {
+
+  try {
+    // 1. Si langue demandée est "fr", on retourne directement la version française
+    if (params.lang === 'fr') {
+      const res = await axios.get(`${baseUrl}/api/${params.page}?locale=fr&populate=deep`);
+      return res.data.data.attributes;
+    }
+
+    // 2. Sinon, on récupère la version française pour chercher les localizations
+    const frRes = await axios.get(`${baseUrl}/api/${params.page}?locale=fr&populate=deep`);
+    const localizations = frRes.data.data.attributes.localizations?.data || [];
+
+    // 3. On cherche la version traduite
+    const match = localizations.find(loc => loc.attributes.locale === params.lang);
+    console.log(params)
+    console.log(localizations)
+    if (match) {
+      const localizedRes = await axios.get(`${baseUrl}/api/actions/${match.id}?locale=${params.lang}&populate=deep`);
+      return localizedRes.data.data.attributes;
+    } else {
+      console.warn(`Aucune version disponible pour la langue "${params.lang}", chargement en français`);
+      return frRes.data.data.attributes;
+    }
+
+  } catch (error) {
+    console.error('Erreur lors de la récupération des données :', error);
+    throw error;
+  }
+}; */
 const getActionByDomaine = async (params) => {
     const request = axios.get(baseUrl + `/api/single-actions?filters[domaine][$contains]=${params.domaine}&populate=entete&locale=${params.lang}`)
     return await request.then(response => {

@@ -12,6 +12,8 @@ import CTA from '../components/interface/CTA';
 import "./content.css"
 import "./about.css"
 import React from 'react';
+import SetMetaSEO from '../components/navigation/SetMetaSEO';
+
 
 interface Content {
     titre: string;
@@ -31,6 +33,8 @@ interface Content {
     entete_background_color:any;
     text_position:any;
     body_2:any;
+    SEO:any;
+
 }
 
 
@@ -65,6 +69,8 @@ const About = ({previewData=false}:any) => {
     
     
     return (<>
+            {content && content.SEO && (<SetMetaSEO params={{title:content.SEO.metaTitle, description:content.SEO.metaDescription}}/>)}
+
             { content && (
             <section>
                 <article className='page-content entete' >

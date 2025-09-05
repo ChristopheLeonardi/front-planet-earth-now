@@ -45,7 +45,7 @@ const AppContent = () => {
             return (
               <Route 
                 key={page.slug + index} 
-                path={`nos-actions/${page.attributes.slug}`} 
+                path={`nos-actions/${page.attributes.slug.replace(/-(en|es)$/, '')}`} 
                 element={<SingleAction id={page.id}/>} 
               />
             );

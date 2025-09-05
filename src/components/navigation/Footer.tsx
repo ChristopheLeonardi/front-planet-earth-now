@@ -30,7 +30,6 @@ const Footer = () => {
             {config && (
                 <>
                     <NavLink className='footer-logo-link' to='/'>
-                        <>{console.log('test')}</>
                         <img className="logo" src={config[logoLang]} alt='Logo de Planet Earth Now'/>
                     </NavLink>
                     <nav>
@@ -42,11 +41,15 @@ const Footer = () => {
                                 <NavLink to={page.path} className={isCurrent}>{page[`name_${lang[0]}`]}</NavLink>
                             </li>
                         )})}
+                            <li>
+                                <NavLink to={config.pages[6].path} className={isCurrent}>{config.pages[6][`name_${lang[0]}`]}</NavLink>
+                            </li>
                         </ul>
                     </nav>
                     <div className="social">
                         {config.profil_linkedin && (<Rs_icone type="linkedin" url={config.profil_linkedin}/>)}
                         {config.profil_instagram && (<Rs_icone type="instagram" url={config.profil_instagram}/>)}
+                        {config.profil_youtube && (<Rs_icone type="youtube" url={config.profil_youtube}/>)}
                     </div>
                     <div className="contact_infos">
                         <address>

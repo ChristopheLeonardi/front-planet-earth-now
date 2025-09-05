@@ -8,6 +8,7 @@ import "./content.css"
 import "./Accueil.css"
 import "./contact.css"
 import EnteteAccueil from '../components/EnteteAccueil';
+import SetMetaSEO from '../components/navigation/SetMetaSEO';
 
 
 interface Content {
@@ -20,12 +21,12 @@ interface Content {
     entete_image:any;
     entete_color:string;
     entete_background_color:string;
+    SEO:any;
 
 }
 
 
 const Contact = ({previewData=false}:any) => {
-
     const lang = useLang();
     const [content, setContent] = useState<Content | null>(null);
 
@@ -37,7 +38,6 @@ const Contact = ({previewData=false}:any) => {
         pageServices
             .getPageContent({"page": "contact", "lang": lang[0]})
             .then((res: Content) => { 
-                console.log(res)
                 const objRes = { 
                     ...res
                 }
@@ -47,7 +47,10 @@ const Contact = ({previewData=false}:any) => {
     }, [lang]);
     
     return (
+        
         <section className='page-content-container'>
+            {content && content.SEO && (<SetMetaSEO params={{title:content.SEO.metaTitle, description:content.SEO.metaDescription}}/>)}
+
             {content && (
             <article className='page-content entete' >
                 <EnteteAccueil 
@@ -64,7 +67,6 @@ const Contact = ({previewData=false}:any) => {
             { content && (
             <>
 
-            {console.log(content)}
             {/* <TitreH2 titre={content.titre} sousTitre=""/> */}
             <RichText ck5_data={content.Texte_2}/>
             <ContactForm 

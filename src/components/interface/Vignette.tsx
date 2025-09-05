@@ -2,17 +2,24 @@ import { useEffect, useState } from "react"
 import ImageComponent from "./ImageComponent"
 import "./vignette.css"
 import utils from "../../services/utils"
+import { Link } from 'react-router-dom';
 
 const Vignette = ({ entry, cta }: { entry: any; cta:any;}) => {
     const id = entry.id
     if (!entry) {return}
 
     const data = entry.attributes ? entry.attributes : entry
-    const imageContent = data.entete_image.data ? data.entete_image.data.attributes : ""
+    if(data.vignette_image.data){
+        var imageContent = data.vignette_image.data ? data.vignette_image.data.attributes : ""
+    }
+    else{
+        var imageContent = data.entete_image.data ? data.entete_image.data.attributes : ""
+    }
+    
 
     // Utilisation de la forme des données pour définir si un lien doit être calculé ou non
     const autoLink = entry.attributes ? false : true
-    const linkUrl = autoLink ? data.lien : utils.seFrontUrl("/nos-actions/" + data.slug)
+    const linkUrl = autoLink ? data.lien : utils.seFrontUrl("/nos-actions/" + data.slug.replace(/-(en|es)$/, ''))
 
     const [sousTitre, setSousTitre] = useState("")
 
@@ -26,10 +33,11 @@ const Vignette = ({ entry, cta }: { entry: any; cta:any;}) => {
     return(
         <article className={`vignette ${entry.vocation ? "img-picto" : ""}`}>
             {id && (
-            <a href={entry.attributes.remplacement_lien_auto ? entry.attributes.remplacement_lien_auto : linkUrl} 
+            <Link 
+                to={entry.attributes.remplacement_lien_auto ? entry.attributes.remplacement_lien_auto : linkUrl}
                 target={entry.attributes.remplacement_lien_auto ? "_blank" : ""}
-               title="go to action">
-            <div className="textes">
+            >
+                            <div className="textes">
                 <div>
                     <h3>{data.titre}</h3>
                     <p className="description">{sousTitre}</p>
@@ -56,7 +64,9 @@ const Vignette = ({ entry, cta }: { entry: any; cta:any;}) => {
             
             
             <ImageComponent imageContent={imageContent}/>
-        </a>
+            </Link>
+
+            
             )}
 
         </article>
