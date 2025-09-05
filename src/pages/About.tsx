@@ -1,17 +1,13 @@
 import {useState, useEffect} from 'react';
 import pageServices from '../services/pages'
-import ImageComponent from '../components/interface/ImageComponent';
 import { useLang } from '../context/LangContext';
 import RichText from '../components/interface/RichText';
-import TitreH2 from '../components/interface/TitreH2';
 import BodySection from '../components/BodySection';
 import Partenaires from '../components/interface/Partenaires';
-import Entete from '../components/interface/Entete';
 import EnteteAccueil from '../components/EnteteAccueil';
 import CTA from '../components/interface/CTA';
 import "./content.css"
 import "./about.css"
-import React from 'react';
 import SetMetaSEO from '../components/navigation/SetMetaSEO';
 
 
@@ -85,16 +81,16 @@ const About = ({previewData=false}:any) => {
                 {content.body[0].children[0].text != "" && (
                 <section className='page-content'style={{ backgroundColor: content.background_color_principal  ? content.background_color_principal : "#ffffff" }}>
                     <article>
-                        <RichText ck5_data={content.body_2}/>
+                        <RichText ck5_data={content.body_2} data={''}/>
                     </article>
                 </section>
                 )}
 
 
-                {content.Body_section.length > 0 && content.Body_section.map((element:any, index:number) => {
-                    return (<>
-                        <BodySection key={element.id} data={element} index={index}/>
-                    </>)
+                {content.Body_section.length > 0 && content.Body_section.map((element:any) => {
+                    return (
+                        <BodySection key={element.id} data={element}/>
+                    )
                 })}
                 
                 <Partenaires partenariatData={content.Partenaires} />
@@ -115,7 +111,7 @@ const About = ({previewData=false}:any) => {
                             )}
                             {content.End_section.Body_section_2 && (<>
                             
-                            <RichText ck5_data={content.End_section.Body_section_2} />
+                            <RichText ck5_data={content.End_section.Body_section_2} data={''}/>
                             </>)}
 
 

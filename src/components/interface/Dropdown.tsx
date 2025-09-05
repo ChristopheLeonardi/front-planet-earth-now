@@ -4,7 +4,7 @@ const Dropdown = ({ data, onSelect }: { data: any; onSelect: (value: string) => 
   const [isOpen, setIsOpen] = useState(false);
   const [buttonLabel, setButtonLabel] = useState(data[0].texte);
   const [buttonWidth, setButtonWidth] = useState(0);
-
+  console.log(buttonWidth)
   const toggleMenu = (e:any) => {
     e.preventDefault();
     setIsOpen(!isOpen)};

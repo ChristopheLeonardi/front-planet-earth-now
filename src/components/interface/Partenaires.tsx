@@ -2,7 +2,6 @@ import ImageComponent from './ImageComponent'
 import TitreH2 from './TitreH2'
 import "../bodysection.css"
 import ArrowIcon from '../ArrowIcon'
-import React from 'react'
 
 const Partenaires = ({partenariatData}:any) => {
     const imageAndLink = partenariatData.partenaires.data.map((item:any) => {return item.attributes.imageAndLink})

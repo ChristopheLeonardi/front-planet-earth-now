@@ -1,4 +1,4 @@
-import pageServices from "../../../services/pages"
+//import pageServices from "../../../services/pages"
 
 const resetCanvas = (
   canvasRef: React.RefObject<HTMLCanvasElement>,

@@ -21,7 +21,7 @@ const EnteteAction = ({content}:any) => {
               >{content.linkButton.buttonTitle}</a>
             )}
             {content.diaporama && (<Diaporama images={content.diaporama.data}/>)}
-            {content.presentation && (<RichText data={content.presentation}/>)}
+            {content.presentation && (<RichText ck5_data={content.presentation} data={''}/>)}
 
           </div>          
         </>)}

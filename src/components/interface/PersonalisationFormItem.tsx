@@ -21,6 +21,7 @@ export const Button = ({ data, onClick, buttonClass }: any) => {
 };
 
 export const UserConsent = ({ data, option }: any) => {
+  console.log(data)
   return (
     <fieldset className="user-consent">
       <input

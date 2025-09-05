@@ -1,15 +1,9 @@
 import {useState, useEffect} from 'react';
 import pageServices from '../services/pages'
-import ImageComponent from '../components/interface/ImageComponent';
 import { useLang } from '../context/LangContext';
 import RichText from '../components/interface/RichText';
-import Partenaires from '../components/interface/Partenaires';
-import Entete from '../components/interface/Entete';
-import Citation from '../components/interface/Citation';
-import Diaporama from '../components/interface/Diaporama';
 import TitreH2 from '../components/interface/TitreH2';
 import Vignette from '../components/interface/Vignette';
-import BodySection from '../components/BodySection';
 import "./content.css"
 import "./Accueil.css"
 import EnteteAccueil from '../components/EnteteAccueil';
@@ -87,7 +81,7 @@ const NosActions = ({previewData=false}:any) => {
             </article>
             <section className='page-content'style={{ backgroundColor: content.background_color_principal  ? content.background_color_principal : "#ffffff" }}>
                 <article>
-                    <RichText ck5_data={content.body_2}/>
+                    <RichText ck5_data={content.body_2} data={''}/>
                 </article>
                 <TitreH2 titre={content.titre_section_actions} sousTitre={content.sousTitre}/>
                 <section className='vignette-container'>

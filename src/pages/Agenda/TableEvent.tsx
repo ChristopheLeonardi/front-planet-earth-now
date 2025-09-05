@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import React from "react"
 import "./tableEvent.css"
 
 const isWellFormatted = (str:string) => {
@@ -19,7 +18,7 @@ const EventCard = ({event}:any) => {
   const [region, setRegion] = useState("")
   const [ville, Ville] = useState("")
   const [title, setTitle] = useState("")
-
+  console.log(dates, region)
   useEffect(() => {
 
     const dates = event["Date fin"] === "" 
@@ -42,7 +41,8 @@ const EventCard = ({event}:any) => {
     } else {
       title = event["Evènement"];
     }
-    
+    console.log(dates, region, ville, Ville, regionString)
+
     setTitle(title);
     
 
@@ -158,7 +158,7 @@ const Dropdown = ({data, selectedFilters, setSelectedFilters}:any) => {
   )
 }
 
-const TextSearch = ({data, selectedFilters, setSelectedFilters}:any) => {
+/* const TextSearch = ({data, selectedFilters, setSelectedFilters}:any) => {
 
   const [inputLabel, setInputLabel] = useState("")
   
@@ -180,12 +180,13 @@ const TextSearch = ({data, selectedFilters, setSelectedFilters}:any) => {
       />
     </form>
   )
-}
+} */
 const Filters = ({events, selectedFilters, setSelectedFilters}:any) => {
   // type, date, lieux, plaintext
   const types = [...new Set(events.filter((event:any) => ((event["Type"] !== undefined) && (event["Type"] !== ""))).map((event:any) => event["Type"]))]
   const lieux = [...new Set(events.filter((event:any) => ((event["Région"] !== undefined) && (event["Région"] !== ""))).map((event:any) => event["Région"]))]
   /* const dates = ["évènements passés", "évènements futur"] */
+  console.log(types)
   return (
     <div className="filters-container">
       {/* <div className="filter">

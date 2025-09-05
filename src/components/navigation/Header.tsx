@@ -27,7 +27,7 @@ const Header = () => {
                 {config && (
                     <>
                         <NavLink to='/'>
-                            <img className="logo" src={config[logoLang]} alt='Logo de Planet Earth Now'/>
+                            <img className="logo" src={(config as Record<string, any>)[logoLang]} alt='Logo de Planet Earth Now'/>
                         </NavLink>
                         <nav>
 

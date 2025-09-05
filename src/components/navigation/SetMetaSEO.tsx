@@ -1,12 +1,14 @@
-import { Helmet } from 'react-helmet-async';
+import { Helmet as HelmetBase } from "react-helmet-async";
 
-const SetMetaSEO = ({params}:any) => {
-    return (
-      <Helmet>
-        <title>{params.title}</title>
-        <meta name="description" content={params.description} />
-      </Helmet>
-    )
-}
+const Helmet = HelmetBase as unknown as React.FC<React.PropsWithChildren<any>>;
 
-export default SetMetaSEO
+const SetMetaSEO = ({ params }: any) => {
+  return (
+    <Helmet>
+      <title>{params.title}</title>
+      <meta name="description" content={params.description} />
+    </Helmet>
+  );
+};
+
+export default SetMetaSEO;

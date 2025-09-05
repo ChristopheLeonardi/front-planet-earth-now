@@ -1,15 +1,7 @@
 import {useState, useEffect} from 'react';
 import pageServices from '../services/pages'
-import ImageComponent from '../components/interface/ImageComponent';
 import { useLang } from '../context/LangContext';
 import RichText from '../components/interface/RichText';
-import Partenaires from '../components/interface/Partenaires';
-import Entete from '../components/interface/Entete';
-import Citation from '../components/interface/Citation';
-import Diaporama from '../components/interface/Diaporama';
-import TitreH2 from '../components/interface/TitreH2';
-import Vignette from '../components/interface/Vignette';
-import BodySection from '../components/BodySection';
 import "./content.css"
 import "./Accueil.css"
 import SetMetaSEO from '../components/navigation/SetMetaSEO';
@@ -48,7 +40,7 @@ const MentionsLegales = ({previewData=false}:any) => {
 
         { content && (
             <section className='page-content'>
-                    <RichText ck5_data={content.Texte}/>
+                    <RichText ck5_data={content.Texte} data={''}/>
             </section>
         )}
 </>)

@@ -1,20 +1,21 @@
-import React from "react";
-import { useState, useEffect } from "react";
+/* import { useState, useEffect } from "react"; */
 interface DataTitre {
     titre: string;
     sousTitre: string;
     design?: any;
 }
 
-const TitreH2 = ({titre, sousTitre, design={color:"", background_color:""}}:DataTitre) => {
-    const [formatTitre, setFormatTitre] = useState<string[]>([])
+const TitreH2 = ({titre, sousTitre}:DataTitre) => {
+    //, design={color:"", background_color:""}
+    /* const [formatTitre, setFormatTitre] = useState<string[]>([])
+    console.log(design, formatTitre)
     useEffect(() => {
         if (titre) {
             const lines = titre.split('||') ? titre.split('||') : [titre] 
             setFormatTitre(lines)
         }
 
-    },[titre])
+    },[titre]) */
     return (
         <>  
             {titre != "" && (<h2>{titre}</h2>)}

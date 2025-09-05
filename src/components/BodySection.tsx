@@ -60,7 +60,7 @@ const BodySection = ({ data }: { data: any }) => {
       <article>        
         {data.Body_section_2 && (
           <div style={{color: data.paragraph_color || "#000"}}>
-          <RichText ck5_data={data.Body_section_2} />
+          <RichText ck5_data={data.Body_section_2}  data={''}/>
           </div>)}
         {data.type?.length > 0 && (
         <>

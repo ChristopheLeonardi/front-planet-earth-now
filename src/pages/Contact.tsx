@@ -3,7 +3,6 @@ import { useLang } from '../context/LangContext';
 import pageServices from '../services/pages'
 import ContactForm from '../components/interface/ContactForm';
 import RichText from '../components/interface/RichText';
-import TitreH2 from '../components/interface/TitreH2';
 import "./content.css"
 import "./Accueil.css"
 import "./contact.css"
@@ -68,7 +67,7 @@ const Contact = ({previewData=false}:any) => {
             <>
 
             {/* <TitreH2 titre={content.titre} sousTitre=""/> */}
-            <RichText ck5_data={content.Texte_2}/>
+            <RichText ck5_data={content.Texte_2} data={''}/>
             <ContactForm 
                 titre={content.Contact_form.heading.titre} 
                 message={{

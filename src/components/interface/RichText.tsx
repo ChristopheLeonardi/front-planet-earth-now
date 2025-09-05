@@ -3,7 +3,7 @@ import "./richtext.css";
 
 interface RichTextProps { 
   ck5_data: any; 
-  data: any; 
+  data?: any; 
 }
 
 // Fonction pour transformer une chaîne de style CSS en objet React.CSSProperties
@@ -44,12 +44,28 @@ const RichText: React.FC<RichTextProps> = ({ ck5_data }) => {
   
       // Gestion des attributs
       const attributes: Record<string, any> = {};
-      for (const attr of element.attributes) {
+
+      /* for (const attr of element.attributes) {
         if (attr.name === "style") {
           attributes["style"] = parseStyleString(attr.value);
         } else {
           // Convertit "class" en "className" pour React
           attributes[attr.name === "class" ? "className" : attr.name] = attr.value;
+        }
+      } */
+     const attributeMap: Record<string, string> = {
+        class: "className",
+        srcset: "srcSet",
+        charset: "charSet",
+        for: "htmlFor"
+      };
+
+      for (const attr of element.attributes) {
+        if (attr.name === "style") {
+          attributes["style"] = parseStyleString(attr.value);
+        } else {
+          const reactAttr = attributeMap[attr.name] || attr.name;
+          attributes[reactAttr] = attr.value;
         }
       }
   

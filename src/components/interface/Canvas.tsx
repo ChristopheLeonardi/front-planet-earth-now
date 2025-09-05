@@ -40,7 +40,7 @@ interface Line {
   lineWidth: string;
 }
 
-const Canvas: React.FC<CanvasProps> = ({ data, taille, setTaille, dataTitle, formData }) => { 
+const Canvas: React.FC<CanvasProps> = ({ data, setTaille, dataTitle }) => { 
 
   const { setSelected } = useSelected();
   const [persoImageLoaded, setPersoImageLoaded] = useState(false);
@@ -231,7 +231,7 @@ const Canvas: React.FC<CanvasProps> = ({ data, taille, setTaille, dataTitle, for
     
   }, [data]);
 
-
+  console.log(displayCanvasTitle)
   const [baseImageSrc, setBaseImageSrc] = useState("")
 
 

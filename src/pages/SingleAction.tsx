@@ -145,7 +145,7 @@ const SingleAction = ({ id, previewData = false }: SingleActionProps & { preview
                     {elt.body && ( 
                         <article className='media-module page-content' style={{ backgroundColor: elt.background_color  ? elt.background_color : "#ffffff" }}>
                         <div style={{color: elt.paragraph_color || "#000"}}>
-                            <RichText ck5_data={cleanTrailingEmptyParagraphs(elt.body_2)}/>
+                            <RichText ck5_data={cleanTrailingEmptyParagraphs(elt.body_2)} data={''}/>
                         </div>
                         </article>)}
                     

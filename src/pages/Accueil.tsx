@@ -103,7 +103,7 @@ const Accueil = ({previewData=false}:any) => {
                 />
             </article>
             <article className='page-content'>
-                <RichText ck5_data={content.content_2}/>
+                <RichText ck5_data={content.content_2} data={''}/>
             </article>
             {content.titre_bandeau && (<article className='page-content spe-bandeau-accueil'><h2>{content.titre_bandeau}</h2></article>)}
             {content.Bandeau_Texte_Photo && content.Bandeau_Texte_Photo.map( (bandeau: any, index: number) => {

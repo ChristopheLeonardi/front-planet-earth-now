@@ -30,7 +30,7 @@ const Footer = () => {
             {config && (
                 <>
                     <NavLink className='footer-logo-link' to='/'>
-                        <img className="logo" src={config[logoLang]} alt='Logo de Planet Earth Now'/>
+                        <img className="logo" src={(config as Record<string, any>)[logoLang]} alt='Logo de Planet Earth Now'/>
                     </NavLink>
                     <nav>
                         <ul className="nav-links">

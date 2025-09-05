@@ -37,6 +37,7 @@ interface Action {
 }
 
 const Drapeau = (type:any ) => {
+  console.log(type)
     const lang = useLang();
     const [action, setAction] = useState<Action  | null>(null);
     const [id, setId] = useState<number | null>(null)

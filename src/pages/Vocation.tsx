@@ -62,7 +62,7 @@ const Vocation = ({type}:any) => {
                     </section>
                     <div className='body-container col-1'>
                         <ImageComponent imageContent={content.entete.data.attributes}/>
-                        <RichText data={content.presentation}/>
+                        <RichText data={content.presentation} ck5_data={''}/>
                     </div>
                     {/* <Slideshow data={content.diaporama.data}/> */}
                     <div className='action-container'>
@@ -74,7 +74,7 @@ const Vocation = ({type}:any) => {
                             )}
                             <div className='vignette-container'>
                                 {action.map((entry, index) => {
-                                    return ( <Vignette key={index} entry={entry} domaine={false}/> )
+                                    return ( <Vignette key={index} entry={entry} cta={false}/> )
                                 })}
                             </div>
                         </>
