@@ -21,6 +21,7 @@ const parseStyleString = (styleString: string): React.CSSProperties => {
 };
 
 const RichText: React.FC<RichTextProps> = ({ ck5_data }) => {
+  console.log(ck5_data)
   const [editorContent, setEditorContent] = useState<JSX.Element[] | null>(null);
 
   // Fonction de conversion du HTML brut en JSX

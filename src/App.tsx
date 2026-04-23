@@ -37,6 +37,7 @@ const AppContent = () => {
   }, []);
   return (
     <>
+      {console.log("test2")}
       <SiteSettings />
       <Header />
       <Routes>

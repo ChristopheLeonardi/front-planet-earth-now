@@ -94,8 +94,12 @@ const SingleAction = ({ id, previewData = false }: SingleActionProps & { preview
 
     function cleanTrailingEmptyParagraphs(html:string) {
         // Supprime uniquement les balises <p>&nbsp;</p> à la fin du HTML, y compris les multiples répétitions
+        console.log(html)
+        if(!html) {return}
         return html.replace(/(?:<p>(&nbsp;|\s|&#160;)*<\/p>\s*)+$/g, '');
     }
+   
+
 
     useEffect(() => {
         if (previewData){
@@ -142,8 +146,16 @@ const SingleAction = ({ id, previewData = false }: SingleActionProps & { preview
             </article>
             {content.modules_media && content.modules_media.map((elt:any, index:number) => {
                 return (<div key={index}>
-                    {elt.body && ( 
+                    {/* {elt.body && ( 
                         <article className='media-module page-content' style={{ backgroundColor: elt.background_color  ? elt.background_color : "#ffffff" }}>
+                        <>{console.log(elt.body)}</>
+                        <div style={{color: elt.paragraph_color || "#000"}}>
+                            <RichText ck5_data={cleanTrailingEmptyParagraphs(elt.body)} data={''}/>
+                        </div>
+                        </article>)} */}
+                    {elt.body_2 && ( 
+                        <article className='media-module page-content' style={{ backgroundColor: elt.background_color  ? elt.background_color : "#ffffff" }}>
+
                         <div style={{color: elt.paragraph_color || "#000"}}>
                             <RichText ck5_data={cleanTrailingEmptyParagraphs(elt.body_2)} data={''}/>
                         </div>
