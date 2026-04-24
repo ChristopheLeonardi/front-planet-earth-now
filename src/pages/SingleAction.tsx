@@ -113,10 +113,14 @@ const SingleAction = ({ id, previewData = false }: SingleActionProps & { preview
                 const objRes = { 
                     ...res
                 }
+                console.log("res")
+                console.log(res)
+
 
                 if (lang[0] == "fr"){
                     setContent(objRes) 
                 }   
+
                 else{
                     var idLocale = objRes.localizations.data.filter((locale:any) => { return lang[0] === locale.attributes.locale})[0].id
                     pageServices
@@ -125,6 +129,7 @@ const SingleAction = ({ id, previewData = false }: SingleActionProps & { preview
                             const objRes = { 
                                 ...res
                             }
+                            console.log(res)
                             setContent(objRes) 
                         })
                         .catch((error) => { console.error('Error fetching config:', error) });
@@ -144,7 +149,9 @@ const SingleAction = ({ id, previewData = false }: SingleActionProps & { preview
             <article className='page-content entete' >
             <EnteteAccueil heading={{titre:content.titre, sousTitre:content.sousTitre}} image={content.entete_image}/>
             </article>
+            {                console.log(content)}
             {content.modules_media && content.modules_media.map((elt:any, index:number) => {
+                console.log(content)
                 return (<div key={index}>
                     {/* {elt.body && ( 
                         <article className='media-module page-content' style={{ backgroundColor: elt.background_color  ? elt.background_color : "#ffffff" }}>

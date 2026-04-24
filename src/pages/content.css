@@ -349,13 +349,13 @@ video{
     .page-content.entete .entete-section-container .entete-container{
         margin-left: 0;
         margin: auto;
-        width: fit-content;
+        width: 70%;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
     }
     .page-content.entete .entete-section-container .entete-container h1{
-        font-size: 2em;
+        font-size: 1.5em;
         text-align: center;
     }
     .page-content .rich-text-block h2,
@@ -363,6 +363,20 @@ video{
         font-size: 2em;
     }
     
+}
+
+@media screen and (min-width:768px) and (max-width:1024px) {
+    .page-content.entete .entete-container {
+        margin-left: 0;
+    }
+    .page-content.entete .entete-section-container .entete-container{
+        margin-left: 0;
+        margin: auto;
+        width: 90%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 }
 
 
