@@ -44,8 +44,6 @@ const getSingleActionsRoutes = async () => {
 const getPageContent = async (params) => {
     const request = axios.get(baseUrl + `/api/${params.page}?locale=${params.lang}&populate=deep`)
     return await request.then(response => {
-          console.log(response)
-
         return response.data.data.attributes
     });
 }

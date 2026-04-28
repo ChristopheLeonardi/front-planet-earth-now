@@ -94,7 +94,6 @@ const SingleAction = ({ id, previewData = false }: SingleActionProps & { preview
 
     function cleanTrailingEmptyParagraphs(html:string) {
         // Supprime uniquement les balises <p>&nbsp;</p> à la fin du HTML, y compris les multiples répétitions
-        console.log(html)
         if(!html) {return}
         return html.replace(/(?:<p>(&nbsp;|\s|&#160;)*<\/p>\s*)+$/g, '');
     }
@@ -113,23 +112,22 @@ const SingleAction = ({ id, previewData = false }: SingleActionProps & { preview
                 const objRes = { 
                     ...res
                 }
-                console.log("res")
-                console.log(res)
 
 
-                if (lang[0] == "fr"){
+                if ((lang[0] == "fr") || (!objRes.localizations.data.length)){
                     setContent(objRes) 
                 }   
 
                 else{
-                    var idLocale = objRes.localizations.data.filter((locale:any) => { return lang[0] === locale.attributes.locale})[0].id
+                    var dataLocale = objRes.localizations.data.filter((locale:any) => { return lang[0] === locale.attributes.locale})
+                    var idLocale = dataLocale[0].id
+
                     pageServices
                         .getPageContent({"page": "actions/" + idLocale, "lang": lang[0]})
                         .then((res: Content) => { 
                             const objRes = { 
                                 ...res
                             }
-                            console.log(res)
                             setContent(objRes) 
                         })
                         .catch((error) => { console.error('Error fetching config:', error) });
@@ -149,7 +147,6 @@ const SingleAction = ({ id, previewData = false }: SingleActionProps & { preview
             <article className='page-content entete' >
             <EnteteAccueil heading={{titre:content.titre, sousTitre:content.sousTitre}} image={content.entete_image}/>
             </article>
-            {                console.log(content)}
             {content.modules_media && content.modules_media.map((elt:any, index:number) => {
                 console.log(content)
                 return (<div key={index}>
