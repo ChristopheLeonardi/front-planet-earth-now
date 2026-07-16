@@ -103,31 +103,22 @@
 .ville-event{
   margin: 0;
 }
-.card .divider{
-  display: flex;
+.date,
+.region{
+  display:flex;
   justify-content: flex-start;
 }
+.date p,
+.region p{
+  margin-right: 5px;}
 .card .divider > div{
   margin-right: 0.5em !important;
 }
 .card .divider > div:last-child{
   margin-right: 0 !important;
 }
-.card .divider{
-  display: flex;
-  justify-content: flex-start;
-  /* flex-wrap: wrap; */
-}
-.card .divider .date {
-  display: block;
-  /* width: 20%; */
-}
-.card .divider .title {
-  display: block;
-  width: 60%;
-  margin: 0;
-  padding: 0;
-}
+
+
 .card .divider .title *:not(svg){
   width: 100%;
   text-align: left;
@@ -135,11 +126,143 @@
 .card .divider +*:not(.region){
   margin-right: 1em;
 }
+
+
+.filter h3{
+  text-align: center;
+}
+
+.filter.checkbox{
+  margin-top: 1em;
+  position: relative;
+  left: -13px;
+}
+
+.filter.checkbox input{
+    position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 6px;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+/* On mouse-over, add a grey background color */
+.filter:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.filter input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.filter input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.filter .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.filter.checkbox {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.legend-type .conference::before,
+.card.conference{
+  background-color: #ba628e;
+}
+.legend-type .grandpublic::before,
+.card.grandpublic{
+  background-color: #F8B061;
+}
+.legend-type .salonprofessionnel::before,
+.card.salonprofessionnel {
+  background-color: #ee7963;
+}
+.legend-type .festival::before,
+.card.festival{
+  background-color: #80c6af;
+}
+.legend-type .pen_present::before{
+  background: url("./insigne_pen.svg") no-repeat center center;
+}
+
+.legend-type p::before{
+  content: "";
+  width: 15px;
+  height: 15px;
+  margin-right: 0.5em;
+  display: inline-block;
+  border-radius: 10px;
+  position: relative;
+  top: 2px;
+}
+.card *{
+  color: #fff !important;
+  fill: #fff !important;
+}
+
+.legend-type{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 1em;
+}
+.legend-type p{
+  margin: 1em;
+  text-align: center;
+}
 @media screen and (min-width:426px) {
   .card .divider .date {
     display: block;
   }
-  .filters-container{
+  .checkmark {
+    top: 0px;
+  }
+  .filter.checkbox{
+    left: 0px;
+  }
+  .legend-type{
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  margin-top: 1em;
+}
+
+/*   .filters-container{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -150,7 +273,7 @@
   .filter h3{
     text-align: center;
     margin-bottom: 0.5em;
-  }
+  } */
   .events{
     display: flex;
     flex-wrap: wrap;
@@ -169,57 +292,32 @@
   .card .divider > div {
     margin-right: 1em !important;
 }
+.card .divider{
+  display: flex;
+  justify-content: flex-start;
+}
+.card .divider .title {
+  display: block;
+/*   width: 60%;
+ */  margin: 0;
+  padding: 0;
+}
+.card .divider .region{
+  width: 20%;
+  overflow: hidden;
+  display: block;
+}
 }
 @media screen and (min-width:1024px) {
-  .filters-container{
+/*   .filters-container{
     justify-content: flex-start;
   }
   .filter{
     width: 265px;
     margin-right: 1em;
-  }
-}
-.legend-type .conference::before,
-.card.conference{
-  background-color: #5499ED;
-}
-.legend-type .grandpublic::before,
-.card.grandpublic{
-  background-color: #C3D5B7;
-}
-.legend-type .salonprofessionnel::before,
-.card.salonprofessionnel {
-  background-color: #B4B8FA;
-}
-.legend-type .festival::before,
-.card.festival{
-  background-color: #969482;
+  } */
 }
 
-.legend-type p::before{
-  content: "";
-  width: 15px;
-  height: 15px;
-  margin-right: 0.5em;
-  display: inline-block;
-  border-radius: 10px;
-  position: relative;
-  top: 2px;
-}
-
-
-.legend-type{
-  display: flex;
-  justify-content: center;
-  margin-top: 1em;
-}
-.legend-type p{
-  margin: 1em;
-}
 @media screen and (max-width:425px){
 
-}
-.card .divider .region{
-  width: 20%;
-  overflow: hidden;
 }

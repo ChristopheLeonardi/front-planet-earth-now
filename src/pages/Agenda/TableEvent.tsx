@@ -16,9 +16,8 @@ const EventCard = ({event}:any) => {
 
   const [dates, setDates] = useState("")
   const [region, setRegion] = useState("")
-  const [ville, Ville] = useState("")
   const [title, setTitle] = useState("")
-  console.log(dates, region)
+
   useEffect(() => {
 
     const dates = event["Date fin"] === "" 
@@ -26,9 +25,9 @@ const EventCard = ({event}:any) => {
     : `${event["Date début"].replace(/\/20/mg, "/").replace(/\//mg, ":")}\n${event["Date fin"].replace(/\/20/mg, "/").replace(/\//mg, ":")}`
     setDates(dates)
 
-    const regionString = event["Région"] === "" 
+    /* const regionString = event["Région"] === "" 
     ? event["Ville"]
-    : event["Région"] + (event["Ville"] ? " \n" + event["Ville"] : "")
+    : event["Région"] + (event["Ville"] ? " \n" + event["Ville"] : "") */
     /* setRegionString(regionString) */
     const maxLength = 20
 
@@ -41,15 +40,15 @@ const EventCard = ({event}:any) => {
     } else {
       title = event["Evènement"];
     }
-    console.log(dates, region, ville, Ville, regionString)
 
-    setTitle(title);
+    setTitle(event["Evènement"]);
     
-
   }, [])
 
+
+
   return (
-    <div className={`card ${event['Type'].replace(/\s/gm, "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()} ${event["PEN présents"] != "" ? "pen-present" : ""}`}>
+    <div className={`card ${event['Type'].replace(/\s/gm, "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()}`}>
       <a className="title" href={event["Lien"]} target="_blank" title="Aller sur la page de l'évènement">
           <div className="divider">
             <div className="date">
@@ -73,6 +72,7 @@ const EventCard = ({event}:any) => {
             <p className="region-event">{event["Région"] && isWellFormatted(event["Région"]) && (`${event["Région"]} `)}</p>
             <p className="ville-event">{event["Ville"] && isWellFormatted(event["Ville"]) && (`${event["Ville"]} `)}</p>
             </div>
+
           </div>
 
       
@@ -181,9 +181,11 @@ const Dropdown = ({data, selectedFilters, setSelectedFilters}:any) => {
     </form>
   )
 } */
-const Filters = ({events, selectedFilters, setSelectedFilters}:any) => {
+
+const Filters = ({events, selectedFilters, setSelectedFilters, penPresent, setPenPresent}:any) => {
+
   // type, date, lieux, plaintext
-  const types = [...new Set(events.filter((event:any) => ((event["Type"] !== undefined) && (event["Type"] !== ""))).map((event:any) => event["Type"]))]
+  //const types = [...new Set(events.filter((event:any) => ((event["Type"] !== undefined) && (event["Type"] !== ""))).map((event:any) => event["Type"]))]
   const lieux = [...new Set(events.filter((event:any) => ((event["Région"] !== undefined) && (event["Région"] !== ""))).map((event:any) => event["Région"]))]
   /* const dates = ["évènements passés", "évènements futur"] */
   return (
@@ -217,14 +219,17 @@ const Filters = ({events, selectedFilters, setSelectedFilters}:any) => {
           setSelectedFilters={setSelectedFilters}
         />
       </div> */}
-      {/* <div className="filter">
-        <h3>Recherche</h3>
-        <TextSearch 
-          data={{ name:"Entrez votre texte", type:"plaintext" }} 
-          selectedFilters={selectedFilters} 
-          setSelectedFilters={setSelectedFilters}
+      <div className="filter checkbox">
+      <label className="container">
+        Ne montrer que les évènements où Planet Earth Now sera présent
+        <input
+          type="checkbox"
+          checked={penPresent}
+          onChange={(e) => setPenPresent?.(e.target.checked)}
         />
-      </div> */}
+        <span className="checkmark"></span>
+      </label>
+    </div>
     </div>
   )
 }
@@ -240,7 +245,7 @@ const Filters = ({events, selectedFilters, setSelectedFilters}:any) => {
   });
 }; */
 
-const filterContent = (content: any, filters: any) => {
+const filterContent = (content: any, filters: any, penPresent: boolean) => {
 
   const cleaned:any = [...new Set(content.filter((event:any) => (
     (event["Type"] !== undefined) && (event["Type"] !== "") &&
@@ -260,8 +265,9 @@ const filterContent = (content: any, filters: any) => {
         value && value.toString().toLowerCase().includes(lowerCaseSearchText)
       ); 
     }
-    
-    return matchesType && matchesLieu && matchesPlaintext /*&&  matchesDate */;
+    const matchesPenPresent = !penPresent || event["PEN présent"] === "oui";
+
+    return matchesType && matchesLieu && matchesPlaintext && matchesPenPresent;
   });
 };
 
@@ -281,6 +287,7 @@ const TableEvent = ({content}:any) => {
 
   const [sortedContent, setSortedContent] = useState([])
   const [events, setEvents] = useState([])
+  const [penPresent, setPenPresent] = useState(false) // Ajoutez ce state
 
   useEffect(() => {
     if (!content) return;
@@ -303,20 +310,28 @@ const TableEvent = ({content}:any) => {
   const [selectedFilters, setSelectedFilters] = useState(initialFilters)
   useEffect(() => {
     if (!sortedContent.length) return;
-    let filteredContent = filterContent(sortedContent, selectedFilters);
+    let filteredContent = filterContent(sortedContent, selectedFilters, penPresent);
     setEvents(filteredContent);
-  }, [selectedFilters, sortedContent])
+  }, [selectedFilters, sortedContent, penPresent])
 
   return (
     <section className="event-container">
-      {events && (<Filters events={sortedContent} selectedFilters={selectedFilters} setSelectedFilters={setSelectedFilters}/>)}
+      {events && (
+        <Filters
+          events={sortedContent}
+          selectedFilters={selectedFilters}
+          setSelectedFilters={setSelectedFilters}
+          penPresent={penPresent}       // Passez cette prop
+          setPenPresent={setPenPresent} // Passez cette prop
+        />
+      )}
       <div className="legend-type">
         <p className="conference">Conférences</p>
         <p className="grandpublic">Grand Public</p>
         <p className="salonprofessionnel">Salons Professionnels</p>
         <p className="festival">Festival</p>
-      </div>
-      {/* <p className="legend">Nous participons</p> */}
+{/*         <p className="pen_present">Nous y seront</p>
+ */}      </div>
       <div className={`events ${events.length === 1 ? "single" : ""}`}>
         {events && events.map((event:any, index:number) => {
           if (event["Evènement"] === "") {
