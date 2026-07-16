@@ -186,7 +186,6 @@ const Filters = ({events, selectedFilters, setSelectedFilters}:any) => {
   const types = [...new Set(events.filter((event:any) => ((event["Type"] !== undefined) && (event["Type"] !== ""))).map((event:any) => event["Type"]))]
   const lieux = [...new Set(events.filter((event:any) => ((event["Région"] !== undefined) && (event["Région"] !== ""))).map((event:any) => event["Région"]))]
   /* const dates = ["évènements passés", "évènements futur"] */
-  console.log(types)
   return (
     <div className="filters-container">
       {/* <div className="filter">

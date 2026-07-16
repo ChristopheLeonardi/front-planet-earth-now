@@ -22,6 +22,7 @@ const fetchCSVData = async (sheetId) => {
   const request = axios.get(csvUrl);
   return await request.then(response => {
     const parsedCsvData = parseCSV(response.data);
+    console.log(parsedCsvData)
     return parsedCsvData
   });
 };
