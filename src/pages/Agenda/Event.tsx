@@ -47,7 +47,7 @@ const filterEvent = (res: EventData[]): EventData[] => {
   });
 
 
-  const filtered = futureEvents.filter((event: EventData) => {
+  const filtered = futureEvents.filter((/* event: EventData */) => {
     //const shouldDisplay = event["PEN présent"] === "oui";
     //return shouldDisplay;
     // Désactiver le filtrage pour le moment, mais garder le code pour référence future
@@ -91,6 +91,7 @@ const Event = () => {
     googleSheetServices
       .fetchCSVData(sheetId)
       .then((res:any) => {
+        //const filtered = res;
         const filtered = filterEvent(res);
         setSheetData(filtered);
         setLoading(false);

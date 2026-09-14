@@ -14,34 +14,33 @@ const isWellFormatted = (str:string) => {
 
 const EventCard = ({event}:any) => {
 
-  const [dates, setDates] = useState("")
-  const [region, setRegion] = useState("")
-  const [title, setTitle] = useState("")
-
+  /* const [dates, setDates] = useState("")
+  const [region, setRegion] = useState("") */
+  //const [title, setTitle] = useState("")
   useEffect(() => {
 
-    const dates = event["Date fin"] === "" 
+    /* const dates = event["Date fin"] === "" 
     ? `${event["Date début"].replace(/\/20/mg, "/").replace(/\//mg, ":")}`
     : `${event["Date début"].replace(/\/20/mg, "/").replace(/\//mg, ":")}\n${event["Date fin"].replace(/\/20/mg, "/").replace(/\//mg, ":")}`
-    setDates(dates)
+    setDates(dates) */
 
     /* const regionString = event["Région"] === "" 
     ? event["Ville"]
     : event["Région"] + (event["Ville"] ? " \n" + event["Ville"] : "") */
     /* setRegionString(regionString) */
-    const maxLength = 20
+    //const maxLength = 20
 
-    const region = event["Région"].length > maxLength ? event["Région"].substring(0, maxLength) : event["Région"]
-    setRegion(region)
-    const windowWidth = window.innerWidth;
-    let title; // Declare title variable outside of the conditional blocks
+    /* const region = event["Région"].length > maxLength ? event["Région"].substring(0, maxLength) : event["Région"]
+    setRegion(region) */
+    //const windowWidth = window.innerWidth;
+    /* let title; // Declare title variable outside of the conditional blocks
     if (windowWidth < 425) {
       title = event["Evènement"].length > maxLength ? event["Evènement"].substring(0, maxLength) + "..." : event["Evènement"];
     } else {
       title = event["Evènement"];
-    }
+    } */
 
-    setTitle(event["Evènement"]);
+    //setTitle(event["Evènement"]);
     
   }, [])
 
@@ -58,7 +57,7 @@ const EventCard = ({event}:any) => {
             <div className="title">
             <p className={`type-event `}>{event["Type"] && isWellFormatted(event["Type"])  && (`${event["Type"]}`)}</p> 
             <h3>
-              {title}
+              {event["Evènement"]}
               {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 383.27 383.35">
               <g>
                   <path d="M56.15,383.35c-4.54-1.21-9.18-2.12-13.59-3.67C16.91,370.66.02,346.79.01,319.71,0,248.48,0,177.24.02,106c.01-34.4,27.67-62.83,62.08-63.29,28.81-.38,57.62-.2,86.44-.09,12.69.05,22.24,9.63,21.98,21.56-.26,12.03-9.9,21.11-22.56,21.12-27.57.04-55.13,0-82.7.01-13.75,0-22.6,8.89-22.6,22.73,0,69.99,0,139.98,0,209.97,0,13.72,8.97,22.67,22.71,22.67,69.97.01,139.95.01,209.92,0,13.81,0,22.67-8.88,22.68-22.67.02-27.57-.01-55.14.01-82.71.01-11.79,7.11-20.21,18.57-22.19,11.7-2.01,23.71,7.54,23.99,19.47.29,12.59.13,25.2.13,37.8,0,16.59.17,33.19-.06,49.78-.44,31.95-22.85,57.53-54.46,62.52-.59.09-1.14.44-1.7.66H56.15Z"/>
@@ -246,31 +245,22 @@ const Filters = ({events, selectedFilters, setSelectedFilters, penPresent, setPe
 }; */
 
 const filterContent = (content: any, filters: any, penPresent: boolean) => {
+  return content.filter((event: any) => {
+    // CORRECTION PRINCIPALE : Logique inversée pour le filtre PEN présent
+    const isPenPresent = !penPresent || event["PEN présent"]?.toLowerCase().trim() === "oui";
 
-  const cleaned:any = [...new Set(content.filter((event:any) => (
-    (event["Type"] !== undefined) && (event["Type"] !== "") &&
-    (event["Région"] !== undefined) && (event["Région"] !== "") 
-  )))]
-  return cleaned.filter((event: any) => {
     const matchesType = filters.type === "all" || formatOptionID(event.Type) === filters.type;
     const matchesLieu = filters.lieu === "all" || formatOptionID(event["Région"]) === filters.lieu;
 
     const lowerCaseSearchText = filters.plaintext.toLowerCase();
-    //console.log(lowerCaseSearchText)
-    if (filters.plaintext === ""){
-      var matchesPlaintext = true
-    }
-    else {
-      var matchesPlaintext =  Object.values(event).some(value => 
+    const matchesPlaintext = filters.plaintext === "" ||
+      Object.values(event).some(value =>
         value && value.toString().toLowerCase().includes(lowerCaseSearchText)
-      ); 
-    }
-    const matchesPenPresent = !penPresent || event["PEN présent"] === "oui";
+      );
 
-    return matchesType && matchesLieu && matchesPlaintext && matchesPenPresent;
+    return isPenPresent && matchesType && matchesLieu && matchesPlaintext;
   });
 };
-
     /* const currentDate = new Date();
     switch (filters.date){
       case "évènementspassés":
@@ -304,15 +294,17 @@ const TableEvent = ({content}:any) => {
     type: "all",
     date: "all",
     lieu: "all",
-    plaintext: ""
+    plaintext: "",
+    penPresent: false, // Ajoutez cette propriété pour le filtrage PEN présent
   }
 
   const [selectedFilters, setSelectedFilters] = useState(initialFilters)
-  useEffect(() => {
-    if (!sortedContent.length) return;
-    let filteredContent = filterContent(sortedContent, selectedFilters, penPresent);
-    setEvents(filteredContent);
-  }, [selectedFilters, sortedContent, penPresent])
+useEffect(() => {
+  if (!sortedContent.length) return;
+
+  const filteredContent = filterContent(sortedContent, selectedFilters, penPresent);
+  setEvents(filteredContent);
+}, [selectedFilters, sortedContent, penPresent]);
 
   return (
     <section className="event-container">
@@ -330,6 +322,7 @@ const TableEvent = ({content}:any) => {
         <p className="grandpublic">Grand Public</p>
         <p className="salonprofessionnel">Salons Professionnels</p>
         <p className="festival">Festival</p>
+        <p className="journeemondiale">Journée Mondiale</p>
 {/*         <p className="pen_present">Nous y seront</p>
  */}      </div>
       <div className={`events ${events.length === 1 ? "single" : ""}`}>

@@ -41,9 +41,9 @@ const Footer = () => {
                                 <NavLink to={page.path} className={isCurrent}>{page[`name_${lang[0]}`]}</NavLink>
                             </li>
                         )})}
-                            <li>
+                            {/* <li>
                                 <NavLink to={config.pages[6].path} className={isCurrent}>{config.pages[6][`name_${lang[0]}`]}</NavLink>
-                            </li>
+                            </li> */}
                         </ul>
                     </nav>
                     <div className="social">

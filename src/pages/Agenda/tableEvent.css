@@ -200,6 +200,10 @@
   -ms-user-select: none;
   user-select: none;
 }
+.legend-type .journeemondiale::before,
+.card.journeemondiale{
+  background-color: #3BB1FF;
+}
 .legend-type .conference::before,
 .card.conference{
   background-color: #ba628e;
