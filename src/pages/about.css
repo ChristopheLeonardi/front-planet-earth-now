@@ -34,3 +34,38 @@
 .about .rich-text-block .text-container{
   text-align: center;
 }
+
+.vignette.spe-about{
+  position: relative;
+
+}
+@media screen and (min-width:425px) {
+    .vignette.spe-about{
+        width: 48%;
+        height: 48%;
+    }
+    
+}
+
+@media screen and (min-width:900px) {
+    .vignette.spe-about{
+        width: 31%;
+        height: 31%;
+    }
+    
+}
+.vignette.spe-about img{
+    max-width: 100%;
+    height: unset;
+}
+
+.vignette.spe-about .textes{
+    min-height: unset;
+}
+.vignette.spe-about .textes *{
+    margin: 0;
+}
+.vignette.spe-about .textes .linkedin-icon{
+    width: 28px;
+    margin: 0.5em 0 0;
+}

@@ -9,6 +9,7 @@ import CTA from '../components/interface/CTA';
 import "./content.css"
 import "./about.css"
 import SetMetaSEO from '../components/navigation/SetMetaSEO';
+import '../components/interface/vignette.css';
 
 
 interface Content {
@@ -30,6 +31,7 @@ interface Content {
     text_position:any;
     body_2:any;
     SEO:any;
+    trombinoscope:any;
 
 }
 
@@ -118,6 +120,37 @@ const About = ({previewData=false}:any) => {
                         </article>
                     </section>
                 )}
+                {/* {console.log(content)}
+                {content.trombinoscope && (
+                    <section className='page-content'>
+                        <article>
+                            {content.trombinoscope.titre_trombinoscope && (<div><h2>{content.trombinoscope.titre_trombinoscope}</h2></div>)}
+                            {content.trombinoscope.Soustitre_trombinoscope && (<div><p>{content.trombinoscope.Soustitre_trombinoscope}</p></div>)}
+                            <section className='vignette-container'>
+                                {content.trombinoscope.Membre && content.trombinoscope.Membre.map((membre: any) => (
+                                    <article key={membre.id} className='vignette spe-about'>
+                                        <>{console.log(membre)}</>
+                                        <img src={`https://admin.planetearthnow.org${membre.photo.data.attributes.url}`}/>
+                                        <div className="textes">
+                                            <div>
+                                                <h3>{membre.Nom} {membre.Prenom}</h3>
+                                                <p className="description">{membre.Poste}</p>
+                                                <a  href={membre.lien_linkedIn} 
+                                                    target="_blank" 
+                                                    rel="noopener noreferrer" 
+                                                >
+                                                    <img className="linkedin-icon" src="/linkedin.svg" alt={`Voir le profil de ${membre.Nom} ${membre.Prenom}`}/>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </article>
+                                ))}
+                            </section>
+
+
+                        </article>
+                    </section>
+                )} */}
                 {content.CTA && (
                     <CTA data={content.CTA}/>
                 )}

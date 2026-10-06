@@ -43,7 +43,9 @@ const Header = () => {
                                 if (page.is_displayed === "false") { return null }
                                 return (
                                     <li key={page.name_fr}>
-                                        <NavLink to={page.path} className={isCurrent} onClick={() => setIsOpen(!isOpen)}>{page[`name_${lang[0]}`]}</NavLink>
+                                        <NavLink to={page.path} className={isCurrent} onClick={() => setIsOpen(!isOpen)} target={page.new_tab && page.new_tab === "true" ? "_blank" : undefined}>
+                                            {page[`name_${lang[0]}`]}
+                                        </NavLink>
                                     </li>
                                 )
                             })}

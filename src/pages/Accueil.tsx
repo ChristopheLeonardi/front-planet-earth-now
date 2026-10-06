@@ -9,6 +9,7 @@ import EnteteAccueil from '../components/EnteteAccueil';
 import CTA from '../components/interface/CTA';
 import utils from '../services/utils';
 import SetMetaSEO from '../components/navigation/SetMetaSEO';
+import Vignette from '../components/interface/Vignette';
 
 interface Content {
 
@@ -31,12 +32,20 @@ interface Content {
     entete_background_color:any;
     titre_bandeau:string;
     SEO:any;
+    mosaique_actions:any;
 }
 
 
 const BandeauTextePhoto = ({entry}:any) => {
-    const isImage = entry.image.data.attributes.mime !== "" 
-    && !/^video\//.test(entry.image.data.attributes.mime)
+    var isImage = true
+    var isMedia = entry.image.data ? true : false
+    if (isMedia && entry.image && entry.image.data && entry.image.data.attributes && entry.image.data.attributes.mime){
+        isImage = entry.image.data.attributes.mime !== "" 
+        && !/^video\//.test(entry.image.data.attributes.mime)
+    }else{
+        isImage = false
+    }
+
     
     return (
         <article className='page-content'  style={{ backgroundColor: entry.background_color  ? entry.background_color : "#ffffff" }}>
@@ -49,8 +58,8 @@ const BandeauTextePhoto = ({entry}:any) => {
                 <CTA data={entry.CTA}/>
             )} 
             </div>
-            {isImage && (<ImageComponent imageContent={entry.image.data.attributes}/>)}
-            {!isImage && (<video                     
+            {isMedia && isImage && (<ImageComponent imageContent={entry.image.data.attributes}/>)}
+            {isMedia && !isImage && (<video                     
                             controls 
                             muted 
                             autoPlay 
@@ -105,7 +114,24 @@ const Accueil = ({previewData=false}:any) => {
             <article className='page-content'>
                 <RichText ck5_data={content.content_2} data={''}/>
             </article>
+
+            
             {content.titre_bandeau && (<article className='page-content spe-bandeau-accueil'><h2>{content.titre_bandeau}</h2></article>)}
+            
+            {/* Mosaique des actions */}
+            <article className='page-content'>
+            <section className='vignette-container spe-vignette-accueil'>
+                {content.mosaique_actions.actions && 
+                    content.mosaique_actions.actions.data?.length > 0 && 
+                    content.mosaique_actions.actions.data.map((entry: any) => (
+                        <Vignette key={entry.id} entry={entry} cta={entry.attributes.CTA}/>
+                    ))
+                }
+            </section>
+            </article>
+
+
+            {/* Actions avec Bandeau */}
             {content.Bandeau_Texte_Photo && content.Bandeau_Texte_Photo.map( (bandeau: any, index: number) => {
                 return ( <BandeauTextePhoto key={index} entry={bandeau}/>)
             })}
