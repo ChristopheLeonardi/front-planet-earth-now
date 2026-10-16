@@ -96,34 +96,11 @@ const About = ({previewData=false}:any) => {
                 })}
                 
                 <Partenaires partenariatData={content.Partenaires} />
-                {content.End_section && (
-                    <section className='page-content'style={{ backgroundColor: content.background_color  ? content.background_color : "#ffffff" }}>
-                        <article>
-                            {content.End_section.titre && (
-                            <div>
-                                <h2 style={{ color: content.End_section.title_color  ? content.End_section.title_color : "#1a1a1a"}}
-                                    >{content.End_section.titre}</h2>
-                            </div>
-                            )}
-                            {content.End_section.sousTitre && (
-                            <div>
-                                <h2 style={{ color: content.End_section.title_color  ? content.End_section.title_color : "#1a1a1a"}}
-                                    >{content.End_section.sousTitre}</h2>
-                            </div>
-                            )}
-                            {content.End_section.Body_section_2 && (<>
-                            
-                            <RichText ck5_data={content.End_section.Body_section_2} data={''}/>
-                            </>)}
-
-
-                        </article>
-                    </section>
-                )}
-                {/* {console.log(content)}
-                {content.trombinoscope && (
-                    <section className='page-content'>
-                        <article>
+                
+                {console.log(content)}
+                {/* {content.trombinoscope && (
+                    <section className='trombinoscope page-content'>
+                        <article  className='blue-pen '>
                             {content.trombinoscope.titre_trombinoscope && (<div><h2>{content.trombinoscope.titre_trombinoscope}</h2></div>)}
                             {content.trombinoscope.Soustitre_trombinoscope && (<div><p>{content.trombinoscope.Soustitre_trombinoscope}</p></div>)}
                             <section className='vignette-container'>
@@ -151,6 +128,30 @@ const About = ({previewData=false}:any) => {
                         </article>
                     </section>
                 )} */}
+                {content.End_section && (
+                    <section className='page-content'style={{ backgroundColor: content.background_color  ? content.background_color : "#ffffff" }}>
+                        <article>
+                            {content.End_section.titre && (
+                            <div>
+                                <h2 style={{ color: content.End_section.title_color  ? content.End_section.title_color : "#1a1a1a"}}
+                                    >{content.End_section.titre}</h2>
+                            </div>
+                            )}
+                            {content.End_section.sousTitre && (
+                            <div>
+                                <h2 style={{ color: content.End_section.title_color  ? content.End_section.title_color : "#1a1a1a"}}
+                                    >{content.End_section.sousTitre}</h2>
+                            </div>
+                            )}
+                            {content.End_section.Body_section_2 && (<>
+                            
+                            <RichText ck5_data={content.End_section.Body_section_2} data={''}/>
+                            </>)}
+
+
+                        </article>
+                    </section>
+                )}
                 {content.CTA && (
                     <CTA data={content.CTA}/>
                 )}

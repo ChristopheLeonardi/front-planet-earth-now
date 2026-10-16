@@ -41,16 +41,16 @@
 }
 @media screen and (min-width:425px) {
     .vignette.spe-about{
-        width: 48%;
-        height: 48%;
+        width: 31%;
+        height: 31%;
     }
     
 }
 
 @media screen and (min-width:900px) {
     .vignette.spe-about{
-        width: 31%;
-        height: 31%;
+        width: 23%;
+        height: 23%;
     }
     
 }
@@ -68,4 +68,13 @@
 .vignette.spe-about .textes .linkedin-icon{
     width: 28px;
     margin: 0.5em 0 0;
+}
+.page-content.partenariats{
+  padding-bottom: 0em;
+}
+.page-content.trombinoscope{
+  padding-top: 0em;
+}
+.page-content.trombinoscope .blue-pen h2{
+  color: var(--blue-pen);
 }

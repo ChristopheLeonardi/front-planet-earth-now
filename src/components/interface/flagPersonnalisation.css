@@ -1,5 +1,5 @@
 .baseImage{
-    display: none;
+    display: none !important;
 }
 .perso-container{
     margin-bottom: 2em;

@@ -34,7 +34,7 @@
 }
 .vignette img{
     order: 0;
-    height: 200px;
+    height: 250px;
     object-fit: cover;
 }
 .vignette.img-picto img{

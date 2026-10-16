@@ -154,6 +154,7 @@ p, li{
 }
 .spe-bandeau-accueil{
   margin-bottom: 0;
+  padding: 0;
 }
 .spe-bandeau-accueil h2{
   margin-bottom: 0 !important;
@@ -162,4 +163,8 @@ p, li{
   .bandeau-vertical{
     display: none;
   }
+}
+
+.home .ck5 h3:first-child{
+  margin-bottom: 0 !important;
 }

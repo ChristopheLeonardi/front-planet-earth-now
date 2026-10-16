@@ -1,76 +1,108 @@
-import { useEffect, useState } from "react"
-import ImageComponent from "./ImageComponent"
 import "./vignette.css"
 import utils from "../../services/utils"
 import { Link } from 'react-router-dom';
 
-const Vignette = ({ entry, cta }: { entry: any; cta:any;}) => {
-    const id = entry.id
-    if (!entry) {return}
+import ImageComponent, { type ImageSize } from "./ImageComponent";
 
-    const data = entry.attributes ? entry.attributes : entry
-    if(data.vignette_image.data){
-        var imageContent = data.vignette_image.data ? data.vignette_image.data.attributes : ""
-    }
-    else{
-        var imageContent = data.entete_image.data ? data.entete_image.data.attributes : ""
-    }
-    
+type VignetteProps = {
+    entry: any;
+    cta?:
+        | {
+              background_color?: string;
+              font_color?: string;
+              hover_background_color?: string;
+              hover_font_color?: string;
+          }
+        | false;
+    sizes?: ImageSize[];
+};
 
-    // Utilisation de la forme des données pour définir si un lien doit être calculé ou non
-    const autoLink = entry.attributes ? false : true
-    const linkUrl = autoLink ? data.lien : utils.seFrontUrl("/nos-actions/" + data.slug.replace(/-(en|es)$/, ''))
+const Vignette = ({ entry, cta, sizes }: VignetteProps) => {
+    if (!entry) return null;
 
-    const [sousTitre, setSousTitre] = useState("")
+    const id = entry.id;
+    const data = entry.attributes ?? entry;
+    const bouton = data.bouton_see_more;
+    const ctaStyle = cta || {};
 
-    useEffect(() => {
-        var sub = data.sousTitre || data.description
-        if (!sub) { return }
-        if (sub.length > 100 ){ sub = `${sub.substring(0, 100)}...` }
-        setSousTitre(sub)
-    }, [])
+    const imageContent =
+        data.vignette_image?.data?.attributes ??
+        data.entete_image?.data?.attributes ??
+        null;
 
-    return(
+    const autoLink = !entry.attributes;
+    const linkUrl = autoLink
+        ? data.lien
+        : utils.seFrontUrl(
+              "/nos-actions/" + (data.slug ?? "").replace(/-(en|es)$/, "")
+          );
+
+    const description = data.sousTitre || data.description || "";
+    const sousTitre =
+        description.length > 100
+            ? `${description.substring(0, 100)}...`
+            : description;
+
+    if (!imageContent) return null;
+
+    return (
         <article className={`vignette ${entry.vocation ? "img-picto" : ""}`}>
             {id && (
-            <Link 
-                to={entry.attributes.remplacement_lien_auto ? entry.attributes.remplacement_lien_auto : linkUrl}
-                target={entry.attributes.remplacement_lien_auto ? "_blank" : ""}
-            >
-                            <div className="textes">
-                <div>
-                    <h3>{data.titre}</h3>
-                    <p className="description">{sousTitre}</p>
-                </div>
-                {data.bouton_see_more && (<p 
-                    className="primary-button"
-                    style={{
-                        backgroundColor: cta.background_color || "#009C1A", // Couleur de fond par défaut
-                        borderColor: cta.background_color,
-                        color: cta.font_color || "#ffffff", // Couleur du texte par défaut
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = cta.hover_background_color || "#007A16";
-                        e.currentTarget.style.borderColor = cta.hover_background_color || "#007A16";
-                        e.currentTarget.style.color = cta.hover_font_color || "#ffffff";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = cta.background_color || "#009C1A";
-                        e.currentTarget.style.borderColor = cta.background_color || "#009C1A";
-                        e.currentTarget.style.color = cta.font_color || "#ffffff";
-                      }}
-                    >{data.bouton_see_more.buttonLabel}</p>)}
-            </div>
-            
-            
-            <ImageComponent imageContent={imageContent}/>
-            </Link>
+                <Link
+                    to={
+                        entry.attributes?.remplacement_lien_auto || linkUrl
+                    }
+                    target={
+                        entry.attributes?.remplacement_lien_auto
+                            ? "_blank"
+                            : undefined
+                    }
+                >
+                    <div className="textes">
+                        <div>
+                            <h3>{data.titre}</h3>
+                            <p className="description">{sousTitre}</p>
+                        </div>
 
-            
+                        {bouton && (
+                            <p
+                                className="primary-button"
+                                style={{
+                                    backgroundColor:
+                                        ctaStyle.background_color || "#009C1A",
+                                    borderColor:
+                                        ctaStyle.background_color || "#009C1A",
+                                    color: ctaStyle.font_color || "#ffffff",
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.backgroundColor =
+                                        ctaStyle.hover_background_color ||
+                                        "#007A16";
+                                    e.currentTarget.style.borderColor =
+                                        ctaStyle.hover_background_color ||
+                                        "#007A16";
+                                    e.currentTarget.style.color =
+                                        ctaStyle.hover_font_color || "#ffffff";
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.backgroundColor =
+                                        ctaStyle.background_color || "#009C1A";
+                                    e.currentTarget.style.borderColor =
+                                        ctaStyle.background_color || "#009C1A";
+                                    e.currentTarget.style.color =
+                                        ctaStyle.font_color || "#ffffff";
+                                }}
+                            >
+                                {bouton.buttonLabel}
+                            </p>
+                        )}
+                    </div>
+
+                    <ImageComponent imageContent={imageContent} sizes={sizes} />
+                </Link>
             )}
-
         </article>
-    )
-}
+    );
+};
 
 export default Vignette

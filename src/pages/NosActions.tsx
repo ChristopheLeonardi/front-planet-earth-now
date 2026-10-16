@@ -88,7 +88,7 @@ const NosActions = ({previewData=false}:any) => {
                 {content.actions && 
                     content.actions.data?.length > 0 && 
                     content.actions.data.map((entry: any) => (
-                        <Vignette key={entry.id} entry={entry} cta={content.CTA}/>
+                        <Vignette key={entry.id} entry={entry} cta={content.CTA}  sizes={["thumbnail"]}/>
                     ))
                 }
                 </section>

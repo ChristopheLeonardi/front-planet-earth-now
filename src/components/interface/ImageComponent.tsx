@@ -1,35 +1,52 @@
 import utils from '../../services/utils'
 
+export type ImageSize = 'thumbnail' | 'small' | 'medium' | 'large';
+
 type Props = {
-    imageContent: any; 
-    id?: string | null; 
+    imageContent: any;
+    id?: string | null;
+    sizes?: ImageSize[];
 };
 
-const ImageComponent: React.FC<Props> = ({ imageContent, id }) => {
-    const imgId = id ? id : "" 
+// Ordre d'affichage + largeur associée (en px) pour chaque format Strapi
+const FORMAT_WIDTHS: Record<ImageSize, number> = {
+    large: 1000,
+    medium: 750,
+    small: 500,
+    thumbnail: 156,
+};
+
+const ImageComponent: React.FC<Props> = ({ imageContent, id, sizes }) => {
+    const imgId = id ? id : "";
+
+    if (!imageContent) return null;
+
+    // Sans option : tous les formats. Avec option : uniquement ceux cités.
+    const allowedSizes = (Object.keys(FORMAT_WIDTHS) as ImageSize[]).filter(
+        (size) => !sizes || sizes.length === 0 || sizes.includes(size)
+    );
+
+    const srcSet = imageContent.formats
+        ? allowedSizes
+            .filter((size) => imageContent.formats[size])
+            .map(
+                (size) =>
+                    `${utils.setUrl(imageContent.formats[size].url)} ${FORMAT_WIDTHS[size]}w`
+            )
+            .join(', ')
+        : '';
+
+    // Si aucun format ne correspond, on retombe sur l'image d'origine
+    const fallbackSrc = utils.setUrl(imageContent.url);
+
     return (
-        <>
-        { imageContent.formats ? (
-            <img 
+        <img
             id={imgId}
-            srcSet={`
-                ${imageContent.formats.large ? utils.setUrl(imageContent.formats.large.url) + " 1000w" : ""}, 
-                ${imageContent.formats.medium ? utils.setUrl(imageContent.formats.medium.url) + " 750w" : ""}, 
-                ${imageContent.formats.small ? utils.setUrl(imageContent.formats.small.url) + " 500w" : ""} ,
-                ${imageContent.formats.thumbnail ? utils.setUrl(imageContent.formats.thumbnail.url) + " 156w" : ""} `
-            } 
-            alt={imageContent.alternativeText}/>
-        ) : (
-            <>
-            <img 
-                id={imgId}
-                srcSet={utils.setUrl(imageContent.url)} 
-                alt={imageContent.alternativeText}/>
-            </>
-        )}
-        </>
+            srcSet={srcSet || undefined}
+            src={fallbackSrc}
+            alt={imageContent.alternativeText || ''}
+        />
+    );
+};
 
-    )
-}
-
-export default ImageComponent
+export default ImageComponent;

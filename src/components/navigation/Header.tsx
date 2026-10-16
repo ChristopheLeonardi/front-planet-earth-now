@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { NavLink } from "react-router-dom"; 
 import { useConfig } from '../../context/ConfigContext';
 import { useLang } from '../../context/LangContext';
-
+import utils from '../../services/utils';
 import "./Header.css"
 
 
@@ -27,7 +27,18 @@ const Header = () => {
                 {config && (
                     <>
                         <NavLink to='/'>
-                            <img className="logo" src={(config as Record<string, any>)[logoLang]} alt='Logo de Planet Earth Now'/>
+                            <img className="logo" 
+                                srcSet={`
+                                    ${(config as Record<string, any>)[logoLang].attributes.formats.large ? utils.setUrl((config as Record<string, any>)[logoLang].attributes.formats.large.url) + " 1000w" : ""}, 
+                                    ${(config as Record<string, any>)[logoLang].attributes.formats.medium ? utils.setUrl((config as Record<string, any>)[logoLang].attributes.formats.medium.url) + " 750w" : ""}, 
+                                    ${(config as Record<string, any>)[logoLang].attributes.formats.small ? utils.setUrl((config as Record<string, any>)[logoLang].attributes.formats.small.url) + " 500w" : ""} ,
+                                    ${(config as Record<string, any>)[logoLang].attributes.formats.thumbnail ? utils.setUrl((config as Record<string, any>)[logoLang].attributes.formats.thumbnail.url) + " 156w" : ""} `
+                                } 
+                                 src={utils.setUrl((config as Record<string, any>)[logoLang].attributes.formats.thumbnail.url)} 
+                                 alt='Logo de Planet Earth Now'
+                                {...{ fetchpriority: "high" }}
+                                decoding="async"
+                            />
                         </NavLink>
                         <nav>
 

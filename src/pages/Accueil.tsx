@@ -58,7 +58,7 @@ const BandeauTextePhoto = ({entry}:any) => {
                 <CTA data={entry.CTA}/>
             )} 
             </div>
-            {isMedia && isImage && (<ImageComponent imageContent={entry.image.data.attributes}/>)}
+            {isMedia && isImage && (<ImageComponent imageContent={entry.image.data.attributes} sizes={["small", "thumbnail"]}/>)}
             {isMedia && !isImage && (<video                     
                             controls 
                             muted 
@@ -79,6 +79,7 @@ const Accueil = ({previewData=false}:any) => {
 
     const lang = useLang();
     const [content, setContent] = useState<Content | null>(null);
+    const [mosaicActions, setMosaicActions] = useState<any>(null);
 
     useEffect(() => {
         if (previewData){
@@ -95,13 +96,26 @@ const Accueil = ({previewData=false}:any) => {
             .catch((error) => { console.error('Error fetching config:', error) });
         }
     }, [lang]);
+
+    useEffect(() => {
+        pageServices
+            .getActions({"lang": lang[0]}, 3)
+            .then((res: any) => { 
+                const objRes = [ 
+                    ...res
+                ]
+                objRes.map( (action:any) => { action.attributes["bouton_see_more"] = {"buttonLabel" : `${lang[0] == "fr" ? "En savoir plus" : "Learn more"}`} }),
+                setMosaicActions(objRes) })
+            .catch((error) => { console.error('Error fetching config:', error) });
+
+
+    }, [content]);
     
     return (
-        <section>
+        <section className="home">
         {content && content.SEO && (<SetMetaSEO params={{title:content.SEO.metaTitle, description:content.SEO.metaDescription}}/>)}
         { content && (
         <>
-        <>{console.log(content)}</>
             <article className='page-content entete' >
                 <EnteteAccueil 
                     heading={{titre: content.titre, sousTitre: content.sousTitre}} 
@@ -119,15 +133,27 @@ const Accueil = ({previewData=false}:any) => {
             {content.titre_bandeau && (<article className='page-content spe-bandeau-accueil'><h2>{content.titre_bandeau}</h2></article>)}
             
             {/* Mosaique des actions */}
+            {/* <article className='page-content'>
+                <section className='vignette-container spe-vignette-accueil'>
+                    {mosaicActions && 
+                        mosaicActions?.length > 0 && 
+                        mosaicActions.map((entry: any) => (
+                        <Vignette key={`vignette-${entry.id}`} entry={entry} cta={entry.attributes.CTA} sizes={["thumbnail"]}/>
+                        ))
+                    }
+                </section>
+            </article> */}
+            
+            {/* Mosaique des actions avec texte*/}
             <article className='page-content'>
-            <section className='vignette-container spe-vignette-accueil'>
-                {content.mosaique_actions.actions && 
-                    content.mosaique_actions.actions.data?.length > 0 && 
-                    content.mosaique_actions.actions.data.map((entry: any) => (
-                        <Vignette key={entry.id} entry={entry} cta={entry.attributes.CTA}/>
-                    ))
-                }
-            </section>
+                <section className='vignette-container'>
+                    {mosaicActions && 
+                        mosaicActions?.length > 0 && 
+                        mosaicActions.map((entry: any) => (
+                        <Vignette key={`vignette2-${entry.id}`} entry={entry} cta={entry.attributes.CTA} sizes={["thumbnail"]}/>
+                        ))
+                    }
+                </section>
             </article>
 
 

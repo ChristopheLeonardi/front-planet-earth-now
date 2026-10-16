@@ -378,7 +378,34 @@ video{
         transform: translate(-50%, -50%);
     }
 }
+.entete-section-container {
+  background-image: var(--bg-small);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: scroll;
+}
 
+/* Tablette et plus */
+@media (min-width: 600px) {
+  .entete-section-container {
+    background-image: var(--bg-medium);
+  }
+}
+
+/* Desktop et plus */
+@media (min-width: 1000px) {
+  .entete-section-container {
+    background-image: var(--bg-large);
+  }
+}
+
+/* Écrans très larges (support du 2x) */
+@media (min-width: 1400px) and (min-device-pixel-ratio: 2) {
+  .entete-section-container {
+    background-image: var(--bg-large);
+  }
+}
 
 /* Mise en page texte */
 /* .rich-text-block {

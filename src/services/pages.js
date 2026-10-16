@@ -15,10 +15,10 @@ const getConfig = async () => {
         {
             const resData = response.data.data.attributes
             const config = {
-                "logo_header_fr": baseUrl + resData.logo_header_fr.data.attributes.url,
-                "logo_header_en": baseUrl + resData.logo_header_en.data.attributes.url,
-                "logo_footer_fr": baseUrl + resData.logo_footer_fr.data.attributes.url,
-                "logo_footer_en": baseUrl + resData.logo_footer_en.data.attributes.url,
+                "logo_header_fr": resData.logo_header_fr.data,
+                "logo_header_en": resData.logo_header_en.data,
+                "logo_footer_fr": resData.logo_footer_fr.data,
+                "logo_footer_en": resData.logo_footer_en.data,
                 "pages": resData.pagesNavigation.pages,
                 "template": resData.pagesNavigation.template,
                 "langues": resData.LanguesDisponibles,
@@ -45,6 +45,23 @@ const getPageContent = async (params) => {
     const request = axios.get(baseUrl + `/api/${params.page}?locale=${params.lang}&populate=deep`)
     return await request.then(response => {
         return response.data.data.attributes
+    });
+}
+
+const getActions = async (params, limit) => {
+    const request = axios.get(baseUrl + `/api/actions?locale=${params.lang}&populate=deep`)
+    return await request.then(response => {
+        if (Array.isArray(response.data.data)) {
+            const actionsRecentes = [...response.data.data].sort(
+                (a, b) =>
+                    new Date(b.attributes.createdAt).getTime() -
+                    new Date(a.attributes.createdAt).getTime()
+            )
+            .slice(0, limit);
+            console.log(actionsRecentes)
+            return actionsRecentes;
+        }
+        
     });
 }
 /* const getPageContent = async (params) => {
@@ -202,5 +219,6 @@ export default {
     getLocaleId,
     uploadImage,
     saveFlagOnServer,
-    getSingleActionsRoutes
+    getSingleActionsRoutes,
+    getActions
 };
