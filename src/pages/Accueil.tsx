@@ -58,7 +58,7 @@ const BandeauTextePhoto = ({entry}:any) => {
                 <CTA data={entry.CTA}/>
             )} 
             </div>
-            {isMedia && isImage && (<ImageComponent imageContent={entry.image.data.attributes} sizes={["small", "thumbnail"]}/>)}
+            {isMedia && isImage && (<ImageComponent imageContent={entry.image.data.attributes} sizes={["medium", "small", "thumbnail"]}/>)}
             {isMedia && !isImage && (<video                     
                             controls 
                             muted 
@@ -150,7 +150,7 @@ const Accueil = ({previewData=false}:any) => {
                     {mosaicActions && 
                         mosaicActions?.length > 0 && 
                         mosaicActions.map((entry: any) => (
-                        <Vignette key={`vignette2-${entry.id}`} entry={entry} cta={entry.attributes.CTA} sizes={["thumbnail"]}/>
+                        <Vignette key={`vignette2-${entry.id}`} entry={entry} cta={entry.attributes.CTA} sizes={["small", "thumbnail"]}/>
                         ))
                     }
                 </section>

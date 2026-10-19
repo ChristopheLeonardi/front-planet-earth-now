@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import FontPicker from 'font-picker-react';
 import { useSelected } from '../../context/SelectedContext';
 
 const fontFamilies = [
@@ -154,26 +153,56 @@ export const InputField: React.FC<InputFieldProps> = ({ label, option, handleCha
   );
 };
 
-export const ChangeFont = ({handleChange}:any) => {
+const loadedFonts = new Set<string>();
+
+const loadGoogleFont = (family: string) => {
+  if (loadedFonts.has(family)) return;
+  loadedFonts.add(family);
+  const id = `google-font-${family.replace(/\s/g, '-')}`;
+  if (document.getElementById(id)) return;
+
+  const link = document.createElement('link');
+  link.id = id;
+  link.rel = 'stylesheet';
+  link.href = `https://fonts.googleapis.com/css2?family=${family.replace(/\s/g, '+')}:wght@400;700&display=swap`;
+  document.head.appendChild(link);
+};
+
+export const ChangeFont = ({ handleChange }: any) => {
   const [activeFontFamily, setActiveFontFamily] = useState('Open Sans');
 
+  // Charger la police par défaut au montage
   useEffect(() => {
+    loadGoogleFont(activeFontFamily);
     handleChange({ name: 'fontFamily', value: activeFontFamily });
-  }, [activeFontFamily]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleFontChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const family = e.target.value;
+    loadGoogleFont(family);
+    setActiveFontFamily(family);
+    handleChange({ name: 'fontFamily', value: family });
+  };
+
   return (
     <fieldset>
-    <legend>Police</legend>
-    <FontPicker
-      apiKey="AIzaSyD2t9Jryr9LXXguyTG9SVS2W_gW8hIOCc0"
-      activeFontFamily={activeFontFamily}
-      onChange={(nextFont) => setActiveFontFamily(nextFont.family)}
-      families={fontFamilies}
-      variants={["regular", "700"]}
-      limit={20}
-    />
-  </fieldset>
-  )
-}
+      <legend>Police</legend>
+      <select
+        value={activeFontFamily}
+        onChange={handleFontChange}
+        style={{ fontFamily: activeFontFamily }}
+      >
+        {fontFamilies.map((family) => (
+          <option key={family} value={family} style={{ fontFamily: family }}>
+            {family}
+          </option>
+        ))}
+      </select>
+    </fieldset>
+  );
+};
+
 export const TextTailleGeneral = ({handleChange}:any) => {
 
   const canvas = document.getElementById("flag-personnalisation")
