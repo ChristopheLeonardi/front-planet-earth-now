@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "../old-front-files/pages/Vocation.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

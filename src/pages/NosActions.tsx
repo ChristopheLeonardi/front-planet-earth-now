@@ -81,7 +81,7 @@ const NosActions = ({previewData=false}:any) => {
             </article>
             <section className='page-content'style={{ backgroundColor: content.background_color_principal  ? content.background_color_principal : "#ffffff" }}>
                 <article>
-                    <RichText ck5_data={content.body_2} data={''}/>
+                    <RichText ck5_data={content.body_2}/>
                 </article>
                 <TitreH2 titre={content.titre_section_actions} sousTitre={content.sousTitre}/>
                 <section className='vignette-container'>

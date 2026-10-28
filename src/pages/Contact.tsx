@@ -67,7 +67,7 @@ const Contact = ({previewData=false}:any) => {
             <>
 
             {/* <TitreH2 titre={content.titre} sousTitre=""/> */}
-            <RichText ck5_data={content.Texte_2} data={''}/>
+            <RichText ck5_data={content.Texte_2}/>
             <ContactForm 
                 titre={content.Contact_form.heading.titre} 
                 message={{

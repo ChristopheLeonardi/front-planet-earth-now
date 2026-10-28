@@ -45,7 +45,6 @@ const ModulesImages = ({elt}:any) => {
         <article className='media-module page-content' style={{ backgroundColor: elt.background_color  ? elt.background_color : "#ffffff" }}>
             {isSingle && isImage && (<figure>
                 <ImageComponent imageContent={elt.media.data[0].attributes}/>
-                <>{console.log(elt.media.data)}</>
                 <figcaption>{elt.media.data[0].attributes.caption}</figcaption>
             </figure>)}
             {!isSingle && isImage && (<Diaporama images={elt.media.data} />)}
@@ -88,7 +87,6 @@ const AvisExpert = ({avis}:any) => {
     )
 }
 const SingleAction = ({ id, previewData = false }: SingleActionProps & { previewData?: any }) => {
-
     const lang = useLang();
     const [content, setContent] = useState<Content | null>(null);
 
@@ -98,14 +96,11 @@ const SingleAction = ({ id, previewData = false }: SingleActionProps & { preview
         return html.replace(/(?:<p>(&nbsp;|\s|&#160;)*<\/p>\s*)+$/g, '');
     }
    
-
-
     useEffect(() => {
         if (previewData){
             setContent(previewData)
             return
         } else {
-
         pageServices
             .getPageContent({"page": "actions/" + id, "lang": lang[0]})
             .then((res: Content) => { 
@@ -148,7 +143,6 @@ const SingleAction = ({ id, previewData = false }: SingleActionProps & { preview
             <EnteteAccueil heading={{titre:content.titre, sousTitre:content.sousTitre}} image={content.entete_image}/>
             </article>
             {content.modules_media && content.modules_media.map((elt:any, index:number) => {
-                console.log(content)
                 return (<div key={index}>
                     {/* {elt.body && ( 
                         <article className='media-module page-content' style={{ backgroundColor: elt.background_color  ? elt.background_color : "#ffffff" }}>
@@ -161,7 +155,7 @@ const SingleAction = ({ id, previewData = false }: SingleActionProps & { preview
                         <article className='media-module page-content' style={{ backgroundColor: elt.background_color  ? elt.background_color : "#ffffff" }}>
 
                         <div style={{color: elt.paragraph_color || "#000"}}>
-                            <RichText ck5_data={cleanTrailingEmptyParagraphs(elt.body_2)} data={''}/>
+                            <RichText ck5_data={cleanTrailingEmptyParagraphs(elt.body_2)}/>
                         </div>
                         </article>)}
                     

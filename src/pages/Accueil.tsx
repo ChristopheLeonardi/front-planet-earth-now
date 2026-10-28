@@ -126,7 +126,7 @@ const Accueil = ({previewData=false}:any) => {
                 />
             </article>
             <article className='page-content'>
-                <RichText ck5_data={content.content_2} data={''}/>
+                <RichText ck5_data={content.content_2}/>
             </article>
 
             

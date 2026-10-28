@@ -35,8 +35,9 @@ const getConfig = async () => {
     );
 }
 const getSingleActionsRoutes = async () => {
-  const request = axios.get(baseUrl + `/api/actions`)
+  const request = axios.get(baseUrl + `/api/actions?pagination[pageSize]=100`)
   return await request.then(response => {
+    console.log(response)
     return response.data.data
   })
 }

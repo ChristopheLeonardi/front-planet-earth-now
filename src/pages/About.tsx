@@ -10,7 +10,9 @@ import "./content.css"
 import "./about.css"
 import SetMetaSEO from '../components/navigation/SetMetaSEO';
 import '../components/interface/vignette.css';
-
+import ImageComponent from "../components/interface/ImageComponent";
+import TitreH2 from '../components/interface/TitreH2';
+import ArrowIcon from '../components/ArrowIcon';
 
 interface Content {
     titre: string;
@@ -32,6 +34,7 @@ interface Content {
     body_2:any;
     SEO:any;
     trombinoscope:any;
+    conseil_administration:any;
 
 }
 
@@ -83,7 +86,7 @@ const About = ({previewData=false}:any) => {
                 {content.body[0].children[0].text != "" && (
                 <section className='page-content'style={{ backgroundColor: content.background_color_principal  ? content.background_color_principal : "#ffffff" }}>
                     <article>
-                        <RichText ck5_data={content.body_2} data={''}/>
+                        <RichText ck5_data={content.body_2}/>
                     </article>
                 </section>
                 )}
@@ -98,16 +101,23 @@ const About = ({previewData=false}:any) => {
                 <Partenaires partenariatData={content.Partenaires} />
                 
                 {console.log(content)}
-                {/* {content.trombinoscope && (
+        <details className='page-content trombinoscope-container'>
+
+            <summary>
+                <ArrowIcon color={"var(--white)"}/>
+                {content.trombinoscope.titre_trombinoscope && <TitreH2 titre={content.trombinoscope.titre_trombinoscope} sousTitre={content.trombinoscope.Soustitre_trombinoscope} />}
+            </summary>
+                {content.trombinoscope && (
                     <section className='trombinoscope page-content'>
                         <article  className='blue-pen '>
-                            {content.trombinoscope.titre_trombinoscope && (<div><h2>{content.trombinoscope.titre_trombinoscope}</h2></div>)}
-                            {content.trombinoscope.Soustitre_trombinoscope && (<div><p>{content.trombinoscope.Soustitre_trombinoscope}</p></div>)}
+                            {/* {content.trombinoscope.titre_trombinoscope && (<div><h2>{content.trombinoscope.titre_trombinoscope}</h2></div>)}
+                            {content.trombinoscope.Soustitre_trombinoscope && (<div><p>{content.trombinoscope.Soustitre_trombinoscope}</p></div>)} */}
                             <section className='vignette-container'>
                                 {content.trombinoscope.Membre && content.trombinoscope.Membre.map((membre: any) => (
                                     <article key={membre.id} className='vignette spe-about'>
-                                        <>{console.log(membre)}</>
-                                        <img src={`https://admin.planetearthnow.org${membre.photo.data.attributes.url}`}/>
+                                        <div className="member-photo">
+                                            <ImageComponent imageContent={membre?.photo?.data?.attributes} sizes={["medium", "small", "thumbnail"]} />
+                                        </div>
                                         <div className="textes">
                                             <div>
                                                 <h3>{membre.Nom} {membre.Prenom}</h3>
@@ -127,7 +137,47 @@ const About = ({previewData=false}:any) => {
 
                         </article>
                     </section>
-                )} */}
+                )}
+                </details>
+            <details className='page-content conseil-container'>
+
+            <summary>
+                <ArrowIcon color={"var(--white)"}/>
+                {content.conseil_administration.titre_trombinoscope && <TitreH2 titre={content.conseil_administration.titre_trombinoscope} sousTitre={content.conseil_administration.Soustitre_trombinoscope} />}
+            </summary>
+                {content.conseil_administration && (
+                    <section className='trombinoscope page-content'>
+                        <article  className='blue-pen '>
+                            {content.conseil_administration.titre_trombinoscope && (<div><h2>{content.conseil_administration.titre_trombinoscope}</h2></div>)}
+                            {content.conseil_administration.Soustitre_trombinoscope && (<div><h3>{content.conseil_administration.Soustitre_trombinoscope}</h3></div>)}
+                            <section className='vignette-container'>
+                                {content.conseil_administration.Membre && content.conseil_administration.Membre.map((membre: any) => (
+                                    <article key={membre.id} className='vignette spe-about'>
+                                        <div className="member-photo">
+                                            <ImageComponent imageContent={membre?.photo?.data?.attributes} sizes={["medium", "small", "thumbnail"]} />
+                                        </div>
+                                        <div className={`textes ${membre?.bio ? 'has-bio' : ''}`} >
+                                            <div>
+                                                <h3>{membre.Nom} {membre.Prenom}</h3>
+                                                <p className="description"><b>{membre.Poste}</b></p>
+                                                <p className="description">{membre?.bio?.length >= 100 ? membre.bio.substring(0, 97) + '...' : membre.bio}</p>
+                                                <a  href={membre.lien_linkedIn} 
+                                                    target="_blank" 
+                                                    rel="noopener noreferrer" 
+                                                >
+                                                    <img className="linkedin-icon" src="/linkedin.svg" alt={`Voir le profil de ${membre.Nom} ${membre.Prenom}`}/>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </article>
+                                ))}
+                            </section>
+
+
+                        </article>
+                    </section>
+                )}
+                </details>
                 {content.End_section && (
                     <section className='page-content'style={{ backgroundColor: content.background_color  ? content.background_color : "#ffffff" }}>
                         <article>
@@ -145,7 +195,7 @@ const About = ({previewData=false}:any) => {
                             )}
                             {content.End_section.Body_section_2 && (<>
                             
-                            <RichText ck5_data={content.End_section.Body_section_2} data={''}/>
+                            <RichText ck5_data={content.End_section.Body_section_2}/>
                             </>)}
 
 

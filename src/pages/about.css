@@ -34,29 +34,40 @@
 .about .rich-text-block .text-container{
   text-align: center;
 }
-
+.trombinoscope .vignette-container{
+  justify-content: flex-start;
+}
 .vignette.spe-about{
   position: relative;
-
+  justify-content: flex-start;
 }
 @media screen and (min-width:425px) {
+    .vignette-container::after{
+      flex: 0 0 31%;
+    }
     .vignette.spe-about{
         width: 31%;
         height: 31%;
+        margin: 1% 1.16%;
     }
     
 }
 
 @media screen and (min-width:900px) {
+    .vignette-container::after{
+      flex: 0 0 23%;
+    }
     .vignette.spe-about{
         width: 23%;
         height: 23%;
+        margin: 1% 1%;
     }
     
 }
-.vignette.spe-about img{
+.vignette.spe-about .member-photo img{
     max-width: 100%;
-    height: unset;
+    height: 250px;
+    object-fit: cover;
 }
 
 .vignette.spe-about .textes{
@@ -65,16 +76,42 @@
 .vignette.spe-about .textes *{
     margin: 0;
 }
+
+.vignette.spe-about .textes{
+    height: 150px;
+}
+.vignette.spe-about .textes a{
+    position: absolute;
+    bottom: 10px;
+}
+.vignette.spe-about .textes.has-bio{
+    height: 220px;
+}
+.vignette.spe-about .textes.has-bio a{
+    position: absolute;
+    bottom: 10px;
+}
 .vignette.spe-about .textes .linkedin-icon{
     width: 28px;
     margin: 0.5em 0 0;
+    height: unset;
 }
-.page-content.partenariats{
+/* .page-content.partenariats{
   padding-bottom: 0em;
-}
+} */
 .page-content.trombinoscope{
   padding-top: 0em;
 }
 .page-content.trombinoscope .blue-pen h2{
   color: var(--blue-pen);
+}
+.trombinoscope-container{
+  background-color: var(--green-pen);
+}
+.conseil-container{
+  background-color: var(--blue-pen);
+}
+.trombinoscope-container h2,
+.conseil-container h2{
+  color: var(--white);
 }

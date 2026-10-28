@@ -1,14 +1,14 @@
 import utils from '../../services/utils'
+import placeholder from '../../assets/img/placeholder.jpg';
 
 export type ImageSize = 'thumbnail' | 'small' | 'medium' | 'large';
 
 type Props = {
-    imageContent: any;
+    imageContent?: any;
     id?: string | null;
     sizes?: ImageSize[];
 };
 
-// Ordre d'affichage + largeur associée (en px) pour chaque format Strapi
 const FORMAT_WIDTHS: Record<ImageSize, number> = {
     large: 1000,
     medium: 750,
@@ -17,34 +17,35 @@ const FORMAT_WIDTHS: Record<ImageSize, number> = {
 };
 
 const ImageComponent: React.FC<Props> = ({ imageContent, id, sizes }) => {
-    const imgId = id ? id : "";
+    const imgId = id ?? "";
 
-    if (!imageContent) return null;
-
-    // Sans option : tous les formats. Avec option : uniquement ceux cités.
     const allowedSizes = (Object.keys(FORMAT_WIDTHS) as ImageSize[]).filter(
         (size) => !sizes || sizes.length === 0 || sizes.includes(size)
     );
 
-    const srcSet = imageContent.formats
-        ? allowedSizes
-            .filter((size) => imageContent.formats[size])
-            .map(
-                (size) =>
-                    `${utils.setUrl(imageContent.formats[size].url)} ${FORMAT_WIDTHS[size]}w`
-            )
-            .join(', ')
-        : '';
+    let srcSet = '';
+    let fallbackSrc: string = placeholder;
 
-    // Si aucun format ne correspond, on retombe sur l'image d'origine
-    const fallbackSrc = utils.setUrl(imageContent.url);
+    if (imageContent) {
+        srcSet = imageContent.formats
+            ? allowedSizes
+                .filter((size) => imageContent.formats[size])
+                .map(
+                    (size) =>
+                        `${utils.setUrl(imageContent.formats[size].url)} ${FORMAT_WIDTHS[size]}w`
+                )
+                .join(', ')
+            : '';
+
+        fallbackSrc = utils.setUrl(imageContent.url);
+    }
 
     return (
         <img
             id={imgId}
             srcSet={srcSet || undefined}
             src={fallbackSrc}
-            alt={imageContent.alternativeText || ''}
+            alt={imageContent?.alternativeText || ''}
         />
     );
 };
