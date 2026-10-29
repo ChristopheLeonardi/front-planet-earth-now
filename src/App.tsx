@@ -39,7 +39,6 @@ const AppContent = () => {
     <>
       <SiteSettings />
       <Header />
-      <>{console.log(singleActionsRoute)}</>
       <Routes>
         {
           singleActionsRoute.length > 0 && singleActionsRoute.map((page:any, index:number) => { 

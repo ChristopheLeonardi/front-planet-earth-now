@@ -37,7 +37,6 @@ const getConfig = async () => {
 const getSingleActionsRoutes = async () => {
   const request = axios.get(baseUrl + `/api/actions?pagination[pageSize]=100`)
   return await request.then(response => {
-    console.log(response)
     return response.data.data
   })
 }
@@ -50,7 +49,7 @@ const getPageContent = async (params) => {
 }
 
 const getActions = async (params, limit) => {
-    const request = axios.get(baseUrl + `/api/actions?locale=${params.lang}&populate=deep`)
+    const request = axios.get(baseUrl + `/api/actions?locale=${params.lang}&populate=deep&pagination[pageSize]=100`)
     return await request.then(response => {
         if (Array.isArray(response.data.data)) {
             const actionsRecentes = [...response.data.data].sort(
@@ -58,9 +57,16 @@ const getActions = async (params, limit) => {
                     new Date(b.attributes.createdAt).getTime() -
                     new Date(a.attributes.createdAt).getTime()
             )
-            .slice(0, limit);
-            console.log(actionsRecentes)
-            return actionsRecentes;
+            var actionsWithOrder = actionsRecentes
+            actionsRecentes.map((action, index) => {
+              if (!action.attributes.order){return}
+              console.log(action)
+              let actionToMove = action
+              actionsWithOrder.splice(index, 1)
+              actionsWithOrder.splice(action.attributes.order - 1, 0, actionToMove)
+
+            })
+            return actionsWithOrder.slice(0, limit);
         }
         
     });

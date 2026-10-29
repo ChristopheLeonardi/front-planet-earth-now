@@ -59,8 +59,29 @@ const NosActions = ({previewData=false}:any) => {
                 const objRes = { 
                     ...res
                 }
-                objRes.actions.data.map( (action:any) => { action.attributes["bouton_see_more"] = res.bouton_see_more}),
-                setContent(objRes) })
+                objRes.actions.data.map( (action:any) => { action.attributes["bouton_see_more"] = res.bouton_see_more})
+                const actionsRecentes = [...objRes.actions.data].sort(
+                        (a:any, b:any) =>
+                            new Date(b.attributes.createdAt).getTime() -
+                            new Date(a.attributes.createdAt).getTime()
+                    )
+
+                    const actionsWithOrder = actionsRecentes.filter((a: any) => !a.attributes.order);
+
+                    const actionsToInsert = actionsRecentes
+                        .filter((a: any) => a.attributes.order)
+                        .sort((a: any, b: any) => a.attributes.order - b.attributes.order);
+
+                    actionsToInsert.forEach((action: any) => {
+                        actionsWithOrder.splice(action.attributes.order - 1, 0, action);
+                    });
+
+                    objRes.actions.data = actionsWithOrder;
+
+                
+                setContent(objRes)
+                })
+
             .catch((error) => { console.error('Error fetching config:', error) });
         }
     }, [lang]);
